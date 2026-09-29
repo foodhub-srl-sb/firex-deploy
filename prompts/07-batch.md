@@ -28,13 +28,13 @@ Adattato per Food Hub: italiano, inglese e spagnolo.
 **Italiano**
 
 ```text
-Crea tre versioni di questo montaggio con lo stesso timing e lo stesso stile: sottotitoli in italiano, in inglese e in spagnolo. Traduci solo i sottotitoli, mantieni la mia voce, ed esporta tutte e tre le versioni. I nomi Food Hub, ChallengEat e FIREX restano invariati in ogni lingua.
+Crea tre versioni di questo montaggio con lo stesso timing e lo stesso stile: sottotitoli in italiano, in inglese e in spagnolo. Traduci solo i sottotitoli, mantieni la mia voce, ed esporta tutte e tre le versioni. I nomi Food Hub e ChallengEat restano invariati in ogni lingua.
 ```
 
 **English (adattato)**
 
 ```text
-Make three versions of this edit with the same timing and style: captions in Italian, in English and in Spanish. Translate the captions only, keep my voice, and render all three. Keep the names Food Hub, ChallengEat and FIREX unchanged in every language.
+Make three versions of this edit with the same timing and style: captions in Italian, in English and in Spanish. Translate the captions only, keep my voice, and render all three. Keep the names Food Hub and ChallengEat unchanged in every language.
 ```
 
 **English (originale della guida)**

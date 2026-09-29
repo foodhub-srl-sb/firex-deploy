@@ -9,11 +9,11 @@ La maggior parte dei problemi si risolve con una riga. Descrivi che cosa vedi e 
 Dai a Claude nomi e brand già nel primo prompt. Corregge trascrizione e sottotitoli.
 
 ```text
-Nella trascrizione e nei sottotitoli correggi questi nomi: Food Hub, ChallengEat, FIREX, Claude, CNR, ENEA.
+Nella trascrizione e nei sottotitoli correggi questi nomi: Food Hub, ChallengEat, Claude, CNR, ENEA.
 ```
 
 ```text
-Fix these names in the transcript and the captions: Food Hub, ChallengEat, FIREX, Claude, CNR, ENEA.
+Fix these names in the transcript and the captions: Food Hub, ChallengEat, Claude, CNR, ENEA.
 ```
 
 ### 2. Testo nascosto dai pulsanti dell'app

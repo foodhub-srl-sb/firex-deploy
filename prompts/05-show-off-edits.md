@@ -2,7 +2,7 @@
 
 Richiedono più preparazione e sono quelli che la gente condivide. Ogni frase tra virgolette si può dire in camera, parola per parola. Claude la trova nella trascrizione e costruisce l'effetto su quella parola esatta.
 
-Esempi adattati per Food Hub: sostituisci il logo con quello del brand che ti serve (Food Hub, ChallengEat, FIREX) in `assets/`.
+Esempi adattati per Food Hub: sostituisci il logo con quello del brand che ti serve (Food Hub, ChallengEat) in `assets/`.
 
 ---
 
@@ -45,7 +45,7 @@ Esempi adattati per Food Hub: sostituisci il logo con quello del brand che ti se
 **Da dire in camera (italiano)**
 
 ```text
-"Mettimi in un riquadro a destra, e a sinistra mostra come funziona la filiera di FIREX."
+"Mettimi in un riquadro a destra, e a sinistra mostra come funziona ChallengEat."
 ```
 
 **English (originale)**

@@ -1,6 +1,6 @@
 # Let Claude Edit Your Videos · Food Hub
 
-Workspace per montare i video di **Food Hub**, **ChallengEat** e **FIREX** senza aprire un programma di montaggio. Si gira una ripresa, si mette il file nella cartella `input/` e si chiede a Claude che cosa deve comparire sullo schermo. Claude ascolta ogni parola, guarda i fotogrammi e costruisce il montaggio come codice con HyperFrames, poi lo esporta in MP4.
+Workspace per montare i video di **Food Hub** e **ChallengEat** senza aprire un programma di montaggio. Si gira una ripresa, si mette il file nella cartella `input/` e si chiede a Claude che cosa deve comparire sullo schermo. Claude ascolta ogni parola, guarda i fotogrammi e costruisce il montaggio come codice con HyperFrames, poi lo esporta in MP4.
 
 Non esiste una timeline: tu parli, Claude costruisce, tu guardi e dai le note.
 
@@ -91,7 +91,7 @@ Metti la ripresa in `input/take.mp4`, apri Claude Code in questa cartella e inco
 ├── refs/              riferimenti di stile: screenshot, GIF, clip brevi
 ├── sfx/               effetti sonori (whoosh, pop, ...)
 ├── music/             musiche di sottofondo con diritti d'uso
-├── assets/            logo Food Hub, ChallengEat, FIREX e altre immagini
+├── assets/            logo Food Hub, ChallengEat e altre immagini
 ├── frames/            fotogrammi estratti da FFmpeg (generati, non versionati)
 ├── renders/           MP4 esportati (generati, non versionati)
 ├── versions/          versioni salvate del progetto prima di ogni giro di note (v1, v2, ...)
@@ -110,7 +110,7 @@ I file multimediali restano in locale: `.gitignore` esclude video, audio, fotogr
 **Trascrizione con timestamp per parola** (salva `input/take.words.json` e i sottotitoli):
 
 ```bash
-python scripts/transcribe.py input/take.mp4 --language it --names "Food Hub,ChallengEat,FIREX,Claude"
+python scripts/transcribe.py input/take.mp4 --language it --names "Food Hub,ChallengEat,Claude"
 ```
 
 **Estrazione dei fotogrammi** (uno al secondo, in `frames/`):

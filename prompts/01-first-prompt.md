@@ -22,7 +22,7 @@ Metti il video in `input/take.mp4`, poi incolla:
 **Italiano**
 
 ```text
-Il mio video è input/take.mp4 in questa cartella. Trascrivilo con Whisper, con un timestamp per ogni parola, e salva parole e tempi in input/take.words.json. Poi usa FFmpeg per estrarre un fotogramma al secondo e guarda i fotogrammi. Dimmi che cosa dico, quando lo dico e che cosa c'è nell'inquadratura in ogni momento. Questi nomi vanno scritti correttamente: Food Hub, ChallengEat, FIREX, Claude, CNR, ENEA, [altri nomi].
+Il mio video è input/take.mp4 in questa cartella. Trascrivilo con Whisper, con un timestamp per ogni parola, e salva parole e tempi in input/take.words.json. Poi usa FFmpeg per estrarre un fotogramma al secondo e guarda i fotogrammi. Dimmi che cosa dico, quando lo dico e che cosa c'è nell'inquadratura in ogni momento. Questi nomi vanno scritti correttamente: Food Hub, ChallengEat, Claude, CNR, ENEA, [altri nomi].
 ```
 
 **English (originale)**
@@ -36,7 +36,7 @@ My video is take.mp4 in this folder. Transcribe it with Whisper, with a timestam
 ## Con gli script di questo repo
 
 ```bash
-python scripts/transcribe.py input/take.mp4 --language it --names "Food Hub,ChallengEat,FIREX,Claude"
+python scripts/transcribe.py input/take.mp4 --language it --names "Food Hub,ChallengEat,Claude"
 scripts/extract-frames.sh input/take.mp4 1
 ```
 

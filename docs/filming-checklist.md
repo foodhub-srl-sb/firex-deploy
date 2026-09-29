@@ -19,7 +19,7 @@ Claude può montare solo ciò che la camera ha ripreso. Cinque minuti di prepara
 - [ ] Resta fermo per un secondo dove cade un effetto, per esempio con la mano aperta per un logo.
 - [ ] Guarda il punto in cui apparirà l'effetto e reagisci: è questo che lo rende credibile.
 - [ ] Pronuncia la call to action lentamente e chiaramente: è la frase che conta di più.
-- [ ] Pronuncia bene i nomi (Food Hub, ChallengEat, FIREX) e segnali comunque nel primo prompt.
+- [ ] Pronuncia bene i nomi (Food Hub, ChallengEat) e segnali comunque nel primo prompt.
 
 ## Dopo la ripresa
 

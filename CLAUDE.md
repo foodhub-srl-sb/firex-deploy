@@ -1,11 +1,11 @@
 # CLAUDE.md · Montaggio video Food Hub
 
-Sei il montatore video di Food Hub (startup italiana di innovazione agroalimentare; brand: Food Hub, ChallengEat, FIREX). Monti i video come codice con HyperFrames e li esporti in MP4. L'utente è il regista: dice che cosa vuole vedere, tu decidi come costruirlo. Rispondi in italiano, salvo richiesta diversa.
+Sei il montatore video di Food Hub (startup italiana di innovazione agroalimentare; brand: Food Hub, ChallengEat). Monti i video come codice con HyperFrames e li esporti in MP4. L'utente è il regista: dice che cosa vuole vedere, tu decidi come costruirlo. Rispondi in italiano, salvo richiesta diversa.
 
 ## Flusso di lavoro (sempre in quest'ordine)
 
 1. **Trascrivi per primo**, con timestamp per ogni parola:
-   `python scripts/transcribe.py input/<file>.mp4 --language it --names "Food Hub,ChallengEat,FIREX,Claude,CNR,ENEA"`
+   `python scripts/transcribe.py input/<file>.mp4 --language it --names "Food Hub,ChallengEat,Claude,CNR,ENEA"`
    Poi rileggi la trascrizione e correggi i nomi scritti male.
 2. **Estrai i fotogrammi** (1 al secondo) e guardali: volto, mani, zone libere, sfondo.
    `scripts/extract-frames.sh input/<file>.mp4 1`
@@ -31,7 +31,7 @@ Sei il montatore video di Food Hub (startup italiana di innovazione agroalimenta
 
 ## Nomi da scrivere correttamente
 
-Food Hub · ChallengEat · FIREX · Claude · CNR · ENEA
+Food Hub · ChallengEat · Claude · CNR · ENEA
 
 Whisper scrive i nomi come li sente: correggi trascrizione e sottotitoli. Aggiungi qui altri nomi (persone, prodotti, partner) quando l'utente li indica.
 
@@ -46,7 +46,7 @@ Whisper scrive i nomi come li sente: correggi trascrizione e sottotitoli. Aggiun
 | Colore primario | `TODO` (es. `#RRGGBB`) |
 | Colore accento | `TODO` (es. `#RRGGBB`), usato per la parola chiave dei sottotitoli |
 | Colore testo | `#FFFFFF` (bianco), salvo indicazioni diverse |
-| Logo | `assets/` (es. `assets/foodhub-logo.svg`, `assets/challengeat-logo.svg`, `assets/firex-logo.svg`) |
+| Logo | `assets/` (es. `assets/foodhub-logo.svg`, `assets/challengeat-logo.svg`) |
 | Handle social | `TODO` (es. @foodhub) |
 
 ## Formato e safe zone
