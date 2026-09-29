@@ -1,0 +1,51 @@
+# Dipendenze
+node_modules/
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# Sistema
+.DS_Store
+Thumbs.db
+
+# Output generati (si tiene solo .gitkeep)
+renders/*
+!renders/.gitkeep
+frames/*
+!frames/.gitkeep
+versions/*
+!versions/.gitkeep
+
+# Output del progetto HyperFrames
+project/renders/
+project/snapshots/
+project/out/
+project/*.mp4
+
+# Media: restano in locale
+input/*.mp4
+input/*.mov
+input/*.wav
+input/*.mp3
+input/*.m4a
+input/*.MP4
+input/*.MOV
+music/*.mp3
+music/*.wav
+music/*.m4a
+music/*.aac
+music/*.mp4
+music/*.mov
+sfx/*.mp3
+sfx/*.wav
+sfx/*.m4a
+sfx/*.aac
+sfx/*.mp4
+sfx/*.mov
+refs/*.mp4
+refs/*.mov
+
+# Trascrizioni (facoltative, restano in locale)
+input/*.words.json
+input/*.srt
