@@ -49,3 +49,6 @@ refs/*.mov
 # Trascrizioni (facoltative, restano in locale)
 input/*.words.json
 input/*.srt
+
+# Clip di lavoro dentro il progetto HyperFrames
+project/assets/video/*.mp4

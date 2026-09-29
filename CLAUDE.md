@@ -41,10 +41,11 @@ Whisper scrive i nomi come li sente: correggi trascrizione e sottotitoli. Aggiun
 
 | Elemento | Valore |
 |---|---|
-| Font titoli | `TODO` (es. nome del font e peso) |
-| Font testo e sottotitoli | `TODO` |
+| Font titoli | Poppins ExtraBold (800), file in `project/assets/fonts/` |
+| Font testo e sottotitoli | Poppins ExtraBold (800) |
 | Colore primario | `TODO` (es. `#RRGGBB`) |
-| Colore accento | `TODO` (es. `#RRGGBB`), usato per la parola chiave dei sottotitoli |
+| Colore accento | `#3DA35D` (verde del logo, campionato dal video: sostituire con l'hex ufficiale), usato per la parola chiave dei sottotitoli |
+| Evidenziazione sottotitoli | lettere che diventano rosse `#FF2B2B` mentre si parla, bordo nero |
 | Colore testo | `#FFFFFF` (bianco), salvo indicazioni diverse |
 | Logo | `assets/` (es. `assets/foodhub-logo.svg`, `assets/challengeat-logo.svg`) |
 | Handle social | `TODO` (es. @foodhub) |
