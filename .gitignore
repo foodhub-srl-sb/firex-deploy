@@ -52,3 +52,5 @@ input/*.srt
 
 # Clip di lavoro dentro il progetto HyperFrames
 project/assets/video/*.mp4
+project/assets/video/*.webm
+project/.transcode-cache/

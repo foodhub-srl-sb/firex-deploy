@@ -1,14 +1,20 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="it">
   <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=1080, height=1920" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=1080, height=1920">
     <script src="assets/vendor/gsap.min.js"></script>
     <style>
       @font-face {
         font-family: "Poppins";
         src: url("assets/fonts/Poppins-ExtraBold.ttf") format("truetype");
         font-weight: 800;
+        font-style: normal;
+      }
+      @font-face {
+        font-family: "Poppins";
+        src: url("assets/fonts/Poppins-Black.ttf") format("truetype");
+        font-weight: 900;
         font-style: normal;
       }
       :root {
@@ -34,14 +40,51 @@
         overflow: hidden;
         background: #000;
       }
-
-      /* Camera: non-timed wrapper that carries every zoom. Origin = the face. */
-      #cam {
+      .layer {
+        position: absolute;
+        inset: 0;
+      }
+      /* Zoom wrappers: same origin (the face), different depth = parallax */
+      .cam {
         position: absolute;
         inset: 0;
         transform-origin: 600px 670px;
       }
-      #aroll {
+      #world {
+        position: absolute;
+        left: -120px;
+        top: -120px;
+        width: 1320px;
+        height: 2160px;
+        display: block;
+      }
+
+      /* "FOOD" behind the person */
+      #food {
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 440px;
+        height: 330px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-family: "Poppins", sans-serif;
+        font-weight: 900;
+        font-size: 290px;
+        line-height: 1;
+        letter-spacing: -0.02em;
+      }
+      #food .fl {
+        display: block;
+        color: #ffffff;
+        -webkit-text-stroke: 6px var(--green);
+        paint-order: stroke fill;
+        text-shadow: 0 18px 50px rgba(0, 0, 0, 0.55);
+        opacity: 0;
+      }
+
+      #persona {
         position: absolute;
         left: 0;
         top: 0;
@@ -49,13 +92,19 @@
         height: 1920px;
         object-fit: cover;
       }
-
-      /* 3D bulb layer (Three.js), full frame, above the footage. */
-      #bulb-layer {
+      #pshadow {
         position: absolute;
         inset: 0;
-        pointer-events: none;
+        filter: drop-shadow(0 24px 40px rgba(0, 0, 0, 0.45));
       }
+
+      #flash-el {
+        position: absolute;
+        inset: 0;
+        background: #fffdf2;
+        opacity: 0;
+      }
+
       #bulb3d {
         position: absolute;
         left: 0;
@@ -65,11 +114,7 @@
         display: block;
       }
 
-      /* Captions: 65% of the height, clear of the right-edge app buttons. */
-      #caps {
-        position: absolute;
-        inset: 0;
-      }
+      /* Captions: 65% of the height, clear of the right-edge app buttons */
       .grp {
         position: absolute;
         left: 60px;
@@ -102,387 +147,400 @@
     </style>
   </head>
   <body>
-    <div
-      id="root"
-      data-composition-id="main"
-      data-start="0"
-      data-duration="4.84"
-      data-width="1080"
-      data-height="1920"
-    >
-      <div id="cam">
-        <video
-          id="aroll"
-          class="clip"
-          src="assets/video/roughcut.mp4"
-          data-start="0"
-          data-duration="4.84"
-          data-track-index="0"
-          muted
-          playsinline
-        ></video>
-      </div>
-      <audio
-        id="aroll-audio"
-        src="assets/video/roughcut.mp4"
-        data-start="0"
-        data-duration="4.84"
-        data-track-index="10"
-        data-volume="1"
-      ></audio>
-
-      <div id="bulb-layer" class="clip" data-start="0" data-duration="4.84" data-track-index="2">
-        <canvas id="bulb3d" width="1080" height="1920"></canvas>
+    <div data-hf-id="hf-li0i" id="root" data-composition-id="main" data-start="0" data-duration="4.84" data-width="1080" data-height="1920">
+      <!-- 1. Generated background: world A (one road) -> world B (all directions) -->
+      <div data-hf-id="hf-k3in" id="bg-layer" class="clip layer" data-start="0" data-duration="4.84" data-track-index="1">
+        <div data-hf-id="hf-iso7" id="bgcam" class="cam"><canvas data-hf-id="hf-0g7u" id="world"></canvas></div>
       </div>
 
-      <div id="caps" class="clip" data-start="0" data-duration="4.84" data-track-index="3"></div>
+      <!-- 2. Giant text behind the person -->
+      <div data-hf-id="hf-m9oo" id="text-layer" class="clip layer" data-start="0" data-duration="4.84" data-track-index="2">
+        <div data-hf-id="hf-68yy" id="txtcam" class="cam">
+          <div data-hf-id="hf-293p" id="food">
+            <span data-hf-id="hf-tc43" class="fl">F</span><span data-hf-id="hf-qjyw" class="fl">O</span><span data-hf-id="hf-uink" class="fl">O</span><span data-hf-id="hf-sji1" class="fl">D</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 3. The person, cut out (RobustVideoMatting) and colour-corrected -->
+      <div data-hf-id="hf-x03u" id="pcam" class="cam">
+        <div data-hf-id="hf-1d7n" id="pshadow">
+          <video data-color-grading="{&quot;preset&quot;:null,&quot;intensity&quot;:1,&quot;adjust&quot;:{&quot;exposure&quot;:0,&quot;contrast&quot;:0.08,&quot;highlights&quot;:0,&quot;shadows&quot;:0,&quot;whites&quot;:0,&quot;blacks&quot;:0,&quot;temperature&quot;:0.1,&quot;tint&quot;:0.16,&quot;vibrance&quot;:0,&quot;saturation&quot;:0.05},&quot;details&quot;:{&quot;vignette&quot;:0,&quot;vignetteMidpoint&quot;:0.5,&quot;vignetteRoundness&quot;:0,&quot;vignetteFeather&quot;:0.65,&quot;grain&quot;:0,&quot;grainSize&quot;:0.25,&quot;grainRoughness&quot;:0.5},&quot;effects&quot;:{&quot;blur&quot;:0,&quot;pixelate&quot;:0,&quot;chromaBleed&quot;:0,&quot;tapeDamage&quot;:0,&quot;tapeTracking&quot;:0,&quot;tapeNoise&quot;:1,&quot;tapeSpeed&quot;:0.5,&quot;filmArtifacts&quot;:0,&quot;halftone&quot;:0,&quot;halftoneSize&quot;:0,&quot;twoInkPrint&quot;:0,&quot;twoInkPrintSize&quot;:0,&quot;ascii&quot;:0,&quot;asciiSize&quot;:0.06578947368421052,&quot;asciiInvert&quot;:0,&quot;asciiStyle&quot;:0,&quot;asciiColor&quot;:1,&quot;asciiRotation&quot;:0,&quot;dither&quot;:0,&quot;ditherSize&quot;:0,&quot;bloom&quot;:0,&quot;bloomRadius&quot;:8,&quot;monoScreen&quot;:0,&quot;monoScreenSize&quot;:0,&quot;monoScreenAngle&quot;:0,&quot;monoScreenSpread&quot;:0,&quot;monoScreenShape&quot;:0,&quot;monoScreenInvert&quot;:0,&quot;scanlines&quot;:0,&quot;scanlineCount&quot;:0,&quot;scanlineSoftness&quot;:0,&quot;chromaticAberration&quot;:0,&quot;chromaticAngle&quot;:0,&quot;crtCurvature&quot;:0,&quot;digitalGlitch&quot;:0,&quot;digitalGlitchColorSplit&quot;:0,&quot;digitalGlitchLineTear&quot;:0,&quot;digitalGlitchPixelate&quot;:0,&quot;digitalGlitchBlockAmount&quot;:0,&quot;digitalGlitchBlockDisplacement&quot;:0,&quot;digitalGlitchBlockOpacity&quot;:0,&quot;digitalGlitchSpeed&quot;:0,&quot;engraving&quot;:0,&quot;engravingSpacing&quot;:0.4117647058823529,&quot;engravingMinThickness&quot;:0.2,&quot;engravingMaxThickness&quot;:0.4571428571428572,&quot;engravingAngle&quot;:0.25,&quot;engravingContrast&quot;:0.4666666666666667,&quot;engravingSharpness&quot;:0.59,&quot;engravingWave&quot;:0.2,&quot;engravingWaveFrequency&quot;:0.2222222222222222,&quot;crosshatch&quot;:0,&quot;crosshatchSpacing&quot;:0.28,&quot;crosshatchThickness&quot;:0.25,&quot;crosshatchAngle&quot;:0.25,&quot;crosshatchContrast&quot;:0.3333333333333333,&quot;crosshatchEdges&quot;:0.5,&quot;crosshatchLineWeight&quot;:0,&quot;crosshatchWave&quot;:0.33,&quot;crosshatchWaveFrequency&quot;:0.2222222222222222,&quot;kuwahara&quot;:0,&quot;kuwaharaRadius&quot;:0.14285714285714285,&quot;kuwaharaSharpness&quot;:0.3125,&quot;kuwaharaSaturation&quot;:0.5},&quot;lut&quot;:null,&quot;colorSpace&quot;:&quot;rec709&quot;}" data-hf-id="hf-342a" id="persona" class="clip" src="assets/video/persona-rvm-clean.webm" data-start="0" data-duration="4.84" data-track-index="3" muted playsinline></video>
+        </div>
+      </div>
+      <audio data-hf-id="hf-knwh" id="voice" src="assets/video/roughcut.mp4" data-start="0" data-duration="4.84" data-track-index="10" data-volume="1"></audio>
+
+      <!-- 4. 3D bulb by the raised hand -->
+      <div data-hf-id="hf-az22" id="bulb-layer" class="clip layer" data-start="0" data-duration="4.84" data-track-index="4">
+        <canvas data-hf-id="hf-tik4" id="bulb3d" width="1080" height="1920"></canvas>
+      </div>
+
+      <!-- 5. Flash on the world change -->
+      <div data-hf-id="hf-08f8" id="flash" class="clip layer" data-start="0" data-duration="4.84" data-track-index="5">
+        <div data-hf-id="hf-gph1" id="flash-el"></div>
+      </div>
+
+      <!-- 6. Captions -->
+      <div data-hf-id="hf-32ya" id="caps" class="clip layer" data-start="0" data-duration="4.84" data-track-index="6"></div>
     </div>
 
     <script>
-      // Word timings on the rough cut (renders/roughcut.mp4 = source 1.38s → 6.22s).
-      // Checked against the audio envelope, never cut inside a word.
-      const WORDS = [
-        { w: "Se", s: 0.1, e: 0.28 },
-        { w: "pensi", s: 0.3, e: 0.6 },
-        { w: "che", s: 0.62, e: 0.72 },
-        { w: "l'innovazione", s: 0.72, e: 1.38 },
-        { w: "nel", s: 1.38, e: 1.52 },
-        { w: "food", s: 1.52, e: 1.68 },
-        { w: "abbia", s: 1.68, e: 2.06 },
-        { w: "una", s: 2.08, e: 2.28 },
-        { w: "sola", s: 2.28, e: 2.6, key: true },
-        { w: "direzione,", s: 2.6, e: 3.58, key: true },
-        { w: "guarda", s: 3.68, e: 4.06 },
-        { w: "meglio.", s: 4.06, e: 4.64, key: true },
-      ];
-      // 2-3 words on screen at a time.
-      const GROUPS = [
-        { words: [0, 1], s: 0.06, e: 0.62 },
-        { words: [2, 3], s: 0.62, e: 1.38 },
-        { words: [4, 5, 6], s: 1.38, e: 2.08 },
-        { words: [7, 8], s: 2.08, e: 2.6 },
-        { words: [9], s: 2.6, e: 3.64 },
-        { words: [10, 11], s: 3.64, e: 4.84 },
-      ];
+      window.WORLD_SWITCH = 3.64;
+    </script>
+    <script>
+      // Sfondo generato: due mondi disegnati su canvas 2D, in funzione del tempo (seek-safe).
+      // Mondo A (fino a SWITCH): una sola strada dritta, grigia, monotona.
+      // Mondo B (da SWITCH): esplosione di direzioni luminose nei colori del brand.
+      (function () {
+        const BLEED = 120; // margine oltre il fotogramma per zoom e rotazione
+        const FW = 1080;
+        const FH = 1920;
+        const VP = { x: 600, y: 820 }; // punto di fuga, nascosto dietro la testa
+        const SWITCH = window.WORLD_SWITCH || 3.64;
 
-      const RED = "#ff2b2b";
-      const GREEN = "#3da35d";
-      const caps = document.getElementById("caps");
-      const tl = gsap.timeline({ paused: true });
+        const canvas = document.getElementById("world");
+        canvas.width = FW + BLEED * 2;
+        canvas.height = FH + BLEED * 2;
+        const ctx = canvas.getContext("2d");
 
-      // ---- Captions: letters light up red while spoken (keywords in green) ----
-      GROUPS.forEach((g, gi) => {
-        const grp = document.createElement("div");
-        grp.className = "grp";
-        grp.id = "grp-" + gi;
-        g.words.forEach((wi) => {
-          const word = WORDS[wi];
-          const wEl = document.createElement("span");
-          wEl.className = "w";
-          [...word.w].forEach((c) => {
-            const ch = document.createElement("span");
-            ch.className = "ch";
-            ch.textContent = c;
-            wEl.appendChild(ch);
-          });
-          grp.appendChild(wEl);
-        });
-        caps.appendChild(grp);
+        // pseudo-casuale con seme fisso: stesso risultato a ogni render
+        function rng(seed) {
+          return function () {
+            seed |= 0;
+            seed = (seed + 0x6d2b79f5) | 0;
+            let t = Math.imul(seed ^ (seed >>> 15), 1 | seed);
+            t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+            return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+          };
+        }
+        const clamp01 = (v) => Math.min(1, Math.max(0, v));
+        const easeOut = (k) => 1 - Math.pow(1 - clamp01(k), 3);
 
-        tl.fromTo(
-          grp,
-          { opacity: 0, scale: 0.86, y: 18 },
-          { opacity: 1, scale: 1, y: 0, duration: 0.12, ease: "back.out(2.2)" },
-          g.s,
-        );
-        tl.set(grp, { opacity: 0 }, g.e);
+        const BRAND = ["#3da35d", "#9be15d", "#f28c28", "#ffffff", "#3da35d", "#e9f7a8"];
+        const r1 = rng(7);
+        const RAYS = Array.from({ length: 34 }, (_, i) => ({
+          a: (i / 34) * Math.PI * 2 + (r1() - 0.5) * 0.12,
+          w: 2 + r1() * 7,
+          c: BRAND[Math.floor(r1() * BRAND.length)],
+          delay: r1() * 0.18,
+          speed: 0.6 + r1() * 0.9,
+          phase: r1(),
+        }));
+        const r2 = rng(42);
+        const DOTS = Array.from({ length: 140 }, () => ({
+          a: r2() * Math.PI * 2,
+          v: 250 + r2() * 1300,
+          s: 2 + r2() * 6,
+          o: r2() * 0.6,
+          c: BRAND[Math.floor(r2() * BRAND.length)],
+        }));
 
-        g.words.forEach((wi, k) => {
-          const word = WORDS[wi];
-          const letters = grp.children[k].children;
-          const n = letters.length;
-          const step = (word.e - word.s) / n;
-          const color = word.key ? GREEN : RED;
-          for (let i = 0; i < n; i++) {
-            const t = word.s + i * step;
-            tl.set(letters[i], { color }, t);
-            tl.fromTo(
-              letters[i],
-              { scale: 1.22, y: -6 },
-              { scale: 1, y: 0, duration: 0.14, ease: "power2.out" },
-              t,
-            );
+        function worldA(t) {
+          // parete piatta e pavimento: toni grigi, poca vita
+          const g = ctx.createLinearGradient(0, -BLEED, 0, FH + BLEED);
+          g.addColorStop(0, "#2b302d");
+          g.addColorStop(0.42, "#3a3f3b");
+          g.addColorStop(0.43, "#1f2320");
+          g.addColorStop(1, "#141715");
+          ctx.fillStyle = g;
+          ctx.fillRect(-BLEED, -BLEED, FW + BLEED * 2, FH + BLEED * 2);
+
+          // l'unica strada, dritta fino al punto di fuga
+          const bottom = FH + BLEED;
+          const halfW = 520;
+          ctx.fillStyle = "#4a4f4b";
+          ctx.beginPath();
+          ctx.moveTo(VP.x - 6, VP.y);
+          ctx.lineTo(VP.x + 6, VP.y);
+          ctx.lineTo(VP.x + halfW, bottom);
+          ctx.lineTo(VP.x - halfW, bottom);
+          ctx.closePath();
+          ctx.fill();
+          ctx.strokeStyle = "rgba(230,230,225,0.55)";
+          ctx.lineWidth = 6;
+          ctx.beginPath();
+          ctx.moveTo(VP.x - 5, VP.y);
+          ctx.lineTo(VP.x - halfW + 30, bottom);
+          ctx.moveTo(VP.x + 5, VP.y);
+          ctx.lineTo(VP.x + halfW - 30, bottom);
+          ctx.stroke();
+
+          // tratteggio centrale che scorre verso di noi
+          const D = bottom - VP.y;
+          for (let i = 0; i < 14; i++) {
+            const z0 = ((i + t * 1.6) % 14) / 14; // 0 = lontano, 1 = vicino
+            const zA = Math.pow(z0, 2.2);
+            const zB = Math.pow(Math.min(1, z0 + 0.035), 2.2);
+            const yA = VP.y + D * zA;
+            const yB = VP.y + D * zB;
+            const wA = 2 + 22 * zA;
+            const wB = 2 + 22 * zB;
+            ctx.fillStyle = "rgba(235,235,225,0.8)";
+            ctx.beginPath();
+            ctx.moveTo(VP.x - wA / 2, yA);
+            ctx.lineTo(VP.x + wA / 2, yA);
+            ctx.lineTo(VP.x + wB / 2, yB);
+            ctx.lineTo(VP.x - wB / 2, yB);
+            ctx.fill();
           }
-        });
-      });
 
-      // ---- Zooms (4 kinds) on the camera wrapper, origin = face ----
-      const cam = "#cam";
-      tl.set(cam, { scale: 1, rotation: 0, filter: "blur(0px)" }, 0);
-      // 1) Slow push-in (dolly) on "Se pensi che l'innovazione"
-      tl.to(cam, { scale: 1.1, duration: 1.3, ease: "sine.inOut" }, 0.06);
-      // 2) Hard punch-in on "food"
-      tl.to(cam, { scale: 1.32, duration: 0.09, ease: "power4.out" }, 1.52);
-      // 3) Smooth pull-back on "una sola": back to 1.0 before the arm goes up
-      tl.to(cam, { scale: 1, duration: 0.42, ease: "expo.inOut" }, 2.08);
-      // 4) Crash zoom with twist + motion blur on "guarda"
-      tl.to(cam, { scale: 1.42, rotation: -2.5, duration: 0.14, ease: "expo.in" }, 3.56);
-      tl.to(cam, { filter: "blur(6px)", duration: 0.1, ease: "expo.in" }, 3.6);
-      tl.to(cam, { filter: "blur(0px)", duration: 0.08, ease: "power2.out" }, 3.7);
-      tl.to(cam, { rotation: 0, duration: 0.22, ease: "back.out(2)" }, 3.7);
+          // vignettatura pesante
+          const v = ctx.createRadialGradient(VP.x, VP.y, 200, VP.x, VP.y, 1500);
+          v.addColorStop(0, "rgba(0,0,0,0)");
+          v.addColorStop(1, "rgba(0,0,0,0.7)");
+          ctx.fillStyle = v;
+          ctx.fillRect(-BLEED, -BLEED, FW + BLEED * 2, FH + BLEED * 2);
+        }
+
+        function worldB(t) {
+          const u = t - SWITCH; // secondi dall'esplosione
+          const open = easeOut(u / 0.45);
+
+          // luce che si apre dal punto di fuga
+          const g = ctx.createRadialGradient(VP.x, VP.y, 0, VP.x, VP.y, 1700);
+          g.addColorStop(0, "#fffbe6");
+          g.addColorStop(0.12 + 0.05 * open, "#d8f5a0");
+          g.addColorStop(0.35, "#3da35d");
+          g.addColorStop(0.75, "#0f4d33");
+          g.addColorStop(1, "#06261a");
+          ctx.fillStyle = g;
+          ctx.fillRect(-BLEED, -BLEED, FW + BLEED * 2, FH + BLEED * 2);
+
+          // griglia a pavimento che scorre
+          ctx.save();
+          ctx.strokeStyle = "rgba(233,247,168,0.35)";
+          ctx.lineWidth = 2;
+          const bottom = FH + BLEED;
+          const D = bottom - VP.y;
+          for (let i = -14; i <= 14; i++) {
+            ctx.beginPath();
+            ctx.moveTo(VP.x, VP.y);
+            ctx.lineTo(VP.x + i * 160 * open, bottom);
+            ctx.stroke();
+          }
+          for (let i = 0; i < 12; i++) {
+            const z = Math.pow(((i + u * 2.4) % 12) / 12, 2.2);
+            const y = VP.y + D * z;
+            ctx.globalAlpha = z * open;
+            ctx.beginPath();
+            ctx.moveTo(-BLEED, y);
+            ctx.lineTo(FW + BLEED, y);
+            ctx.stroke();
+          }
+          ctx.restore();
+
+          // raggi: le mille direzioni, con impulsi di luce che corrono verso l'esterno
+          ctx.save();
+          ctx.globalCompositeOperation = "lighter";
+          const maxL = 2000;
+          for (const r of RAYS) {
+            const k = easeOut((u - r.delay) / 0.4);
+            if (k <= 0) continue;
+            const L = maxL * k;
+            const dx = Math.cos(r.a);
+            const dy = Math.sin(r.a);
+            const lg = ctx.createLinearGradient(VP.x, VP.y, VP.x + dx * L, VP.y + dy * L);
+            lg.addColorStop(0, "rgba(255,255,255,0.9)");
+            lg.addColorStop(0.5, r.c);
+            lg.addColorStop(1, "rgba(0,0,0,0)");
+            ctx.strokeStyle = lg;
+            ctx.lineWidth = r.w;
+            ctx.globalAlpha = 0.75;
+            ctx.beginPath();
+            ctx.moveTo(VP.x, VP.y);
+            ctx.lineTo(VP.x + dx * L, VP.y + dy * L);
+            ctx.stroke();
+            // impulso
+            const p = (r.phase + u * r.speed) % 1;
+            const pd = 120 + p * 1500;
+            if (pd < L) {
+              ctx.globalAlpha = 1 - p * 0.6;
+              ctx.fillStyle = "#ffffff";
+              ctx.beginPath();
+              ctx.arc(VP.x + dx * pd, VP.y + dy * pd, r.w * 1.4, 0, Math.PI * 2);
+              ctx.fill();
+            }
+          }
+          // particelle che esplodono dal centro
+          for (const d of DOTS) {
+            const dist = d.v * Math.max(0, u - d.o * 0.3);
+            if (dist <= 0) continue;
+            ctx.globalAlpha = clamp01(1 - dist / 1600);
+            ctx.fillStyle = d.c;
+            ctx.beginPath();
+            ctx.arc(VP.x + Math.cos(d.a) * dist, VP.y + Math.sin(d.a) * dist, d.s, 0, Math.PI * 2);
+            ctx.fill();
+          }
+          ctx.restore();
+
+          // onda d'urto
+          if (u < 0.6) {
+            ctx.save();
+            ctx.globalAlpha = 1 - u / 0.6;
+            ctx.strokeStyle = "#ffffff";
+            ctx.lineWidth = 30 * (1 - u / 0.6) + 4;
+            ctx.beginPath();
+            ctx.arc(VP.x, VP.y, 60 + easeOut(u / 0.6) * 1500, 0, Math.PI * 2);
+            ctx.stroke();
+            ctx.restore();
+          }
+        }
+
+        function render(t) {
+          ctx.setTransform(1, 0, 0, 1, BLEED, BLEED);
+          ctx.globalAlpha = 1;
+          ctx.globalCompositeOperation = "source-over";
+          if (t < SWITCH) worldA(t);
+          else worldB(t);
+        }
+
+        window.__renderers = window.__renderers || [];
+        window.__renderers.push(render);
+        render(0);
+      })();
+    </script>
+    <script>
+      // Sottotitoli: 2-3 parole, lettere rosse (parole chiave verdi) mentre si parla.
+      window.buildCaptions = function (tl) {
+        const caps = document.getElementById("caps");
+        // Word timings on the rough cut (renders/roughcut.mp4 = source 1.38s → 6.22s).
+        // Checked against the audio envelope, never cut inside a word.
+        const WORDS = [
+          { w: "Se", s: 0.1, e: 0.28 },
+          { w: "pensi", s: 0.3, e: 0.6 },
+          { w: "che", s: 0.62, e: 0.72 },
+          { w: "l'innovazione", s: 0.72, e: 1.38 },
+          { w: "nel", s: 1.38, e: 1.52 },
+          { w: "food", s: 1.52, e: 1.68 },
+          { w: "abbia", s: 1.68, e: 2.06 },
+          { w: "una", s: 2.08, e: 2.28 },
+          { w: "sola", s: 2.28, e: 2.6, key: true },
+          { w: "direzione,", s: 2.6, e: 3.58, key: true },
+          { w: "guarda", s: 3.68, e: 4.06 },
+          { w: "meglio.", s: 4.06, e: 4.64, key: true },
+        ];
+        // 2-3 words on screen at a time.
+        const GROUPS = [
+          { words: [0, 1], s: 0.06, e: 0.62 },
+          { words: [2, 3], s: 0.62, e: 1.38 },
+          { words: [4, 5, 6], s: 1.38, e: 2.08 },
+          { words: [7, 8], s: 2.08, e: 2.6 },
+          { words: [9], s: 2.6, e: 3.64 },
+          { words: [10, 11], s: 3.64, e: 4.84 },
+        ];
+
+        const RED = "#ff2b2b";
+        const GREEN = "#3da35d";
+
+        // ---- Captions: letters light up red while spoken (keywords in green) ----
+        GROUPS.forEach((g, gi) => {
+          const grp = document.createElement("div");
+          grp.className = "grp";
+          grp.id = "grp-" + gi;
+          g.words.forEach((wi) => {
+            const word = WORDS[wi];
+            const wEl = document.createElement("span");
+            wEl.className = "w";
+            [...word.w].forEach((c) => {
+              const ch = document.createElement("span");
+              ch.className = "ch";
+              ch.textContent = c;
+              wEl.appendChild(ch);
+            });
+            grp.appendChild(wEl);
+          });
+          caps.appendChild(grp);
+
+          tl.fromTo(
+            grp,
+            { opacity: 0, scale: 0.86, y: 18 },
+            { opacity: 1, scale: 1, y: 0, duration: 0.12, ease: "back.out(2.2)" },
+            g.s,
+          );
+          tl.set(grp, { opacity: 0 }, g.e);
+
+          g.words.forEach((wi, k) => {
+            const word = WORDS[wi];
+            const letters = grp.children[k].children;
+            const n = letters.length;
+            const step = (word.e - word.s) / n;
+            const color = word.key ? GREEN : RED;
+            for (let i = 0; i < n; i++) {
+              const t = word.s + i * step;
+              tl.set(letters[i], { color }, t);
+              tl.fromTo(
+                letters[i],
+                { scale: 1.22, y: -6 },
+                { scale: 1, y: 0, duration: 0.14, ease: "power2.out" },
+                t,
+              );
+            }
+          });
+        });
+      };
+    </script>
+    <script>
+      const tl = gsap.timeline({ paused: true });
+      const SWITCH = window.WORLD_SWITCH;
+
+      buildCaptions(tl);
+
+      // ---- "FOOD" slams in behind the person, blows away on the world change ----
+      const fl = document.querySelectorAll("#food .fl");
+      fl.forEach((el, i) => {
+        tl.fromTo(
+          el,
+          { opacity: 0, scale: 1.9, y: -40 },
+          { opacity: 1, scale: 1, y: 0, duration: 0.16, ease: "power4.out" },
+          1.5 + i * 0.05,
+        );
+      });
+      tl.to("#food", { scale: 1.06, duration: 2, ease: "none" }, 1.7);
+      tl.to("#food", { scale: 1.5, opacity: 0, filter: "blur(10px)", duration: 0.22, ease: "power2.in" }, SWITCH - 0.06);
+
+      // ---- Flash on the switch ----
+      tl.fromTo("#flash-el", { opacity: 0 }, { opacity: 0.9, duration: 0.05, ease: "none" }, SWITCH - 0.04);
+      tl.to("#flash-el", { opacity: 0, duration: 0.3, ease: "power2.out" }, SWITCH + 0.01);
+
+      // ---- Zooms (4 kinds). Depth factors give parallax: world 0.5, text 0.75, person 1 ----
+      const LAYERS = [
+        ["#bgcam", 0.5],
+        ["#txtcam", 0.75],
+        ["#pcam", 1],
+      ];
+      function zoom(t, v, duration, ease) {
+        LAYERS.forEach(([sel, f]) => {
+          const p = { duration, ease };
+          if (v.scale !== undefined) p.scale = 1 + (v.scale - 1) * f;
+          if (v.rotation !== undefined) p.rotation = v.rotation * f;
+          if (v.blur !== undefined) p.filter = `blur(${v.blur}px)`;
+          tl.to(sel, p, t);
+        });
+      }
+      LAYERS.forEach(([sel]) => tl.set(sel, { scale: 1, rotation: 0, filter: "blur(0px)" }, 0));
+      // 1) slow push-in on "Se pensi che l'innovazione"
+      zoom(0.06, { scale: 1.1 }, 1.3, "sine.inOut");
+      // 2) hard punch-in on "food"
+      zoom(1.52, { scale: 1.32 }, 0.09, "power4.out");
+      // 3) smooth pull-back on "una sola", back to 1.0 before the arm goes up
+      zoom(2.08, { scale: 1 }, 0.42, "expo.inOut");
+      // 4) crash zoom with twist + motion blur on "guarda" (the world changes here)
+      zoom(3.56, { scale: 1.42, rotation: -2.5 }, 0.14, "expo.in");
+      zoom(3.6, { blur: 6 }, 0.1, "expo.in");
+      zoom(3.7, { blur: 0 }, 0.08, "power2.out");
+      zoom(3.7, { rotation: 0 }, 0.22, "back.out(2)");
       //    ...and a last snap on "meglio"
-      tl.to(cam, { scale: 1.56, duration: 0.1, ease: "power4.out" }, 4.06);
-      tl.to(cam, { scale: 1.6, duration: 0.7, ease: "none" }, 4.16);
+      zoom(4.06, { scale: 1.56 }, 0.1, "power4.out");
+      zoom(4.16, { scale: 1.6 }, 0.7, "none");
+
+      // canvas layers (world, bulb) redraw from the timeline time
+      window.__renderers = window.__renderers || [];
+      const renderAll = (t) => window.__renderers.forEach((r) => r(t));
+      tl.eventCallback("onUpdate", () => renderAll(tl.time()));
+      window.addEventListener("hf-seek", (ev) => renderAll(ev.detail.time));
 
       window.__timelines["main"] = tl;
     </script>
-
-    <script type="module">
-      import * as THREE from "./assets/vendor/three.module.min.js";
-
-      // ---- 3D light bulb that appears by the raised hand ----
-      const W = 1080;
-      const H = 1920;
-      const canvas = document.getElementById("bulb3d");
-      const renderer = new THREE.WebGLRenderer({
-        canvas,
-        alpha: true,
-        antialias: true,
-        preserveDrawingBuffer: true,
-      });
-      renderer.setPixelRatio(1);
-      renderer.setSize(W, H, false);
-      renderer.outputColorSpace = THREE.SRGBColorSpace;
-      renderer.toneMapping = THREE.ACESFilmicToneMapping;
-
-      const scene = new THREE.Scene();
-      const FOV = 30;
-      const camera = new THREE.PerspectiveCamera(FOV, W / H, 10, 10000);
-      const dist = H / 2 / Math.tan(THREE.MathUtils.degToRad(FOV / 2));
-      camera.position.set(0, 0, dist);
-      // Pixel (px, py) on the frame -> world point on the z = 0 plane.
-      const toWorld = (px, py) => new THREE.Vector3(px - W / 2, H / 2 - py, 0);
-
-      scene.add(new THREE.HemisphereLight(0xfff4e0, 0x404a40, 1.4));
-      const key = new THREE.DirectionalLight(0xffffff, 2.2);
-      key.position.set(400, 600, 900);
-      scene.add(key);
-
-      const bulb = new THREE.Group();
-      scene.add(bulb);
-      const inner = new THREE.Group(); // spins / tilts
-      bulb.add(inner);
-
-      // Glass: lathe profile of a classic bulb (units = px, total ~230 tall)
-      const R = 70;
-      const prof = [new THREE.Vector2(29, -40), new THREE.Vector2(30, -22)];
-      for (let i = 0; i <= 28; i++) {
-        const a = THREE.MathUtils.degToRad(-50 + (i / 28) * 140);
-        prof.push(new THREE.Vector2(Math.max(0.01, Math.cos(a) * R), Math.sin(a) * R + 40));
-      }
-      const glassMat = new THREE.MeshPhysicalMaterial({
-        color: 0xffe08a,
-        emissive: 0xffb81f,
-        emissiveIntensity: 0,
-        roughness: 0.08,
-        metalness: 0,
-        clearcoat: 1,
-        clearcoatRoughness: 0.05,
-        transparent: true,
-        opacity: 0.55,
-        side: THREE.DoubleSide,
-      });
-      const glass = new THREE.Mesh(new THREE.LatheGeometry(prof, 48), glassMat);
-      inner.add(glass);
-
-      // Filament
-      const filMat = new THREE.MeshStandardMaterial({
-        color: 0x8a6a30,
-        emissive: 0xffaa22,
-        emissiveIntensity: 0,
-      });
-      const pts = [];
-      for (let i = 0; i <= 40; i++) {
-        const u = i / 40;
-        pts.push(
-          new THREE.Vector3(
-            -22 + 44 * u,
-            46 + Math.sin(u * Math.PI * 6) * 7,
-            Math.cos(u * Math.PI * 6) * 7,
-          ),
-        );
-      }
-      const fil = new THREE.Mesh(
-        new THREE.TubeGeometry(new THREE.CatmullRomCurve3(pts), 80, 2.2, 8),
-        filMat,
-      );
-      inner.add(fil);
-      for (const x of [-22, 22]) {
-        const wire = new THREE.Mesh(
-          new THREE.CylinderGeometry(1.4, 1.4, 70, 6),
-          new THREE.MeshStandardMaterial({ color: 0x777777, metalness: 0.6, roughness: 0.4 }),
-        );
-        wire.position.set(x * 0.8, 12, 0);
-        wire.rotation.z = x > 0 ? 0.25 : -0.25;
-        inner.add(wire);
-      }
-
-      // Screw base
-      const metal = new THREE.MeshStandardMaterial({
-        color: 0xc9ccd1,
-        metalness: 0.9,
-        roughness: 0.28,
-      });
-      const base = new THREE.Mesh(new THREE.CylinderGeometry(29, 26, 52, 40), metal);
-      base.position.y = -66;
-      inner.add(base);
-      for (let i = 0; i < 4; i++) {
-        const ring = new THREE.Mesh(new THREE.TorusGeometry(29 - i * 0.8, 3.4, 10, 40), metal);
-        ring.rotation.x = Math.PI / 2;
-        ring.position.y = -48 - i * 12;
-        inner.add(ring);
-      }
-      const tip = new THREE.Mesh(
-        new THREE.SphereGeometry(14, 24, 12, 0, Math.PI * 2, Math.PI / 2, Math.PI / 2),
-        new THREE.MeshStandardMaterial({ color: 0x222222, metalness: 0.5, roughness: 0.5 }),
-      );
-      tip.position.y = -92;
-      inner.add(tip);
-
-      const bulbLight = new THREE.PointLight(0xffc44d, 0, 600, 1.2);
-      bulbLight.position.set(0, 46, 40);
-      inner.add(bulbLight);
-
-      // Glow halo + rays (camera-facing, additive). Texture drawn procedurally.
-      const gc = document.createElement("canvas");
-      gc.width = gc.height = 256;
-      const g2 = gc.getContext("2d");
-      const grad = g2.createRadialGradient(128, 128, 0, 128, 128, 128);
-      grad.addColorStop(0, "rgba(255,240,180,1)");
-      grad.addColorStop(0.25, "rgba(255,210,90,0.65)");
-      grad.addColorStop(0.6, "rgba(255,180,40,0.18)");
-      grad.addColorStop(1, "rgba(255,170,30,0)");
-      g2.fillStyle = grad;
-      g2.fillRect(0, 0, 256, 256);
-      const glowTex = new THREE.CanvasTexture(gc);
-      glowTex.colorSpace = THREE.SRGBColorSpace;
-      const glow = new THREE.Sprite(
-        new THREE.SpriteMaterial({
-          map: glowTex,
-          blending: THREE.AdditiveBlending,
-          depthWrite: false,
-          transparent: true,
-          opacity: 0,
-        }),
-      );
-      glow.scale.set(380, 380, 1);
-      glow.position.set(0, 40, -10);
-      bulb.add(glow);
-
-      const rays = new THREE.Group();
-      rays.position.set(0, 40, 0);
-      bulb.add(rays);
-      const rayMat = new THREE.MeshBasicMaterial({
-        color: 0xffd23f,
-        transparent: true,
-        opacity: 0,
-        depthWrite: false,
-      });
-      const NR = 9;
-      for (let i = 0; i < NR; i++) {
-        // fan of rays over the top of the bulb (skip the bottom, where the base is)
-        const a = THREE.MathUtils.degToRad(-60 + (i / (NR - 1)) * 300);
-        const ray = new THREE.Mesh(new THREE.PlaneGeometry(9, 38), rayMat);
-        const pivot = new THREE.Group();
-        pivot.rotation.z = a;
-        ray.position.y = 118;
-        pivot.add(ray);
-        rays.add(pivot);
-      }
-
-      // Hand track on the rough cut (px), measured frame by frame.
-      const TRACK = [
-        [2.58, 20, 330],
-        [2.7, 30, 255],
-        [2.8, 60, 255],
-        [3.0, 60, 240],
-        [3.1, 75, 270],
-        [3.3, 90, 270],
-        [3.4, 90, 285],
-        [3.5, 105, 315],
-        [3.6, 120, 450],
-      ];
-      const OFFSET = [175, -60]; // bulb sits up-right of the fist, never on the face
-      const handAt = (t) => {
-        if (t <= TRACK[0][0]) return [TRACK[0][1], TRACK[0][2]];
-        for (let i = 1; i < TRACK.length; i++) {
-          if (t <= TRACK[i][0]) {
-            const [t0, x0, y0] = TRACK[i - 1];
-            const [t1, x1, y1] = TRACK[i];
-            const k = (t - t0) / (t1 - t0);
-            const e = k * k * (3 - 2 * k);
-            return [x0 + (x1 - x0) * e, y0 + (y1 - y0) * e];
-          }
-        }
-        const l = TRACK[TRACK.length - 1];
-        return [l[1], l[2]];
-      };
-
-      const T_IN = 2.62;
-      const T_OUT = 3.42;
-      const clamp01 = (v) => Math.min(1, Math.max(0, v));
-      const backOut = (k) => {
-        const s = 2.2;
-        return 1 + (s + 1) * Math.pow(k - 1, 3) + s * Math.pow(k - 1, 2);
-      };
-      // Switch-on: flicker then full brightness
-      const litAt = (t) => {
-        const u = t - (T_IN + 0.06);
-        if (u < 0) return 0;
-        if (u < 0.05) return 0.9;
-        if (u < 0.09) return 0.1;
-        if (u < 0.13) return 1;
-        if (u < 0.16) return 0.35;
-        return 1;
-      };
-
-      function renderAt(t) {
-        let s = 0;
-        if (t >= T_IN && t < T_OUT) s = backOut(clamp01((t - T_IN) / 0.22));
-        else if (t >= T_OUT) s = 1 - Math.pow(clamp01((t - T_OUT) / 0.12), 2);
-        s = Math.max(0, s);
-        bulb.visible = s > 0.001;
-
-        if (bulb.visible) {
-          const [hx, hy] = handAt(t);
-          const p = toWorld(hx + OFFSET[0], hy + OFFSET[1]);
-          bulb.position.copy(p);
-          bulb.scale.setScalar(s);
-          const lt = t - T_IN;
-          inner.rotation.y = -0.5 + lt * 1.6;
-          inner.rotation.z = 0.28 + Math.sin(lt * 5) * 0.06;
-          inner.rotation.x = 0.18;
-          rays.rotation.z = 0.28;
-
-          const lit = litAt(t);
-          glassMat.emissiveIntensity = 0.1 + 1.6 * lit;
-          glassMat.opacity = 0.55 + 0.3 * lit;
-          filMat.emissiveIntensity = 0.2 + 5 * lit;
-          bulbLight.intensity = 60000 * lit;
-          glow.material.opacity = 0.95 * lit;
-          const pulse = 1 + 0.06 * Math.sin(lt * 18);
-          glow.scale.set(380 * pulse, 380 * pulse, 1);
-          const rayK = clamp01((t - (T_IN + 0.24)) / 0.12);
-          rayMat.opacity = 0.95 * lit * rayK;
-          rays.scale.setScalar(0.7 + 0.3 * rayK + 0.04 * Math.sin(lt * 14));
-        }
-        renderer.render(scene, camera);
-      }
-
-      window.addEventListener("hf-seek", (ev) => renderAt(ev.detail.time));
-      const tl = window.__timelines && window.__timelines["main"];
-      if (tl) tl.eventCallback("onUpdate", () => renderAt(tl.time()));
-      renderAt(window.__hfThreeTime || (tl ? tl.time() : 0));
-    </script>
+    <script type="module" src="assets/js/bulb.js"></script>
   </body>
 </html>
