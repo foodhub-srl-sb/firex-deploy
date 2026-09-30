@@ -10,7 +10,7 @@ Il metodo viene dalla guida *Let Claude Edit Your Videos* di **@pauloshimas** (T
 
 ## Gli strumenti
 
-Sei strumenti, cinque sono gratuiti. Si installano una volta sola.
+Sette strumenti, sei sono gratuiti. Si installano una volta sola.
 
 | Ruolo | Strumento | Costo | Link |
 |---|---|---|---|
@@ -20,6 +20,7 @@ Sei strumenti, cinque sono gratuiti. Si installano una volta sola.
 | Gli occhi e le forbici | **FFmpeg** | gratuito, open source | [github.com/FFmpeg/FFmpeg](https://github.com/FFmpeg/FFmpeg) |
 | L'aiutante | **Python 3.13** | gratuito | [python.org/downloads](https://www.python.org/downloads/) |
 | Il motorino | **Node.js 22+** (LTS) | gratuito | [nodejs.org](https://nodejs.org) |
+| Le forbici per lo sfondo | **RobustVideoMatting** (scontorno della persona, `scripts/matte-rvm.py`) | gratuito, open source; il modello si scarica da solo | [github.com/PeterL1n/RobustVideoMatting](https://github.com/PeterL1n/RobustVideoMatting) |
 
 HyperFrames scarica da solo la sua copia di Chrome per il rendering. Su Windows, Git for Windows ([git-scm.com](https://git-scm.com)) è facoltativo.
 

@@ -59,6 +59,12 @@ if [ -n "$wbin" ]; then
 else
   row -- whisper-cpp "missing (optional)"
 fi
+# Background removal (scripts/matte-rvm.py): onnxruntime + numpy, shipped with faster-whisper.
+if has "$PY" && ort=$("$PY" -c 'import onnxruntime, numpy; print(onnxruntime.__version__)' 2>/dev/null); then
+  row ok onnxruntime "$ort (scontorno RVM)"
+else
+  row -- onnxruntime "missing (optional, pip install onnxruntime numpy)"
+fi
 if [ "$STT" -eq 0 ]; then
   row FAIL whisper "no speech-to-text engine found"; MISSING=$((MISSING+1))
 fi

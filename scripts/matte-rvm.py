@@ -46,15 +46,30 @@ def main():
         model.parent.mkdir(parents=True, exist_ok=True)
         print("Scarico il modello RVM...")
         urllib.request.urlretrieve(MODEL_URL, model)
-    sess = ort.InferenceSession(str(model), providers=["CPUExecutionProvider"])
+    # accelerazione se disponibile: CoreML (Mac Apple Silicon), CUDA (NVIDIA), altrimenti CPU
+    wanted = ["CoreMLExecutionProvider", "CUDAExecutionProvider", "CPUExecutionProvider"]
+    providers = [p for p in wanted if p in ort.get_available_providers()]
+    sess = ort.InferenceSession(str(model), providers=providers)
+    print(f"Motore: {sess.get_providers()[0]}")
 
     w, h, fps = probe(a.input)
     size = w * h * 3
-    raw = subprocess.run(["ffmpeg", "-v", "error", "-i", a.input, "-f", "rawvideo",
-                          "-pix_fmt", "rgb24", "-"], capture_output=True, check=True).stdout
-    frames = [np.frombuffer(raw[i:i + size], np.uint8).reshape(h, w, 3)
-              for i in range(0, len(raw) - size + 1, size)]
-    print(f"{len(frames)} fotogrammi {w}x{h} @ {fps}")
+
+    def frames(limit=None):
+        # lettura a flusso: la memoria non cresce con la durata del video
+        cmd = ["ffmpeg", "-v", "error", "-i", a.input]
+        if limit:
+            cmd += ["-frames:v", str(limit)]
+        p = subprocess.Popen(cmd + ["-f", "rawvideo", "-pix_fmt", "rgb24", "-"],
+                             stdout=subprocess.PIPE)
+        while True:
+            buf = p.stdout.read(size)
+            if len(buf) < size:
+                break
+            yield np.frombuffer(buf, np.uint8).reshape(h, w, 3)
+        p.wait()
+
+    print(f"Video {w}x{h} @ {fps}")
 
     ds = np.array([a.downsample], np.float32)
     rec = [np.zeros((1, 1, 1, 1), np.float32)] * 4
@@ -66,7 +81,7 @@ def main():
         return fgr, pha, rec
 
     # memoria temporale: scalda il modello sui primi fotogrammi, poi riparte da capo
-    for img in frames[:a.warmup]:
+    for img in frames(a.warmup):
         _, _, rec = step(img, rec)
 
     enc = subprocess.Popen(
@@ -74,17 +89,17 @@ def main():
          "-r", fps, "-i", "-", "-c:v", "libvpx-vp9", "-pix_fmt", "yuva420p", "-b:v", "0",
          "-crf", "18", "-row-mt", "1", "-auto-alt-ref", "0", "-metadata:s:v:0", "alpha_mode=1",
          a.output], stdin=subprocess.PIPE)
-    for n, img in enumerate(frames, 1):
+    for n, img in enumerate(frames(), 1):
         fgr, pha, rec = step(img, rec)
         out = np.empty((h, w, 4), np.uint8)
         out[..., :3] = np.clip(fgr[0].transpose(1, 2, 0) * 255 + 0.5, 0, 255)
         out[..., 3] = np.clip(pha[0, 0] * 255 + 0.5, 0, 255)
         enc.stdin.write(out.tobytes())
-        if n % 50 == 0:
-            print(f"  {n}/{len(frames)}")
+        if n % 100 == 0:
+            print(f"  {n} fotogrammi")
     enc.stdin.close()
     enc.wait()
-    print(f"Scritto {a.output}")
+    print(f"Scritti {n} fotogrammi in {a.output}")
 
 
 if __name__ == "__main__":

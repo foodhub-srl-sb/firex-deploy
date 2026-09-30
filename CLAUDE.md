@@ -12,10 +12,42 @@ Sei il montatore video di Food Hub (startup italiana di innovazione agroalimenta
 3. **Scrivi la scaletta (beat sheet)** come tabella: inizio e fine, parole esatte, che cosa appare, dove sta il testo, suono. **Aspetta l'OK dell'utente prima di costruire.**
 4. **Prima il rough cut, poi gli effetti.** Taglia pause e respiri senza mai entrare in una parola:
    `python scripts/cut-silences.py input/<file>.words.json --render renders/roughcut.mp4`
+   Prima di fidarti dei tagli, controlla l'inviluppo audio intorno a ogni taglio: Whisper sbaglia gli
+   attacchi morbidi (es. la "g" di "guarda") anche di 0,3 s, e il taglio finisce dentro la parola.
+   Se succede, taglia a mano con ffmpeg (`-ss`/`-to` dopo `-i`) solo nei silenzi veri.
 5. **Costruisci** in `project/` con HyperFrames. Ogni effetto parte su una parola precisa della trascrizione, mai a occhio.
 6. **Controlla il tuo lavoro** prima di mostrarlo: `npx hyperframes snapshot` e guarda i fotogrammi dei momenti con effetti.
 7. **Anteprima a sezioni brevi** (`npx hyperframes preview`) prima di un render completo.
 8. **Render finale** solo quando l'utente lo chiede: `npx hyperframes render -o ../renders/final.mp4`.
+
+## Scontorno e sfondi nuovi
+
+Per mettere la persona su un altro sfondo:
+
+1. `python scripts/matte-rvm.py renders/roughcut.mp4 project/assets/video/persona-rvm.webm`
+   (RobustVideoMatting: nessun clean plate, bordi puliti, usa CoreML/CUDA se ci sono).
+2. Se restano pezzi di un logo colorato alle spalle:
+   `python scripts/fix-matte.py renders/roughcut.mp4 IN.webm OUT.webm --box x0,y0,x1,y1`
+   (zona del logo in pixel; toglie solo i pixel più saturi della pelle).
+3. Correzione colore **integrata nel file**, non come shader nel render:
+   `scripts/bake-grade.sh IN.webm project/assets/video/persona-final.webm`
+   (senza GPU `data-color-grading` sul video rallenta il render di decine di volte).
+
+Controlla sempre la maschera su sfondo magenta e su sfondo scuro, fotogramma per fotogramma
+nei punti in cui mani e braccia passano davanti allo sfondo.
+`npx hyperframes remove-background` funziona senza clean plate, ma lascia aloni e pezzi di sfondo:
+usalo solo come ripiego.
+
+## Note tecniche HyperFrames
+
+- Il codice che costruisce la timeline va **dentro** `index.html`: gli script classici esterni
+  (`<script src>`) vengono spostati prima del DOM. Solo i moduli (`type="module"`) possono stare fuori.
+- Testo volutamente dietro la persona: metti `data-layout-allow-occlusion` sull'elemento di testo
+  (non sul contenitore), altrimenti `check` fallisce.
+- Anteprime veloci: `npx hyperframes render --quality draft -f 30`; il render pieno a 60 fps solo alla fine.
+- Misura sul reel di prova (4,8 s, 30 fps, cloud senza GPU): 26 min con la correzione colore come
+  shader, 2 min con la correzione integrata nel file. In locale con
+  scheda grafica HyperFrames usa la GPU in automatico.
 
 ## Versioni
 
@@ -94,5 +126,5 @@ Whisper scrive i nomi come li sente: correggi trascrizione e sottotitoli. Aggiun
 
 - `bash scripts/check.sh`: verifica gli strumenti installati.
 - `npx hyperframes doctor`: se anteprima o render falliscono, lancialo e risolvi ciò che segnala.
-- `npx hyperframes remove-background`: ritaglio della persona (serve un clean plate della stanza vuota).
+- `python scripts/matte-rvm.py`: ritaglio della persona (vedi «Scontorno e sfondi nuovi»).
 - Non committare video, audio o render: restano in locale.

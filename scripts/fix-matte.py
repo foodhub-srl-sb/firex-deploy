@@ -44,7 +44,7 @@ def main():
                  "-f", "rawvideo", "-pix_fmt", "rgba", "-"]
 
     # 1) parete pulita della zona: mediana nel tempo
-    crops = [f[y0:y1, x0:x1].astype(np.int16) for f in frames(rgb_cmd, (h, w, 3))]
+    crops = [f[y0:y1, x0:x1].copy() for f in frames(rgb_cmd, (h, w, 3))]
     plate = np.median(np.stack(crops), axis=0).astype(np.float32)
     # agisci solo dove la parete è colorata (il logo): sul muro neutro una manica
     # bianca o la pelle coinciderebbero con lo sfondo e verrebbero bucate
