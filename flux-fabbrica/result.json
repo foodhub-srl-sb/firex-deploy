@@ -1,0 +1,23 @@
+{
+  "request": "media/requests/flux-fabbrica.json",
+  "id": "flux-fabbrica",
+  "generated_at": "2026-10-02T19:55:58+00:00",
+  "max_usd": 1.0,
+  "spent_usd": 0.24,
+  "jobs": [
+    {
+      "name": "fabbrica-edit",
+      "type": "video",
+      "model": "black-forest-labs/flux-video-edit",
+      "status": "ok",
+      "files": [
+        "flux-fabbrica/fabbrica-edit.mp4"
+      ],
+      "cost_usd": 0.24,
+      "seconds": 55.5
+    }
+  ],
+  "prompts": {
+    "fabbrica-edit": "Replace the room behind the man with the interior of a modern, clean Italian fruit processing plant: stainless steel conveyor lines carrying red apples, stacked wooden crates, high windows with soft daylight, cool industrial LED light. Keep the man exactly as he is: same face, glasses, beard, white linen shirt, grey shorts, same gestures, same lip movements and timing. Remove the green light and the logo on the wall. Natural, realistic lighting on the man that matches the factory. No text, no logos."
+  }
+}
