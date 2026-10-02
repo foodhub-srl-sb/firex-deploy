@@ -1,16 +1,20 @@
 {
   "request": "media/requests/aleph-angolazione.json",
   "id": "aleph-angolazione",
-  "generated_at": "2026-10-02T20:01:31+00:00",
+  "generated_at": "2026-10-02T20:09:22+00:00",
   "max_usd": 2.0,
-  "spent_usd": 0.0,
+  "spent_usd": 1.4,
   "jobs": [
     {
       "name": "fabbrica-cammina",
       "type": "video",
       "model": "runway/aleph-2",
-      "status": "error",
-      "error": "HTTP 400 su POST https://openrouter.ai/api/v1/videos: {\"error\":{\"message\":\"Validation of body failed: videoUri: Assets must use an approved Content-Type response header. We received \\\"application/octet-stream\\\", which is not allowed.\",\"code\":400}}"
+      "status": "ok",
+      "files": [
+        "aleph-angolazione/fabbrica-cammina.mp4"
+      ],
+      "cost_usd": 1.4,
+      "seconds": 336.6
     }
   ],
   "prompts": {
