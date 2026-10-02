@@ -49,3 +49,7 @@ refs/*.mov
 # Trascrizioni (facoltative, restano in locale)
 input/*.words.json
 input/*.srt
+
+# Audio copiato nel progetto HyperFrames (resta in locale)
+project/audio/*.wav
+project/audio/*.mp3
