@@ -1,0 +1,117 @@
+# Genera immagini e video con OpenRouter.
+#
+# Si avvia quando su un branch qualsiasi si aggiunge o modifica un file in
+# media/requests/ (oppure a mano da Actions → "Genera media" → Run workflow).
+# La chiave arriva dal segreto del repository OPENROUTER_API_KEY e non compare
+# mai nei log. I risultati vengono pubblicati nel branch "media-store", sotto
+# <id-richiesta>/, così i branch di lavoro restano leggeri.
+name: Genera media
+
+on:
+  push:
+    paths:
+      - "media/requests/**.json"
+  workflow_dispatch:
+    inputs:
+      request:
+        description: "Percorso del file di richiesta (es. media/requests/mio-video.json)"
+        required: true
+
+permissions:
+  contents: write
+
+concurrency:
+  group: media-store
+  cancel-in-progress: false
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Installa ffmpeg (serve per concatenare le clip con @clip:last)
+        run: command -v ffmpeg >/dev/null || (sudo apt-get update -q && sudo apt-get install -y -q ffmpeg)
+
+      - name: Trova le richieste da eseguire
+        id: req
+        env:
+          INPUT_REQUEST: ${{ inputs.request }}
+          BEFORE: ${{ github.event.before }}
+        run: |
+          if [ -n "$INPUT_REQUEST" ]; then
+            files="$INPUT_REQUEST"
+          else
+            if [ -z "$BEFORE" ] || ! git cat-file -e "$BEFORE^{commit}" 2>/dev/null; then
+              BEFORE="$(git rev-parse HEAD~1 2>/dev/null || git hash-object -t tree /dev/null)"
+            fi
+            files="$(git diff --name-only --diff-filter=AM "$BEFORE" HEAD -- 'media/requests/' | grep -E '\.json$' | grep -v '/README' || true)"
+          fi
+          files="$(echo $files)"
+          echo "files=$files" >> "$GITHUB_OUTPUT"
+          echo "Richieste: ${files:-nessuna}"
+
+      - name: Controlla richieste e stima i costi
+        if: steps.req.outputs.files != ''
+        env:
+          FILES: ${{ steps.req.outputs.files }}
+        run: python scripts/media/openrouter.py check $FILES
+
+      - name: Genera con OpenRouter
+        id: gen
+        if: steps.req.outputs.files != ''
+        env:
+          FILES: ${{ steps.req.outputs.files }}
+          OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
+        run: |
+          if [ -z "$OPENROUTER_API_KEY" ]; then
+            echo "::error::Manca il segreto OPENROUTER_API_KEY (Settings → Secrets and variables → Actions)"
+            exit 1
+          fi
+          python scripts/media/openrouter.py run $FILES --out "$RUNNER_TEMP/media-out"
+
+      - name: Pubblica nel branch media-store
+        if: always() && steps.req.outputs.files != ''
+        env:
+          SRC_BRANCH: ${{ github.ref_name }}
+          SRC_SHA: ${{ github.sha }}
+        run: |
+          out="$RUNNER_TEMP/media-out"
+          if [ ! -d "$out" ] || [ -z "$(ls -A "$out")" ]; then
+            echo "Niente da pubblicare."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898283+github-actions[bot]@users.noreply.github.com"
+          store="$RUNNER_TEMP/store"
+          if git ls-remote --exit-code --heads origin media-store >/dev/null; then
+            git fetch origin +refs/heads/media-store:refs/remotes/origin/media-store
+            git worktree add "$store" -B media-store origin/media-store
+          else
+            git worktree add --detach "$store"
+            cd "$store"
+            git checkout --orphan media-store
+            git rm -rf --quiet . || true
+            printf '# media-store\n\nMedia generati dalla GitHub Action "Genera media". Una cartella per richiesta, con result.json (modelli, prompt, costi).\n' > README.md
+            cd - >/dev/null
+          fi
+          cp -R "$out"/. "$store"/
+          cd "$store"
+          git add -A
+          if git diff --cached --quiet; then
+            echo "Nessuna modifica."
+            exit 0
+          fi
+          git commit -q -m "Media da $SRC_BRANCH@${SRC_SHA::7}: $(ls "$out" | tr '\n' ' ')"
+          for i in 1 2 3; do
+            git push origin media-store && break
+            sleep $((i * 5))
+            git pull --rebase -q origin media-store
+          done

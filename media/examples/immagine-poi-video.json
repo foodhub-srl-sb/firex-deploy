@@ -1,0 +1,33 @@
+{
+  "max_usd": 3,
+  "jobs": [
+    {
+      "name": "mela",
+      "type": "image",
+      "model": "openai/gpt-image-2.5-sunburst",
+      "prompt": "Photorealistic studio product photo of a single fresh shiny red apple with a short brown stem and one green leaf, three-quarter view, soft even studio lighting, crisp detail, no text, no shadow, isolated on a fully transparent background",
+      "aspect_ratio": "1:1",
+      "quality": "high",
+      "background": "transparent"
+    },
+    {
+      "name": "frutteto-still",
+      "type": "image",
+      "model": "google/gemini-3-pro-image",
+      "prompt": "Vertical photograph of an Italian apple orchard at sunrise, rows of apple trees with ripe red apples, soft golden light, light morning haze, a small white IoT soil sensor with antenna between the rows, shallow depth of field, clean natural colors, no people, no text",
+      "aspect_ratio": "9:16",
+      "resolution": "2K"
+    },
+    {
+      "name": "frutteto",
+      "type": "video",
+      "model": "google/veo-3.1-fast",
+      "prompt": "Slow cinematic push-in along the orchard row at sunrise, leaves gently moving in the breeze, light haze drifting, the IoT sensor antenna blinking softly. Steady camera, no people, no text.",
+      "duration": 6,
+      "resolution": "1080p",
+      "aspect_ratio": "9:16",
+      "generate_audio": false,
+      "frame_images": [{"ref": "@frutteto-still", "frame_type": "first_frame"}]
+    }
+  ]
+}

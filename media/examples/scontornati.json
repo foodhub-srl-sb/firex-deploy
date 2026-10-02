@@ -1,0 +1,23 @@
+{
+  "max_usd": 2,
+  "jobs": [
+    {
+      "name": "mela",
+      "type": "image",
+      "model": "openai/gpt-image-2.5-sunburst",
+      "prompt": "Photorealistic studio product photo of a single fresh shiny red apple with a short brown stem and one green leaf, three-quarter view, soft even studio lighting, crisp detail, natural colors, fully visible with margin on every side, no text, no logos, isolated on a fully transparent background",
+      "aspect_ratio": "1:1",
+      "quality": "high",
+      "background": "transparent"
+    },
+    {
+      "name": "cassetta",
+      "type": "image",
+      "model": "openai/gpt-image-2.5-sunburst",
+      "prompt": "Photorealistic studio product photo of a plain rustic wooden fruit crate filled with fresh red apples, three-quarter view from slightly above, plain unbranded wood with no markings, soft even studio lighting, crisp detail, fully visible with margin on every side, no text, no logos, isolated on a fully transparent background",
+      "aspect_ratio": "1:1",
+      "quality": "high",
+      "background": "transparent"
+    }
+  ]
+}

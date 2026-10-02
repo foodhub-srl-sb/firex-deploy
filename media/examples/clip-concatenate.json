@@ -1,0 +1,35 @@
+{
+  "max_usd": 3,
+  "jobs": [
+    {
+      "name": "start",
+      "type": "image",
+      "model": "google/gemini-3.1-flash-image",
+      "prompt": "Vertical editorial photograph of an apple sorting line in a modern Italian fruit warehouse, red apples moving on a conveyor, a small camera module above the belt, soft clean daylight, low-detail background with negative space in the upper third, natural colors, no people, no text, no logos",
+      "aspect_ratio": "9:16",
+      "resolution": "2K"
+    },
+    {
+      "name": "clip-1",
+      "type": "video",
+      "model": "bytedance/seedance-2.5",
+      "prompt": "The apples glide slowly along the conveyor from left to right. Slow steady push-in toward the camera module. Only this happens, nothing else. No text, no logos.",
+      "duration": 5,
+      "resolution": "720p",
+      "aspect_ratio": "9:16",
+      "generate_audio": false,
+      "frame_images": [{ "ref": "@start", "frame_type": "first_frame" }]
+    },
+    {
+      "name": "clip-2",
+      "type": "video",
+      "model": "bytedance/seedance-2.5",
+      "prompt": "The push-in continues at the same speed and direction until one red apple fills the lower half of the frame. Only this happens, nothing else. No text, no logos.",
+      "duration": 5,
+      "resolution": "720p",
+      "aspect_ratio": "9:16",
+      "generate_audio": false,
+      "frame_images": [{ "ref": "@clip-1:last", "frame_type": "first_frame" }]
+    }
+  ]
+}

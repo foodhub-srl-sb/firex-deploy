@@ -1,10 +1,16 @@
-# Let Claude Edit Your Videos · Food Hub
+# Studio video Food Hub
 
-Workspace per montare i video di **Food Hub** e **ChallengEat** senza aprire un programma di montaggio. Si gira una ripresa, si mette il file nella cartella `input/` e si chiede a Claude che cosa deve comparire sullo schermo. Claude ascolta ogni parola, guarda i fotogrammi e costruisce il montaggio come codice con HyperFrames, poi lo esporta in MP4.
+Il repository con cui Food Hub crea i suoi video senza aprire un programma di montaggio. Tu descrivi che cosa vuoi vedere, Claude costruisce il video come codice con HyperFrames e lo esporta in MP4. Tre usi:
+
+| | Che cosa fa | Da dove partire |
+|---|---|---|
+| **Montaggio** | riprese con trascrizione, tagli, sottotitoli, zoom, effetti | [`prompts/01-first-prompt.md`](prompts/01-first-prompt.md) |
+| **Video da zero** | caroselli animati, explainer, dati e icone in motion graphics | [`prompts/09-video-da-zero.md`](prompts/09-video-da-zero.md) |
+| **Generazione AI** | immagini e clip video con i modelli più recenti via OpenRouter | [`prompts/10-genera-con-ai.md`](prompts/10-genera-con-ai.md) |
 
 Non esiste una timeline: tu parli, Claude costruisce, tu guardi e dai le note.
 
-Il metodo viene dalla guida *Let Claude Edit Your Videos* di **@pauloshimas** (The Creator Stack, 2026), adattata qui per il team di Food Hub.
+Il metodo di montaggio viene dalla guida *Let Claude Edit Your Videos* di **@pauloshimas** (The Creator Stack, 2026), adattata qui per il team di Food Hub.
 
 ---
 
@@ -20,6 +26,7 @@ Sei strumenti, cinque sono gratuiti. Si installano una volta sola.
 | Gli occhi e le forbici | **FFmpeg** | gratuito, open source | [github.com/FFmpeg/FFmpeg](https://github.com/FFmpeg/FFmpeg) |
 | L'aiutante | **Python 3.13** | gratuito | [python.org/downloads](https://www.python.org/downloads/) |
 | Il motorino | **Node.js 22+** (LTS) | gratuito | [nodejs.org](https://nodejs.org) |
+| Il generatore | **OpenRouter** (immagini e video AI) | a consumo, chiave nei segreti GitHub | [openrouter.ai](https://openrouter.ai) |
 
 HyperFrames scarica da solo la sua copia di Chrome per il rendering. Su Windows, Git for Windows ([git-scm.com](https://git-scm.com)) è facoltativo.
 
@@ -86,22 +93,25 @@ Metti la ripresa in `input/take.mp4`, apri Claude Code in questa cartella e inco
 
 ```
 .
-├── CLAUDE.md          regole che Claude legge a ogni sessione (stile, safe zone, flusso)
-├── input/             le riprese grezze (take.mp4, test.mp4) e le trascrizioni
-├── refs/              riferimenti di stile: screenshot, GIF, clip brevi
-├── sfx/               effetti sonori (whoosh, pop, ...)
-├── music/             musiche di sottofondo con diritti d'uso
-├── assets/            logo Food Hub, ChallengEat e altre immagini
-├── frames/            fotogrammi estratti da FFmpeg (generati, non versionati)
-├── renders/           MP4 esportati (generati, non versionati)
-├── versions/          versioni salvate del progetto prima di ogni giro di note (v1, v2, ...)
-├── project/           il progetto HyperFrames (il montaggio scritto come pagina web)
-├── prompts/           i prompt da copiare, in italiano e in inglese
-├── docs/              checklist e materiali di supporto
-└── scripts/           script di installazione e di supporto
+├── CLAUDE.md                regole che Claude legge a ogni sessione (stile, safe zone, flussi)
+├── projects/<nome>/         un progetto HyperFrames per ogni video
+├── templates/hyperframes-9x16/   il modello dei nuovi video: stile, animazioni, chiusura con logo
+├── media/
+│   ├── requests/            richieste di generazione AI (avviano la GitHub Action)
+│   └── examples/            esempi di richieste da copiare
+├── docs/ai/                 quale modello usare e come scrivere i prompt
+├── .github/workflows/       la GitHub Action «Genera media» (OpenRouter)
+├── input/                   riprese grezze, PDF e materiali
+├── assets/                  logo Food Hub e immagini condivise
+├── refs/                    riferimenti di stile
+├── sfx/, music/             audio
+├── scripts/                 installazione, trascrizione, tagli, audio, scontorni, generazione
+├── prompts/                 i prompt da copiare
+├── frames/, renders/, versions/   file generati (non versionati)
+└── THIRD_PARTY_NOTICES.md   licenze dei contenuti adattati
 ```
 
-I file multimediali restano in locale: `.gitignore` esclude video, audio, fotogrammi ed esportazioni.
+I file multimediali restano in locale: `.gitignore` esclude video, audio, fotogrammi ed esportazioni. Le immagini e i video generati con l'AI stanno nel branch `media-store`.
 
 ---
 
@@ -125,16 +135,49 @@ scripts/extract-frames.sh input/take.mp4 1
 python scripts/cut-silences.py input/take.words.json --render renders/roughcut.mp4
 ```
 
+**Nuovo progetto video** (dal template, con musica ed effetti originali):
+
+```bash
+scripts/new-project.sh filiera-latte 40 "La filiera del latte"
+```
+
+**Musica ed effetti originali** (sintesi pura, nessun diritto di terzi):
+
+```bash
+python scripts/synth-audio.py --seconds 40 --music-out music/mio-video.wav
+```
+
+**Scontorno di oggetti su fondo bianco** (anche il bianco tra le foglie):
+
+```bash
+python scripts/cutout-white.py input/foto.jpg assets/oggetto.png --holes 40
+```
+
+## Generazione AI (OpenRouter)
+
+La chiave non sta mai nel codice: è il segreto `OPENROUTER_API_KEY` del repository (Settings → Secrets and variables → Actions). La GitHub Action «Genera media» la usa quando arriva una richiesta.
+
+```bash
+python scripts/media/openrouter.py models --type video          # i modelli più recenti
+python scripts/media/openrouter.py check media/requests/x.json  # valida e stima i costi, senza spendere
+git add media/requests/x.json && git commit -m "..." && git push  # avvia la generazione
+scripts/media/fetch.sh x projects/mio/assets/ai                   # scarica i risultati
+```
+
+Formato delle richieste: [`media/requests/README.md`](media/requests/README.md). Scelta del modello: [`docs/ai/modelli.md`](docs/ai/modelli.md). Prompt: [`docs/ai/prompt.md`](docs/ai/prompt.md).
+
 ## Comandi HyperFrames
 
-Da lanciare nella cartella `project/`:
+Da lanciare nella cartella del progetto (`projects/<nome>/`):
 
 | Comando | A cosa serve |
 |---|---|
 | `npx hyperframes doctor` | controlla Node.js, FFmpeg e Chrome e dice che cosa manca |
 | `npx hyperframes preview` | apre l'anteprima nel browser |
 | `npx hyperframes snapshot` | salva i fotogrammi del montaggio, per il controllo di Claude |
-| `npx hyperframes render -o final.mp4` | esporta l'MP4 finale |
+| `npx hyperframes check` | controlla errori, impaginazione e contrasto |
+| `npx hyperframes render -q draft -o ../../renders/bozza.mp4` | bozza veloce |
+| `npx hyperframes render -o ../../renders/final.mp4` | esporta l'MP4 finale |
 | `npx hyperframes remove-background` | ritaglia la persona dallo sfondo |
 
 ---
@@ -155,4 +198,6 @@ Quando i passi di base ti vengono facili, prova un effetto 3D da [`prompts/05-sh
 
 ## Crediti
 
-Metodo e prompt originali: *Let Claude Edit Your Videos*, di **@pauloshimas**, The Creator Stack (2026). L'autore invita ad adattare e remixare il flusso di lavoro: questa è la versione di Food Hub, tradotta e adattata in italiano.
+Metodo e prompt originali di montaggio: *Let Claude Edit Your Videos*, di **@pauloshimas**, The Creator Stack (2026). L'autore invita ad adattare e remixare il flusso di lavoro: questa è la versione di Food Hub, tradotta e adattata in italiano.
+
+Le guide ai prompt in `docs/ai/` adattano parti di [higgsfield-ai/skills](https://github.com/higgsfield-ai/skills) (MIT): dettagli in [`THIRD_PARTY_NOTICES.md`](THIRD_PARTY_NOTICES.md).

@@ -17,11 +17,16 @@ frames/*
 versions/*
 !versions/.gitkeep
 
-# Output del progetto HyperFrames
-project/renders/
-project/snapshots/
-project/out/
-project/*.mp4
+# Output dei progetti HyperFrames
+projects/*/renders/
+projects/*/snapshots/
+projects/*/out/
+projects/*/*.mp4
+
+# Media generati con OpenRouter: si scaricano da media-store con scripts/media/fetch.sh
+media/out/
+projects/*/assets/ai/*
+!projects/*/assets/ai/.gitkeep
 
 # Media: restano in locale
 input/*.mp4
@@ -50,8 +55,7 @@ refs/*.mov
 input/*.words.json
 input/*.srt
 
-# Audio copiato nel progetto HyperFrames (resta in locale)
-project/audio/*.wav
-project/audio/*.mp3
-project-tracciabilita/audio/*.wav
-project-tracciabilita/audio/*.mp3
+# Audio generato dentro i progetti (scripts/new-project.sh, scripts/synth-audio.py)
+projects/*/audio/*.wav
+projects/*/audio/*.mp3
+templates/*/audio/*.wav
