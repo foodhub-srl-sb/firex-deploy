@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Pubblica un file nel repository PUBBLICO foodhub-srl-sb/media-pubblici e stampa il link https
+# Pubblica un file nel repository PUBBLICO foodhub-srl-sb/media-pubblici e stampa il link https (jsDelivr)
 # da usare come riferimento audio/video nei modelli che non accettano allegati (es. FLUX Video
 # Edit, Runway Aleph, HeyGen Avatar IV).
 #
@@ -32,8 +32,8 @@ fi
 
 src="${1:?file da pubblicare}"
 size=$(stat -c %s "$src" 2>/dev/null || stat -f %z "$src")
-if [ "$size" -gt $((50 * 1024 * 1024)) ]; then
-  echo "File troppo grande ($((size / 1024 / 1024)) MB): comprimilo sotto i 50 MB." >&2
+if [ "$size" -gt $((20 * 1024 * 1024)) ]; then
+  echo "File troppo grande ($((size / 1024 / 1024)) MB): jsDelivr serve al massimo 20 MB, comprimilo." >&2
   exit 1
 fi
 dest="$(date -u +%F)/$(basename "$src")"
@@ -42,5 +42,8 @@ cp "$src" "$DIR/$dest"
 git -C "$DIR" add "$dest"
 git -C "$DIR" commit -q -m "File di passaggio: $dest"
 for i in 1 2 3 4; do git -C "$DIR" push -q && break; sleep $((2 ** i)); done
-branch=$(git -C "$DIR" rev-parse --abbrev-ref HEAD)
-echo "https://raw.githubusercontent.com/$REPO/$branch/$dest"
+# jsDelivr serve i file con il Content-Type giusto (video/mp4, audio/mpeg...), che alcuni modelli
+# pretendono (Runway); raw.githubusercontent.com risponde sempre application/octet-stream.
+# Il link punta al commit esatto, così la cache della CDN non serve mai una versione vecchia.
+sha=$(git -C "$DIR" rev-parse HEAD)
+echo "https://cdn.jsdelivr.net/gh/$REPO@$sha/$dest"

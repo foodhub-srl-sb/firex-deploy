@@ -10,7 +10,10 @@
       "aspect_ratio": "9:16",
       "est_seconds": 5,
       "input_references": [
-        { "url": "https://raw.githubusercontent.com/foodhub-srl-sb/media-pubblici/main/2026-10-02/ripresa-16-09-720p-da088.mp4", "kind": "video" }
+        {
+          "url": "https://cdn.jsdelivr.net/gh/foodhub-srl-sb/media-pubblici@bc0cfd35974d5b9289e0925c141c395461b7d98c/2026-10-02/ripresa-16-09-720p-da088.mp4",
+          "kind": "video"
+        }
       ]
     }
   ]
