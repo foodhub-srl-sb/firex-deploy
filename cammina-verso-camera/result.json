@@ -1,0 +1,23 @@
+{
+  "request": "media/requests/cammina-verso-camera.json",
+  "id": "cammina-verso-camera",
+  "generated_at": "2026-10-02T20:35:32+00:00",
+  "max_usd": 1.2,
+  "spent_usd": 0.78,
+  "jobs": [
+    {
+      "name": "verso-camera",
+      "type": "video",
+      "model": "minimax/hailuo-3",
+      "status": "ok",
+      "files": [
+        "cammina-verso-camera/verso-camera.mp4"
+      ],
+      "cost_usd": 0.78,
+      "seconds": 309.3
+    }
+  ],
+  "prompts": {
+    "verso-camera": "He walks confidently toward the camera at a calm, steady pace, keeping direct eye contact with the lens the whole time, with a confident, friendly expression and a slight smile. The camera dollies backward smoothly at the same speed, keeping him centered with his full body in frame. The conveyor belts on both sides keep moving and the apples roll. He does not talk and does not look away. Stable face and glasses, realistic natural motion. No text, no logos."
+  }
+}
