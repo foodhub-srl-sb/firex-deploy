@@ -1,0 +1,35 @@
+{
+  "request": "media/requests/scontornati.json",
+  "id": "scontornati",
+  "generated_at": "2026-10-02T19:07:42+00:00",
+  "max_usd": 2.0,
+  "spent_usd": 0.106,
+  "jobs": [
+    {
+      "name": "mela",
+      "type": "image",
+      "model": "openai/gpt-image-2.5-sunburst",
+      "status": "ok",
+      "files": [
+        "scontornati/mela.png"
+      ],
+      "cost_usd": 0.053005,
+      "seconds": 35.2
+    },
+    {
+      "name": "cassetta",
+      "type": "image",
+      "model": "openai/gpt-image-2.5-sunburst",
+      "status": "ok",
+      "files": [
+        "scontornati/cassetta.png"
+      ],
+      "cost_usd": 0.05303,
+      "seconds": 33.4
+    }
+  ],
+  "prompts": {
+    "mela": "Photorealistic studio product photo of a single fresh shiny red apple with a short brown stem and one green leaf, three-quarter view, soft even studio lighting, crisp detail, natural colors, fully visible with margin on every side, no text, no logos, isolated on a fully transparent background",
+    "cassetta": "Photorealistic studio product photo of a plain rustic wooden fruit crate filled with fresh red apples, three-quarter view from slightly above, plain unbranded wood with no markings, soft even studio lighting, crisp detail, fully visible with margin on every side, no text, no logos, isolated on a fully transparent background"
+  }
+}
