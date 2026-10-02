@@ -274,7 +274,7 @@ def plan(request, base_dir):
         names.add(job["name"])
         for key in ("frame_images", "input_references"):
             for it in job.get(key, []):
-                ref = it if isinstance(it, str) else (it.get("ref") or "")
+                ref = it if isinstance(it, str) else (it.get("ref") or it.get("url") or "")
                 if ref.startswith("@") and ref[1:].partition(":")[0] not in names - {job["name"]}:
                     raise MediaError(f"job '{job['name']}': {ref} deve riferirsi a un job precedente")
                 if ref and not ref.startswith(("@", "http", "data:")) and not os.path.exists(os.path.join(ROOT, ref)):

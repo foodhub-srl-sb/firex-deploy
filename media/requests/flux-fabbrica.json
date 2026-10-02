@@ -1,0 +1,16 @@
+{
+  "max_usd": 1,
+  "note": "Via 2: editing AI della ripresa vera del 16/09 (720p, audio originale) per portarla in una fabbrica alimentare.",
+  "jobs": [
+    {
+      "name": "fabbrica-edit",
+      "type": "video",
+      "model": "black-forest-labs/flux-video-edit",
+      "prompt": "Replace the room behind the man with the interior of a modern, clean Italian fruit processing plant: stainless steel conveyor lines carrying red apples, stacked wooden crates, high windows with soft daylight, cool industrial LED light. Keep the man exactly as he is: same face, glasses, beard, white linen shirt, grey shorts, same gestures, same lip movements and timing. Remove the green light and the logo on the wall. Natural, realistic lighting on the man that matches the factory. No text, no logos.",
+      "est_seconds": 8,
+      "input_references": [
+        { "url": "https://raw.githubusercontent.com/foodhub-srl-sb/media-pubblici/main/2026-10-02/ripresa-16-09-720p.mp4", "kind": "video" }
+      ]
+    }
+  ]
+}
