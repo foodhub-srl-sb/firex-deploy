@@ -1,0 +1,29 @@
+{
+  "max_usd": 2,
+  "note": "Seconda prova camminata: sguardo in camera, espressione sicura. Seedream 5.0 Pro + Seedance 2.5 (720p).",
+  "jobs": [
+    {
+      "name": "verso-camera-still",
+      "type": "image",
+      "model": "bytedance-seed/seedream-5-0-pro",
+      "prompt": "Photorealistic vertical photo of the same man shown in the reference images, with an identical face, beard, hairline and body, wearing the same black rectangular glasses with clear lenses and no reflections, the same white linen shirt with rolled sleeves and grey shorts. He walks confidently toward the camera along the central aisle of a large, modern, clean food processing factory, looking straight into the lens with direct eye contact, a confident, intelligent and friendly expression, a slight natural smile, mouth closed, relaxed shoulders. Camera at chest height in front of him, full body in frame with margin above the head. Stainless steel conveyor belts with red apples on both sides, sorting machines, high ceiling with industrial lights, clean light grey floor, soft natural daylight. Realistic skin, natural colors, no text, no logos, no other people.",
+      "aspect_ratio": "9:16",
+      "resolution": "2K",
+      "input_references": [
+        { "ref": "media/refs/figura-intera.jpg" },
+        { "ref": "media/refs/volto.jpg" }
+      ]
+    },
+    {
+      "name": "verso-camera",
+      "type": "video",
+      "model": "bytedance/seedance-2.5",
+      "prompt": "He walks confidently toward the camera at a calm, steady pace, keeping direct eye contact with the lens the whole time, with a confident, friendly expression and a slight smile. The camera dollies backward smoothly at the same speed, keeping him centered with his full body in frame. The conveyor belts on both sides keep moving and the apples roll. He does not talk and does not look away. Stable face and glasses, realistic natural motion. No text, no logos.",
+      "duration": 6,
+      "resolution": "720p",
+      "aspect_ratio": "9:16",
+      "generate_audio": false,
+      "frame_images": [{ "ref": "@verso-camera-still", "frame_type": "first_frame" }]
+    }
+  ]
+}
