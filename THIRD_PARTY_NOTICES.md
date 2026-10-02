@@ -32,6 +32,11 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 ```
 
+## RobustVideoMatting (modello)
+
+- Fonte: https://github.com/PeterL1n/RobustVideoMatting, licenza **GPL-3.0**
+- Usato da `scripts/rvm-matte.py`: il modello ONNX si scarica alla prima esecuzione in `~/.cache/rvm`. Nel repository non c'è codice né pesi di RVM; lo script è scritto da zero e chiama solo il modello.
+
 ## Altri componenti
 
 - **GSAP** (`assets/vendor/gsap.min.js` nei progetti): licenza standard GreenSock, https://gsap.com/standard-license

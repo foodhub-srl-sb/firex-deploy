@@ -279,6 +279,13 @@ def plan(request, base_dir):
                     raise MediaError(f"job '{job['name']}': {ref} deve riferirsi a un job precedente")
                 if ref and not ref.startswith(("@", "http", "data:")) and not os.path.exists(os.path.join(ROOT, ref)):
                     raise MediaError(f"job '{job['name']}': file non trovato {ref}")
+                if job["type"] == "video" and not ref.startswith("https://"):
+                    kind = it.get("kind") if isinstance(it, dict) else None
+                    ext_kind = (mimetypes.guess_type(ref)[0] or "").split("/")[0]
+                    if (kind or ext_kind) in ("audio", "video") or (ref.startswith("@") and kind in ("audio", "video")):
+                        raise MediaError(f"job '{job['name']}': i modelli video accettano audio e video di riferimento "
+                                         f"solo da un URL https pubblico ({ref}). Pubblicalo prima con "
+                                         "scripts/media/publish-public.sh e usa il link raw.")
         if job["type"] == "video":
             est = estimate_video(job, m)
         elif job["type"] == "speech":

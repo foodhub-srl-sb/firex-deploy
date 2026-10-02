@@ -59,6 +59,11 @@ Nel template ci sono le funzioni dello stile Food Hub: `slap` (etichetta che sba
 5. **Costruisci** in `projects/<nome>/`. Ogni effetto parte su una parola precisa della trascrizione, mai a occhio.
 6. Controllo, anteprima a sezioni brevi, render finale su richiesta.
 
+### Mettere la persona in un altro ambiente (la ripresa resta vera)
+- **Scontorno:** `python scripts/rvm-matte.py input/<file>.mp4 projects/<nome>/assets/ai/me.webm --despill` (RobustVideoMatting: raddrizza da solo i video del telefono, pulisce bordi e dominanti verdi; ~0,3 s a fotogramma in Full HD). Il ritaglio di HyperFrames (`remove-background`) è un ripiego: attacca alla persona gli oggetti vicini.
+- **Sfondo:** immagine 9:16 generata con OpenRouter (es. `google/gemini-3-pro-image`), ripresa «da treppiede ad altezza d'uomo, spazio vuoto al centro»; oppure una clip AI. Nel montaggio: `<video>` con alfa sopra lo sfondo, ombra a terra, leggero Ken Burns sullo sfondo, audio originale su una traccia separata.
+- **Editing AI della ripresa** (FLUX Video Edit 0,03 $/s, Runway Aleph 0,28 $/s): cambiano ambiente, luce o inquadratura direttamente sul video. Vogliono il video da un **URL https pubblico**: `scripts/media/publish-public.sh <file>` lo carica nel repository pubblico `media-pubblici` (solo file di passaggio, da rimuovere dopo con `--remove`).
+
 ## Flusso B · Video da zero (motion graphics)
 
 1. Leggi il materiale (PDF, testi, dati). Dai PDF estrai testi (`pdftotext`), immagini con maschera (`pdfimages`) e vettoriali (`pdftocairo -svg`).
@@ -143,4 +148,5 @@ Il logo va **solo in chiusura**, non come elemento di sfondo nelle altre scene.
 
 - `bash scripts/check.sh`: verifica gli strumenti installati.
 - `npx hyperframes doctor`: se anteprima o render falliscono, lancialo e risolvi ciò che segnala (`npx hyperframes browser ensure` per Chrome).
-- `npx hyperframes remove-background`: ritaglio di **persone** (non funziona bene su oggetti: per quelli genera con sfondo trasparente o usa `scripts/cutout-white.py`).
+- `python scripts/rvm-matte.py`: ritaglio di **persone** nei video (RobustVideoMatting). Per gli oggetti: genera con sfondo trasparente o usa `scripts/cutout-white.py`.
+- Video dal telefono: se un tool li legge in orizzontale, raddrizzali prima con `ffmpeg -i in.mp4 -c:v libx264 -crf 16 -c:a aac out.mp4` (ffmpeg applica la rotazione).
