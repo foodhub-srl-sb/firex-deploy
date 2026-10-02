@@ -1,0 +1,15 @@
+{
+  "max_usd": 0.3,
+  "note": "Sfondo del parlato uguale alla camminata: la stessa fabbrica senza la persona.",
+  "jobs": [
+    {
+      "name": "fabbrica-vuota",
+      "type": "image",
+      "model": "bytedance-seed/seedream-5-0-pro",
+      "prompt": "Edit the reference image: remove the man completely and reconstruct the empty factory aisle behind him seamlessly: the floor, the conveyor belts with red apples on both sides, the machines and the ceiling lights, with consistent perspective and lighting. Keep everything else exactly identical: same camera position, framing, colors and light. No people, no text, no logos.",
+      "aspect_ratio": "9:16",
+      "resolution": "2K",
+      "input_references": [{ "ref": "media/refs/generati/verso-camera-still.jpg" }]
+    }
+  ]
+}
