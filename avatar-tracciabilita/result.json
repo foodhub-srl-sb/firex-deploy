@@ -1,0 +1,31 @@
+{
+  "request": "media/requests/avatar-tracciabilita.json",
+  "id": "avatar-tracciabilita",
+  "generated_at": "2026-10-02T19:20:05+00:00",
+  "max_usd": 1.5,
+  "spent_usd": 0.0079,
+  "jobs": [
+    {
+      "name": "voce",
+      "type": "speech",
+      "model": "fish-audio/s2.1-pro",
+      "status": "ok",
+      "files": [
+        "avatar-tracciabilita/voce.mp3"
+      ],
+      "cost_usd": null,
+      "seconds": 6.2
+    },
+    {
+      "name": "avatar",
+      "type": "video",
+      "model": "heygen/avatar-iv",
+      "status": "error",
+      "error": "HTTP 400 su POST https://openrouter.ai/api/v1/videos: {\"error\":{\"message\":\"Invalid reference URL: input_references[1].audio_url.url: Only HTTPS URLs are allowed\",\"code\":400}}"
+    }
+  ],
+  "prompts": {
+    "voce": "Una mela oggi può raccontarti da dove viene. Basta un QR: campo, raccolta, selezione con l'intelligenza artificiale, trasporto. Nel test di Walmart con IBM, risalire all'origine di un lotto di mango è passato da sette giorni a due secondi. La tua filiera è pronta?",
+    "avatar": "Una mela oggi può raccontarti da dove viene. Basta un QR: campo, raccolta, selezione con l'intelligenza artificiale, trasporto. Nel test di Walmart con IBM, risalire all'origine di un lotto di mango è passato da sette giorni a due secondi. La tua filiera è pronta?"
+  }
+}
