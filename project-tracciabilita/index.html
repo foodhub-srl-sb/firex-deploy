@@ -1,0 +1,768 @@
+<!doctype html>
+<html lang="it">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <title>La mela che racconta la sua storia · Food Hub</title>
+    <link rel="stylesheet" href="assets/fonts/montserrat.css" />
+    <script src="assets/vendor/gsap.min.js"></script>
+    <style>
+      :root {
+        --cr: #d3134a;
+        --gr: #45b07a;
+        --gr-dark: #1e7f52;
+        --or: #f5a269;
+        --ye: #fde57d;
+        --ye-deep: #f7c628;
+        --wh: #ffffff;
+        --ink: #2b2f36;
+      }
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { width: 1080px; height: 1920px; overflow: hidden; background: var(--cr); }
+      #root {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        background: var(--cr);
+        font-family: "Montserrat", sans-serif;
+      }
+      .scene, .layer, .bg { position: absolute; inset: 0; width: 100%; height: 100%; }
+      .scene { overflow: hidden; }
+      .abs { position: absolute; display: block; }
+      img { display: block; }
+      .lbl {
+        position: absolute;
+        display: block;
+        background: var(--wh);
+        color: var(--cr);
+        font-weight: 800;
+        line-height: 1.08;
+        padding: 0.06em 0.3em 0.12em;
+        white-space: nowrap;
+        transform-origin: 0% 50%;
+        letter-spacing: -0.01em;
+      }
+      .lbl .row { display: block; }
+      .ln { display: block; overflow: hidden; padding-bottom: 0.08em; margin-bottom: -0.08em; }
+      .ln > span { display: block; }
+      .kw { position: relative; display: inline-block; isolation: isolate; }
+      .mk {
+        position: absolute;
+        display: block;
+        left: -0.12em;
+        right: -0.12em;
+        bottom: 0.05em;
+        height: 0.18em;
+        border-radius: 0.08em;
+        transform-origin: 0% 50%;
+        z-index: -1;
+        background: var(--ye-deep);
+      }
+      .src {
+        position: absolute;
+        display: block;
+        font-size: 26px;
+        font-weight: 500;
+        letter-spacing: 0.01em;
+      }
+      .icon { position: absolute; display: block; }
+
+      /* scena 1 */
+      #s1-apple { left: 250px; top: 700px; width: 580px; height: 636px; }
+      #s1-l1 { left: 80px; top: 250px; font-size: 118px; }
+      #s1-l2 { left: 150px; top: 420px; font-size: 118px; }
+      #s1-tag { left: 0; top: 1390px; font-size: 54px; font-weight: 700; background: var(--gr); color: var(--wh); padding: 0.18em 0.6em 0.22em 0.9em; }
+      .qm {
+        position: absolute;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 120px;
+        height: 120px;
+        border-radius: 50%;
+        font-weight: 800;
+        font-size: 80px;
+        color: var(--wh);
+      }
+      #s1-qr { left: 425px; top: 930px; width: 230px; height: 230px; background: #fff; border-radius: 18px; padding: 16px; }
+
+      /* scena 2 */
+      #s2-tag { left: 110px; top: 200px; font-size: 44px; font-weight: 500; }
+      #s2-n1 { left: 100px; top: 330px; font-size: 230px; font-weight: 800; color: var(--wh); letter-spacing: -0.04em; line-height: 1; }
+      #s2-l1 { left: 110px; top: 590px; font-size: 64px; }
+      #s2-tag2 { left: 110px; top: 800px; font-size: 48px; font-weight: 700; background: var(--or); color: var(--wh); }
+      #s2-n2 { left: 100px; top: 900px; font-size: 230px; font-weight: 800; color: var(--ye); letter-spacing: -0.04em; line-height: 1; }
+      #s2-bar { left: 110px; top: 1160px; width: 820px; height: 54px; border-radius: 27px; background: rgba(255, 255, 255, 0.25); overflow: hidden; }
+      #s2-bar-fill { position: absolute; display: block; left: 0; top: 0; width: 25.4%; height: 100%; background: var(--ye); border-radius: 27px; transform-origin: 0% 50%; }
+      #s2-src { left: 110px; top: 1480px; color: rgba(255, 255, 255, 0.85); }
+
+      /* scena 3 */
+      #s3-box { left: 70px; top: 200px; font-size: 92px; background: var(--cr); color: var(--wh); padding: 0.12em 0.36em 0.18em; }
+      .node {
+        position: absolute;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 230px;
+        height: 230px;
+        border-radius: 50%;
+      }
+      .node-lbl { position: absolute; display: block; width: 300px; text-align: center; font-size: 36px; font-weight: 700; color: var(--ink); }
+      .step-lbl { position: absolute; display: block; font-size: 44px; font-weight: 800; color: var(--cr); text-align: center; width: 340px; }
+      #s3-tag { left: 0; top: 1300px; font-size: 54px; font-weight: 700; background: var(--gr); color: var(--wh); padding: 0.18em 0.6em 0.22em 0.9em; }
+      #s3-src { left: 110px; top: 1480px; color: #6b7280; }
+
+      /* scena 4 */
+      #s4-case { left: 70px; top: 150px; font-size: 34px; font-weight: 700; background: var(--cr); color: var(--wh); letter-spacing: 0.12em; }
+      #s4-title { left: 70px; top: 220px; font-size: 92px; }
+      #s4-track { left: 110px; top: 420px; width: 820px; height: 90px; }
+      .tdot {
+        position: absolute;
+        display: block;
+        top: 25px;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.35);
+        border: 6px solid rgba(255, 255, 255, 0.0);
+      }
+      #s4-line { position: absolute; display: block; left: 20px; top: 41px; width: 780px; height: 8px; background: rgba(255, 255, 255, 0.35); border-radius: 4px; }
+      #s4-line-fill { position: absolute; display: block; left: 0; top: 0; width: 100%; height: 100%; background: var(--wh); border-radius: 4px; transform-origin: 0% 50%; }
+      .stage { position: absolute; display: block; left: 0; top: 560px; width: 1080px; height: 660px; }
+      .cap { position: absolute; display: block; left: 70px; top: 1230px; width: 880px; }
+      .cap .num { display: inline-block; font-size: 40px; font-weight: 800; background: var(--cr); color: var(--wh); }
+      .cap .ttl { position: absolute; display: block; left: 0; top: 70px; font-size: 76px; }
+      .cap .dsc {
+        position: absolute;
+        display: block;
+        left: 0;
+        top: 180px;
+        width: 860px;
+        color: var(--wh);
+        font-weight: 600;
+        font-size: 44px;
+        line-height: 1.25;
+      }
+
+      /* scena 5 */
+      #s5-tag { left: 110px; top: 220px; font-size: 42px; font-weight: 500; }
+      #s5-a { left: 110px; top: 420px; font-size: 150px; font-weight: 800; color: var(--wh); line-height: 1; letter-spacing: -0.03em; }
+      #s5-strike { position: absolute; display: block; left: -10px; top: 48%; width: 105%; height: 22px; background: var(--ye-deep); border-radius: 11px; transform-origin: 0% 50%; }
+      #s5-b { left: 90px; top: 640px; font-size: 136px; padding: 0.04em 0.24em 0.1em; }
+      #s5-txt { left: 110px; top: 900px; width: 820px; color: var(--wh); font-weight: 600; font-size: 52px; line-height: 1.28; }
+      #s5-src { left: 110px; top: 1480px; color: rgba(255, 255, 255, 0.85); }
+
+      /* scena 6 */
+      #s6-box { left: 70px; top: 200px; font-size: 68px; background: var(--cr); color: var(--wh); padding: 0.12em 0.36em 0.18em; line-height: 1.12; }
+      .barw { position: absolute; display: block; bottom: 0; width: 280px; }
+      .bar { position: absolute; display: block; left: 0; bottom: 0; width: 280px; border-radius: 22px 22px 0 0; transform-origin: 50% 100%; }
+      .bar-v { position: absolute; display: block; left: -40px; width: 360px; text-align: center; font-weight: 800; font-size: 72px; color: var(--ink); letter-spacing: -0.02em; }
+      .bar-y { position: absolute; display: block; left: 0; bottom: -70px; width: 280px; text-align: center; font-weight: 700; font-size: 44px; color: var(--ink); }
+      #s6-chart { left: 120px; top: 620px; width: 840px; height: 720px; }
+      #s6-base { position: absolute; display: block; left: 0; bottom: 0; width: 840px; height: 6px; background: var(--ink); border-radius: 3px; }
+      #s6-tag { left: 560px; top: 760px; font-size: 52px; font-weight: 800; background: var(--gr); color: var(--wh); transform-origin: 50% 50%; }
+      #s6-src { left: 110px; top: 1480px; color: #6b7280; }
+
+      /* scena 7 */
+      #s7-l1 { left: 90px; top: 300px; font-size: 118px; }
+      #s7-l2 { left: 200px; top: 470px; font-size: 110px; }
+      #s7-l3 { left: 90px; top: 680px; font-size: 110px; color: var(--gr); }
+      #s7-cta {
+        left: 110px;
+        top: 960px;
+        width: 860px;
+        white-space: normal;
+        text-align: center;
+        font-size: 50px;
+        font-weight: 700;
+        line-height: 1.3;
+        background: var(--cr);
+        color: var(--wh);
+        padding: 0.6em 0.8em;
+        border-radius: 40px;
+        transform-origin: 50% 50%;
+      }
+
+      /* chiusura */
+      #end-logo { left: 340px; top: 520px; width: 400px; height: 583px; }
+      #end-name { left: 0; top: 1170px; width: 1080px; text-align: center; color: var(--cr); font-weight: 800; font-size: 120px; letter-spacing: -0.02em; }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="50" data-width="1080" data-height="1920">
+      <!-- =============== SCENA 1 · hook =============== -->
+      <section id="s1" class="scene clip" data-start="0" data-duration="5.9" data-track-index="0">
+        <div id="s1-wrap" class="layer">
+          <svg id="s1-blob-g" class="abs" style="left: 640px; top: -140px; width: 560px; height: 700px" viewBox="0 0 560 700">
+            <path fill="#45B07A" d="M260 0 H560 V640 C480 700 380 660 350 580 C320 500 250 470 180 470 C90 470 20 410 30 320 C40 240 120 210 190 200 C260 190 290 140 270 80 Z" />
+          </svg>
+          <svg id="s1-blob-o" class="abs" style="left: -160px; top: 1380px; width: 640px; height: 700px" viewBox="0 0 640 700">
+            <path fill="#F5A269" d="M0 100 C110 40 230 100 270 210 C300 300 390 320 480 290 C570 260 640 320 630 420 C620 520 530 560 450 560 C370 560 320 620 330 700 H0 Z" />
+          </svg>
+          <div id="s1-l1" class="lbl">Da dove viene</div>
+          <div id="s1-l2" class="lbl">questa mela?</div>
+          <div id="s1-apple" class="abs"><img src="assets/img/mela.png" alt="" style="width: 580px; height: 636px; object-fit: contain" /></div>
+          <i id="s1-q1" class="qm" style="left: 140px; top: 760px; background: var(--or)">?</i>
+          <i id="s1-q2" class="qm" style="left: 830px; top: 860px; background: var(--gr)">?</i>
+          <i id="s1-q3" class="qm" style="left: 190px; top: 1180px; background: #ffffff; color: var(--cr)">?</i>
+          <div id="s1-qr" class="abs"><svg id="qr1" viewBox="0 0 25 25" style="width: 198px; height: 198px; display: block"></svg></div>
+          <div id="s1-tag" class="lbl">Oggi può dirtelo lei.</div>
+        </div>
+      </section>
+
+      <!-- =============== SCENA 2 · il problema =============== -->
+      <section id="s2" class="scene clip" data-start="5.2" data-duration="6.9" data-track-index="1">
+        <div id="s2-wrap" class="layer">
+          <div id="s2-tag" class="lbl">ogni anno, tra raccolta e vendita</div>
+          <div id="s2-n1" class="abs"><span id="s2-c1">0</span>%</div>
+          <div id="s2-l1" class="lbl">del cibo si perde</div>
+          <div id="s2-tag2" class="lbl">per frutta e verdura</div>
+          <div id="s2-n2" class="abs"><span id="s2-c2">0</span>%</div>
+          <div id="s2-bar" class="abs"><i id="s2-bar-fill"></i></div>
+          <!-- icone in movimento lungo il fondo -->
+          <svg id="s2-truck" class="icon" style="left: 640px; top: 1290px; width: 300px; height: 170px" viewBox="0 0 300 170">
+            <rect x="0" y="20" width="190" height="110" rx="12" fill="#ffffff" />
+            <path d="M190 55 H250 L290 95 V130 H190 Z" fill="#F5A269" />
+            <rect x="210" y="65" width="40" height="28" rx="4" fill="#cfe9dc" />
+            <circle cx="60" cy="135" r="26" fill="#2B2F36" /><circle cx="60" cy="135" r="10" fill="#ffffff" />
+            <circle cx="235" cy="135" r="26" fill="#2B2F36" /><circle cx="235" cy="135" r="10" fill="#ffffff" />
+            <circle cx="70" cy="72" r="22" fill="#D3134A" /><path d="M70 50 C76 40 86 38 92 40 C86 48 78 52 70 50 Z" fill="#45B07A" />
+          </svg>
+          <svg id="s2-fall1" class="icon" style="left: 160px; top: 1300px; width: 90px; height: 100px" viewBox="0 0 90 100">
+            <circle cx="45" cy="58" r="38" fill="#ffffff" /><path d="M45 22 C52 8 66 4 76 8 C68 20 56 24 45 22 Z" fill="#45B07A" />
+          </svg>
+          <svg id="s2-fall2" class="icon" style="left: 300px; top: 1340px; width: 70px; height: 80px" viewBox="0 0 90 100">
+            <circle cx="45" cy="58" r="38" fill="#FDE57D" /><path d="M45 22 C52 8 66 4 76 8 C68 20 56 24 45 22 Z" fill="#45B07A" />
+          </svg>
+          <div id="s2-src" class="src">Fonte: FAO, indicatore SDG 12.3.1 (dati 2023)</div>
+        </div>
+      </section>
+
+      <!-- =============== SCENA 3 · la regola =============== -->
+      <section id="s3" class="scene clip" data-start="11.4" data-duration="5.9" data-track-index="2">
+        <div id="s3-bg" class="bg" style="background: #ffffff"></div>
+        <div id="s3-wrap" class="layer">
+          <div id="s3-box" class="lbl"><span class="row" data-layout-allow-overlap>Rintracciare è</span><span class="row" data-layout-allow-overlap>già un obbligo</span></div>
+          <!-- nodi: fornitore, tu, cliente -->
+          <div id="s3-n1" class="node" style="left: 40px; top: 640px; background: #e8f5ee">
+            <svg viewBox="0 0 120 120" style="width: 130px; height: 130px">
+              <rect x="54" y="70" width="12" height="40" rx="4" fill="#8B5E3C" />
+              <circle cx="60" cy="52" r="38" fill="#45B07A" />
+              <circle cx="44" cy="50" r="9" fill="#D3134A" /><circle cx="72" cy="40" r="9" fill="#D3134A" /><circle cx="70" cy="66" r="9" fill="#D3134A" />
+            </svg>
+          </div>
+          <div id="s3-n2" class="node" style="left: 425px; top: 640px; background: var(--cr)">
+            <svg viewBox="0 0 120 120" style="width: 130px; height: 130px">
+              <path d="M14 46 L60 24 L106 46 L60 68 Z" fill="#F5A269" />
+              <path d="M14 46 V90 L60 112 V68 Z" fill="#ffffff" /><path d="M106 46 V90 L60 112 V68 Z" fill="#FCE3D2" />
+            </svg>
+          </div>
+          <div id="s3-n3" class="node" style="left: 810px; top: 640px; background: #fdeee5">
+            <svg viewBox="0 0 120 120" style="width: 130px; height: 130px">
+              <path d="M10 26 H28 L40 80 H96 L106 42 H34" fill="none" stroke="#2B2F36" stroke-width="9" stroke-linecap="round" stroke-linejoin="round" />
+              <circle cx="46" cy="98" r="9" fill="#2B2F36" /><circle cx="90" cy="98" r="9" fill="#2B2F36" />
+              <circle cx="58" cy="54" r="12" fill="#D3134A" /><circle cx="82" cy="58" r="10" fill="#45B07A" />
+            </svg>
+          </div>
+          <div id="s3-nl1" class="node-lbl" style="left: 5px; top: 890px">fornitore</div>
+          <div id="s3-nl2" class="node-lbl" style="left: 390px; top: 890px">tu</div>
+          <div id="s3-nl3" class="node-lbl" style="left: 775px; top: 890px">cliente</div>
+          <!-- frecce -->
+          <svg id="s3-ar1" class="icon" style="left: 280px; top: 720px; width: 140px; height: 70px" viewBox="0 0 140 70">
+            <path d="M130 35 H22 M44 12 L18 35 L44 58" fill="none" stroke="#D3134A" stroke-width="12" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+          <svg id="s3-ar2" class="icon" style="left: 665px; top: 720px; width: 140px; height: 70px" viewBox="0 0 140 70">
+            <path d="M10 35 H118 M96 12 L122 35 L96 58" fill="none" stroke="#45B07A" stroke-width="12" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+          <div id="s3-st1" class="step-lbl" style="left: 30px; top: 1010px">un passo<br />indietro</div>
+          <div id="s3-st2" class="step-lbl" style="left: 710px; top: 1010px; color: var(--gr-dark)">un passo<br />avanti</div>
+          <svg id="s3-bolt" class="icon" style="left: 840px; top: 1240px; width: 120px; height: 180px" viewBox="0 0 120 180">
+            <path d="M70 0 L10 100 H55 L40 180 L110 70 H64 Z" fill="#F7C628" />
+          </svg>
+          <div id="s3-tag" class="lbl">Il digitale lo rende istantaneo.</div>
+          <div id="s3-src" class="src">Reg. (CE) 178/2002, art. 18</div>
+        </div>
+      </section>
+
+      <!-- =============== SCENA 4 · caso studio, la filiera della mela =============== -->
+      <section id="s4" class="scene clip" data-start="16.6" data-duration="16.0" data-track-index="3">
+        <div id="s4-bg" class="bg" style="background: var(--gr)"></div>
+        <div id="s4-wrap" class="layer">
+          <svg id="s4-blob" class="abs" style="left: 760px; top: -120px; width: 440px; height: 440px" viewBox="0 0 440 440">
+            <path fill="#F5A269" d="M120 0 H440 V330 C380 380 300 360 270 300 C240 240 270 190 220 160 C170 130 100 160 70 110 C40 60 70 10 120 0 Z" />
+          </svg>
+          <div id="s4-case" class="lbl">CASO STUDIO · ESEMPIO</div>
+          <div id="s4-title" class="lbl">La filiera della mela</div>
+          <div id="s4-track" class="abs">
+            <i id="s4-line"><i id="s4-line-fill"></i></i>
+            <i class="tdot" id="td0" style="left: 0px"></i>
+            <i class="tdot" id="td1" style="left: 195px"></i>
+            <i class="tdot" id="td2" style="left: 390px"></i>
+            <i class="tdot" id="td3" style="left: 585px"></i>
+            <i class="tdot" id="td4" style="left: 780px"></i>
+          </div>
+
+          <!-- 1 · campo -->
+          <div id="st1" class="stage">
+            <div id="st1-img" class="abs" style="left: 120px; top: 30px; width: 600px; height: 594px"><img src="assets/img/ramo.png" alt="" style="width: 600px; height: 594px; object-fit: contain" /></div>
+            <svg id="st1-sensor" class="icon" style="left: 700px; top: 170px; width: 240px; height: 440px" viewBox="0 0 240 440">
+              <rect x="110" y="150" width="20" height="290" rx="6" fill="#5D6B7A" />
+              <rect x="70" y="120" width="100" height="120" rx="16" fill="#ffffff" />
+              <rect x="88" y="140" width="64" height="40" rx="6" fill="#2B2F36" />
+              <text x="120" y="168" text-anchor="middle" font-family="Montserrat" font-weight="800" font-size="22" fill="#45B07A">IoT</text>
+              <circle cx="120" cy="212" r="10" fill="#D3134A" />
+              <rect x="116" y="60" width="8" height="60" rx="4" fill="#5D6B7A" />
+              <circle cx="120" cy="56" r="10" fill="#D3134A" />
+              <path class="wave" d="M90 36 A40 40 0 0 1 150 36" fill="none" stroke="#ffffff" stroke-width="8" stroke-linecap="round" />
+              <path class="wave" d="M70 20 A64 64 0 0 1 170 20" fill="none" stroke="#ffffff" stroke-width="8" stroke-linecap="round" />
+              <path class="wave" d="M50 4 A90 90 0 0 1 190 4" fill="none" stroke="#ffffff" stroke-width="8" stroke-linecap="round" />
+            </svg>
+          </div>
+          <div id="cap1" class="cap">
+            <span class="lbl num" style="position: relative">1 · CAMPO</span>
+            <div class="lbl ttl">Sensori IoT</div>
+            <div class="dsc"><span class="ln"><span>misurano suolo, meteo e irrigazione</span></span></div>
+          </div>
+
+          <!-- 2 · raccolta -->
+          <div id="st2" class="stage">
+            <div id="st2-img" class="abs" style="left: 180px; top: 60px; width: 640px; height: 570px"><img src="assets/img/cassetta.png" alt="" style="width: 640px; height: 570px; object-fit: contain" /></div>
+            <!-- etichetta di lotto con QR: copre la scritta inventata sulla cassetta -->
+            <div id="st2-tag" class="abs" style="left: 380px; top: 400px; width: 330px; height: 190px; background: #fff; border-radius: 16px; padding: 14px; box-shadow: 0 8px 0 rgba(0, 0, 0, 0.15)">
+              <svg id="qr2" viewBox="0 0 25 25" style="position: absolute; left: 14px; top: 14px; width: 162px; height: 162px"></svg>
+              <div style="position: absolute; left: 190px; top: 30px; font-weight: 800; font-size: 30px; color: #D3134A; line-height: 1.1">LOTTO<br />042</div>
+              <div style="position: absolute; left: 190px; top: 112px; font-weight: 600; font-size: 22px; color: #2B2F36; line-height: 1.2">raccolta<br />06/09</div>
+            </div>
+          </div>
+          <div id="cap2" class="cap">
+            <span class="lbl num" style="position: relative">2 · RACCOLTA</span>
+            <div class="lbl ttl">Codice QR o RFID</div>
+            <div class="dsc"><span class="ln"><span>su ogni cassa: il lotto ha un'identità</span></span></div>
+          </div>
+
+          <!-- 3 · selezione con AI -->
+          <div id="st3" class="stage">
+            <div id="st3-img" class="abs" style="left: 290px; top: 90px; width: 500px; height: 548px"><img src="assets/img/mela.png" alt="" style="width: 500px; height: 548px; object-fit: contain" /></div>
+            <svg id="st3-frame" class="icon" style="left: 250px; top: 60px; width: 580px; height: 600px" viewBox="0 0 580 600">
+              <path d="M10 90 V10 H90 M490 10 H570 V90 M570 510 V590 H490 M90 590 H10 V510" fill="none" stroke="#ffffff" stroke-width="14" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+            <i id="st3-scan" class="abs" style="left: 270px; top: 80px; width: 540px; height: 10px; background: #FDE57D; border-radius: 5px; box-shadow: 0 0 24px #FDE57D"></i>
+            <div id="st3-chip" class="abs" style="left: 60px; top: 120px; width: 170px; height: 170px">
+              <svg viewBox="0 0 170 170" style="width: 170px; height: 170px">
+                <g stroke="#ffffff" stroke-width="8" stroke-linecap="round">
+                  <path d="M55 10 V30 M85 10 V30 M115 10 V30 M55 140 V160 M85 140 V160 M115 140 V160 M10 55 H30 M10 85 H30 M10 115 H30 M140 55 H160 M140 85 H160 M140 115 H160" />
+                </g>
+                <rect x="30" y="30" width="110" height="110" rx="18" fill="#2B2F36" />
+                <text x="85" y="102" text-anchor="middle" font-family="Montserrat" font-weight="800" font-size="50" fill="#FDE57D">AI</text>
+              </svg>
+            </div>
+            <div id="st3-p1" class="lbl" style="left: 700px; top: 150px; font-size: 34px; color: var(--gr-dark)">calibro ✓</div>
+            <div id="st3-p2" class="lbl" style="left: 720px; top: 260px; font-size: 34px; color: var(--gr-dark)">colore ✓</div>
+            <div id="st3-p3" class="lbl" style="left: 700px; top: 370px; font-size: 34px; color: var(--gr-dark)">difetti ✓</div>
+            <div id="st3-p4" class="lbl" style="left: 50px; top: 420px; font-size: 34px; background: var(--ye); color: var(--ink)">shelf life stimata</div>
+          </div>
+          <div id="cap3" class="cap">
+            <span class="lbl num" style="position: relative">3 · SELEZIONE</span>
+            <div class="lbl ttl">Intelligenza artificiale</div>
+            <div class="dsc"><span class="ln"><span>controlla calibro, colore e difetti</span></span><span class="ln"><span>e stima la shelf life</span></span></div>
+          </div>
+
+          <!-- 4 · trasporto -->
+          <div id="st4" class="stage">
+            <svg id="st4-road" class="icon" style="left: 0; top: 520px; width: 1080px; height: 20px" viewBox="0 0 1080 20">
+              <path d="M0 10 H1080" stroke="#ffffff" stroke-width="8" stroke-dasharray="40 30" opacity="0.6" />
+            </svg>
+            <svg id="st4-truck" class="icon" style="left: 90px; top: 230px; width: 560px; height: 310px" viewBox="0 0 300 170">
+              <rect x="0" y="20" width="190" height="110" rx="12" fill="#ffffff" />
+              <path d="M190 55 H250 L290 95 V130 H190 Z" fill="#D3134A" />
+              <rect x="210" y="65" width="40" height="28" rx="4" fill="#cfe9dc" />
+              <circle cx="60" cy="135" r="26" fill="#2B2F36" /><circle cx="60" cy="135" r="10" fill="#ffffff" />
+              <circle cx="235" cy="135" r="26" fill="#2B2F36" /><circle cx="235" cy="135" r="10" fill="#ffffff" />
+              <path d="M70 55 L95 75 L70 95 M120 55 L95 75 M95 50 V100 M72 75 H118" stroke="#547DBA" stroke-width="7" stroke-linecap="round" fill="none" />
+            </svg>
+            <div id="st4-thermo" class="abs" style="left: 760px; top: 40px; width: 180px; height: 460px">
+              <svg viewBox="0 0 180 460" style="width: 180px; height: 460px">
+                <rect x="60" y="10" width="60" height="360" rx="30" fill="#ffffff" />
+                <circle cx="90" cy="390" r="60" fill="#ffffff" />
+                <rect x="128" y="250" width="40" height="110" rx="10" fill="#1E7F52" opacity="0.9" />
+                <rect id="st4-merc" x="74" y="120" width="32" height="270" rx="16" fill="#45B07A" />
+                <circle cx="90" cy="390" r="44" fill="#45B07A" />
+              </svg>
+            </div>
+            <div id="st4-ok" class="lbl" style="left: 600px; top: 560px; font-size: 40px; color: var(--gr-dark)">catena del freddo ✓</div>
+          </div>
+          <div id="cap4" class="cap">
+            <span class="lbl num" style="position: relative">4 · TRASPORTO</span>
+            <div class="lbl ttl">Sensori a bordo</div>
+            <div class="dsc"><span class="ln"><span>registrano la catena del freddo</span></span><span class="ln"><span>lungo tutto il viaggio</span></span></div>
+          </div>
+
+          <!-- 5 · scaffale -->
+          <div id="st5" class="stage">
+            <div id="st5-phone" class="abs" style="left: 330px; top: -20px; width: 420px; height: 724px">
+              <img src="assets/img/smartphone.png" alt="" style="width: 420px; height: 724px; object-fit: contain" />
+              <!-- contenuto dello schermo: le tappe della mela -->
+              <div id="st5-screen" class="abs" style="left: 84px; top: 46px; width: 218px; height: 420px; border-radius: 18px; overflow: hidden; background: #ffffff">
+                <div style="position: absolute; left: 0; top: 0; width: 218px; height: 64px; background: #D3134A; color: #fff; font-weight: 800; font-size: 20px; line-height: 64px; text-align: center">Lotto 042</div>
+                <div class="scr" style="position: absolute; left: 14px; top: 84px; font-size: 19px; font-weight: 700; color: #2B2F36"><i style="display: inline-block; width: 14px; height: 14px; border-radius: 50%; background: #45B07A; margin-right: 8px"></i>Campo</div>
+                <div class="scr" style="position: absolute; left: 14px; top: 144px; font-size: 19px; font-weight: 700; color: #2B2F36"><i style="display: inline-block; width: 14px; height: 14px; border-radius: 50%; background: #F5A269; margin-right: 8px"></i>Raccolta</div>
+                <div class="scr" style="position: absolute; left: 14px; top: 204px; font-size: 19px; font-weight: 700; color: #2B2F36"><i style="display: inline-block; width: 14px; height: 14px; border-radius: 50%; background: #F7C628; margin-right: 8px"></i>Selezione AI</div>
+                <div class="scr" style="position: absolute; left: 14px; top: 264px; font-size: 19px; font-weight: 700; color: #2B2F36"><i style="display: inline-block; width: 14px; height: 14px; border-radius: 50%; background: #547DBA; margin-right: 8px"></i>Trasporto</div>
+                <div class="scr" style="position: absolute; left: 14px; top: 324px; font-size: 19px; font-weight: 700; color: #45B07A"><i style="display: inline-block; width: 14px; height: 14px; border-radius: 50%; background: #D3134A; margin-right: 8px"></i>Al tuo scaffale ✓</div>
+              </div>
+            </div>
+            <div id="st5-qr" class="abs" style="left: 90px; top: 200px; width: 200px; height: 200px; background: #fff; border-radius: 18px; padding: 14px"><svg id="qr3" viewBox="0 0 25 25" style="width: 172px; height: 172px; display: block"></svg></div>
+          </div>
+          <div id="cap5" class="cap">
+            <span class="lbl num" style="position: relative">5 · SCAFFALE</span>
+            <div class="lbl ttl">Basta uno scan</div>
+            <div class="dsc"><span class="ln"><span>e il consumatore legge</span></span><span class="ln"><span>la storia del frutto</span></span></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- =============== SCENA 5 · la prova =============== -->
+      <section id="s5" class="scene clip" data-start="32.0" data-duration="6.2" data-track-index="4">
+        <div id="s5-bg" class="bg" style="background: var(--cr)"></div>
+        <div id="s5-wrap" class="layer">
+          <div id="s5-tag" class="lbl">il test Walmart-IBM con blockchain</div>
+          <div id="s5-a" class="abs"><span style="position: relative; display: inline-block">7 giorni<i id="s5-strike"></i></span></div>
+          <div id="s5-b" class="lbl">2,2 secondi</div>
+          <div id="s5-txt" class="abs">
+            <span class="ln"><span>il tempo per risalire all'origine</span></span>
+            <span class="ln"><span>di un lotto di mango</span></span>
+          </div>
+          <svg id="s5-chain" class="icon" style="left: 140px; top: 1130px; width: 800px; height: 200px" viewBox="0 0 800 200">
+            <g id="blk1"><rect x="20" y="40" width="160" height="120" rx="20" fill="#ffffff" /><rect x="50" y="70" width="100" height="14" rx="7" fill="#F5A269" /><rect x="50" y="98" width="70" height="14" rx="7" fill="#45B07A" /></g>
+            <path id="lnk1" d="M180 100 H320" stroke="#FDE57D" stroke-width="12" stroke-linecap="round" />
+            <g id="blk2"><rect x="320" y="40" width="160" height="120" rx="20" fill="#ffffff" /><rect x="350" y="70" width="100" height="14" rx="7" fill="#F5A269" /><rect x="350" y="98" width="70" height="14" rx="7" fill="#45B07A" /></g>
+            <path id="lnk2" d="M480 100 H620" stroke="#FDE57D" stroke-width="12" stroke-linecap="round" />
+            <g id="blk3"><rect x="620" y="40" width="160" height="120" rx="20" fill="#ffffff" /><rect x="650" y="70" width="100" height="14" rx="7" fill="#F5A269" /><rect x="650" y="98" width="70" height="14" rx="7" fill="#45B07A" /></g>
+          </svg>
+          <div id="s5-src" class="src">Fonte: LF Decentralized Trust, caso Walmart-IBM</div>
+        </div>
+      </section>
+
+      <!-- =============== SCENA 6 · il mercato =============== -->
+      <section id="s6" class="scene clip" data-start="37.6" data-duration="5.9" data-track-index="5">
+        <div id="s6-bg" class="bg" style="background: #ffffff"></div>
+        <div id="s6-wrap" class="layer">
+          <div id="s6-box" class="lbl"><span class="row" data-layout-allow-overlap>Il mercato della</span><span class="row" data-layout-allow-overlap>tracciabilità alimentare</span></div>
+          <div id="s6-chart" class="abs">
+            <div class="barw" style="left: 60px; height: 400px">
+              <i id="s6-b1" class="bar" style="height: 400px; background: var(--or)"></i>
+              <div class="bar-v" style="top: -100px">$<span id="s6-v1">0</span> mld</div>
+              <div class="bar-y">2024</div>
+            </div>
+            <div class="barw" style="left: 480px; height: 647px">
+              <i id="s6-b2" class="bar" style="height: 647px; background: var(--cr)"></i>
+              <div class="bar-v" style="top: -100px">$<span id="s6-v2">0</span> mld</div>
+              <div class="bar-y">2029</div>
+            </div>
+            <i id="s6-base"></i>
+          </div>
+          <div id="s6-tag" class="lbl">+10,1% l'anno</div>
+          <div id="s6-src" class="src">Fonte: BCC Research, giugno 2025 (previsione)</div>
+        </div>
+      </section>
+
+      <!-- =============== SCENA 7 · CTA =============== -->
+      <section id="s7" class="scene clip" data-start="42.8" data-duration="4.4" data-track-index="6">
+        <div id="s7-bg" class="bg" style="background: var(--gr)"></div>
+        <div id="s7-wrap" class="layer">
+          <div id="s7-l1" class="lbl">La tua filiera</div>
+          <div id="s7-l2" class="lbl">è pronta a</div>
+          <div id="s7-l3" class="lbl">raccontarsi?</div>
+          <div id="s7-cta" class="lbl">Segui Food Hub: le innovazioni dell'agrifood, prima degli altri.</div>
+          <div id="s7-apple" class="abs" style="left: 680px; top: 1330px; width: 360px; height: 395px"><img src="assets/img/mela.png" alt="" style="width: 360px; height: 395px; object-fit: contain" /></div>
+          <div id="s7-branch" class="abs" style="left: -80px; top: 1300px; width: 460px; height: 455px"><img src="assets/img/ramo.png" alt="" style="width: 460px; height: 455px; object-fit: contain" /></div>
+        </div>
+      </section>
+
+      <!-- =============== CHIUSURA · logo =============== -->
+      <section id="end" class="scene clip" data-start="46.4" data-duration="3.6" data-track-index="7">
+        <div id="end-bg" class="bg" style="background: #ffffff"></div>
+        <div id="end-wrap" class="layer">
+          <i id="end-c1" class="abs" style="left: 140px; top: 560px; width: 260px; height: 260px; border-radius: 50%; background: #d3134a"></i>
+          <i id="end-c2" class="abs" style="left: 690px; top: 650px; width: 220px; height: 220px; border-radius: 50%; background: #f5a269"></i>
+          <i id="end-c3" class="abs" style="left: 420px; top: 1000px; width: 200px; height: 200px; border-radius: 50%; background: #45b07a"></i>
+          <svg id="end-logo" class="abs" viewBox="66 58 46 67">
+<path id="lg-right" d="M 111.191406 101.679688 L 111.191406 101.671875 C 111.1875 90.964844 103.539062 82.050781 93.402344 80.070312 C 93.851562 80.550781 94.199219 81.125 94.414062 81.753906 C 94.53125 82.148438 94.605469 82.578125 94.625 83.058594 C 94.730469 84.527344 93.890625 87.367188 89.941406 87.8125 C 89.902344 87.816406 89.851562 87.824219 89.128906 87.828125 C 88.152344 87.835938 87.144531 87.84375 82.074219 87.847656 C 81.527344 87.847656 78.796875 88.023438 78.484375 91.425781 C 78.492188 91.917969 78.691406 94.683594 82.152344 94.90625 L 92.980469 94.90625 C 95.234375 94.945312 99.582031 96.429688 99.925781 101.792969 C 100.03125 104.046875 98.695312 108.414062 92.867188 108.789062 L 89.835938 108.792969 L 81.78125 108.777344 L 81.675781 108.777344 C 80.796875 108.777344 78.71875 109.113281 78.484375 112.21875 C 78.484375 112.234375 78.433594 113.476562 79.253906 114.390625 C 79.835938 115.039062 80.753906 115.410156 81.988281 115.496094 L 89.808594 115.539062 C 89.945312 115.539062 90.089844 115.546875 90.242188 115.5625 C 90.316406 115.570312 90.386719 115.578125 90.457031 115.585938 C 90.460938 115.585938 90.460938 115.585938 90.464844 115.585938 C 91.03125 115.667969 91.679688 115.863281 92.296875 116.207031 C 92.339844 116.230469 92.386719 116.257812 92.429688 116.285156 C 92.480469 116.316406 92.53125 116.347656 92.582031 116.382812 C 93.039062 116.683594 93.460938 117.074219 93.804688 117.578125 C 93.855469 117.652344 93.902344 117.730469 93.949219 117.808594 C 93.96875 117.839844 93.992188 117.867188 94.007812 117.902344 C 94.089844 118.046875 94.164062 118.199219 94.230469 118.363281 C 94.441406 118.871094 94.582031 119.464844 94.621094 120.152344 C 94.628906 120.246094 94.628906 120.347656 94.625 120.453125 C 94.617188 120.574219 94.613281 120.695312 94.597656 120.816406 C 94.472656 121.75 94.066406 122.601562 93.460938 123.28125 C 103.570312 121.273438 111.191406 112.367188 111.191406 101.679688 " fill="rgb(211, 19, 74)" transform="matrix(1 0 0 1 0 0)"/>
+<path id="lg-left" d="M 93.367188 120.234375 C 93.164062 116.691406 89.796875 116.761719 89.796875 116.761719 L 82.039062 116.753906 C 77.019531 116.429688 77.328125 112.171875 77.328125 112.171875 C 77.691406 107.34375 81.875 107.589844 81.875 107.589844 L 92.785156 107.570312 C 98.917969 107.171875 98.667969 101.847656 98.667969 101.847656 C 98.308594 96.21875 92.960938 96.128906 92.960938 96.128906 L 82.113281 96.128906 C 77.203125 95.84375 77.222656 91.378906 77.222656 91.378906 C 77.636719 86.480469 82.113281 86.625 82.113281 86.625 C 82.113281 86.625 89.636719 86.617188 89.796875 86.597656 C 93.617188 86.164062 93.367188 83.125 93.367188 83.125 C 93.261719 80.230469 90.636719 79.746094 89.957031 79.671875 C 89.835938 79.664062 89.714844 79.660156 89.59375 79.660156 C 86.519531 79.6875 83.59375 80.304688 80.933594 81.40625 C 80.109375 81.722656 79.351562 82.085938 78.621094 82.46875 C 71.90625 86.242188 67.367188 93.429688 67.367188 101.679688 C 67.367188 108.140625 70.148438 113.949219 74.574219 117.976562 C 74.664062 118.054688 74.75 118.128906 74.839844 118.207031 C 74.949219 118.300781 75.058594 118.394531 75.167969 118.488281 C 78.039062 120.851562 81.519531 122.535156 85.351562 123.277344 C 86.726562 123.542969 88.140625 123.6875 89.589844 123.699219 C 89.8125 123.695312 90.03125 123.691406 90.25 123.683594 C 93.558594 123.0625 93.367188 120.234375 93.367188 120.234375 " fill="rgb(244, 161, 105)" transform="matrix(1 0 0 1 0 0)"/>
+<path id="lg-leaf-r" d="M 91.035156 74.71875 C 91.035156 74.71875 88.640625 57.390625 107.460938 59.320312 C 107.460938 59.320312 110.261719 74.898438 91.035156 74.71875 " fill="rgb(70, 176, 123)" transform="matrix(1 0 0 1 0 0)"/>
+<path id="lg-leaf-l" d="M 87.710938 74.621094 C 87.710938 74.621094 75.304688 76.425781 76.558594 63.144531 C 76.558594 63.144531 87.710938 61.066406 87.710938 74.621094 " fill="rgb(70, 176, 123)" transform="matrix(1 0 0 1 0 0)"/>
+          </svg>
+          <div id="end-name" class="abs"><span class="ln"><span>Food Hub</span></span></div>
+        </div>
+      </section>
+
+      <audio id="music" src="audio/tracciabilita-beat.wav" data-start="0" data-duration="50" data-track-index="10" data-volume="0.5"></audio>
+      <audio id="sfx-00" src="audio/whoosh-down.wav" data-start="0.1" data-duration="0.600" data-track-index="12" data-volume="0.7"></audio>
+      <audio id="sfx-01" src="audio/pop-low.wav" data-start="0.6" data-duration="0.140" data-track-index="11" data-volume="0.7"></audio>
+      <audio id="sfx-02" src="audio/slap.wav" data-start="0.9" data-duration="0.250" data-track-index="11" data-volume="0.8"></audio>
+      <audio id="sfx-03" src="audio/pop-high.wav" data-start="1.3" data-duration="0.120" data-track-index="11" data-volume="0.7"></audio>
+      <audio id="sfx-04" src="audio/pop-mid.wav" data-start="1.7" data-duration="0.120" data-track-index="11" data-volume="0.7"></audio>
+      <audio id="sfx-05" src="audio/pop-low.wav" data-start="1.88" data-duration="0.140" data-track-index="11" data-volume="0.7"></audio>
+      <audio id="sfx-06" src="audio/pop-high.wav" data-start="2.06" data-duration="0.120" data-track-index="11" data-volume="0.7"></audio>
+      <audio id="sfx-07" src="audio/slap.wav" data-start="2.9" data-duration="0.250" data-track-index="11" data-volume="0.8"></audio>
+      <audio id="sfx-08" src="audio/whoosh-up.wav" data-start="3.6" data-duration="0.700" data-track-index="12" data-volume="0.7"></audio>
+      <audio id="sfx-09" src="audio/whoosh-long.wav" data-start="5.2" data-duration="1.000" data-track-index="12" data-volume="0.7"></audio>
+      <audio id="sfx-10" src="audio/pop-mid.wav" data-start="5.8" data-duration="0.120" data-track-index="11" data-volume="0.7"></audio>
+      <audio id="sfx-11" src="audio/riser.wav" data-start="6.1" data-duration="1.500" data-track-index="12" data-volume="0.5"></audio>
+      <audio id="sfx-12" src="audio/whoosh-up.wav" data-start="6.4" data-duration="0.700" data-track-index="12" data-volume="0.7"></audio>
+      <audio id="sfx-13" src="audio/slap.wav" data-start="7.0" data-duration="0.250" data-track-index="11" data-volume="0.8"></audio>
+      <audio id="sfx-14" src="audio/pop-low.wav" data-start="7.6" data-duration="0.140" data-track-index="11" data-volume="0.7"></audio>
+      <audio id="sfx-15" src="audio/pop-high.wav" data-start="8.0" data-duration="0.120" data-track-index="11" data-volume="0.7"></audio>
+      <audio id="sfx-16" src="audio/whoosh-down.wav" data-start="8.3" data-duration="0.600" data-track-index="12" data-volume="0.7"></audio>
+      <audio id="sfx-17" src="audio/sparkle.wav" data-start="8.6" data-duration="0.600" data-track-index="11" data-volume="0.6"></audio>
+      <audio id="sfx-18" src="audio/whoosh-long.wav" data-start="11.4" data-duration="1.000" data-track-index="12" data-volume="0.7"></audio>
+      <audio id="sfx-19" src="audio/slap.wav" data-start="11.9" data-duration="0.250" data-track-index="11" data-volume="0.8"></audio>
+      <audio id="sfx-20" src="audio/pop-low.wav" data-start="12.4" data-duration="0.140" data-track-index="11" data-volume="0.7"></audio>
+      <audio id="sfx-21" src="audio/pop-mid.wav" data-start="12.55" data-duration="0.120" data-track-index="11" data-volume="0.7"></audio>
+      <audio id="sfx-22" src="audio/pop-high.wav" data-start="12.7" data-duration="0.120" data-track-index="11" data-volume="0.7"></audio>
+      <audio id="sfx-23" src="audio/whoosh-down.wav" data-start="13.1" data-duration="0.600" data-track-index="12" data-volume="0.7"></audio>
+      <audio id="sfx-24" src="audio/whoosh-up.wav" data-start="13.6" data-duration="0.700" data-track-index="12" data-volume="0.7"></audio>
+      <audio id="sfx-25" src="audio/whoosh-long.wav" data-start="14.6" data-duration="1.000" data-track-index="12" data-volume="0.7"></audio>
+      <audio id="sfx-26" src="audio/sparkle.wav" data-start="15.0" data-duration="0.600" data-track-index="11" data-volume="0.6"></audio>
+      <audio id="sfx-27" src="audio/whoosh-down.wav" data-start="16.6" data-duration="0.600" data-track-index="12" data-volume="0.7"></audio>
+      <audio id="sfx-28" src="audio/slap.wav" data-start="17.2" data-duration="0.250" data-track-index="11" data-volume="0.8"></audio>
+      <audio id="sfx-29" src="audio/pop-high.wav" data-start="17.4" data-duration="0.120" data-track-index="11" data-volume="0.7"></audio>
+      <audio id="sfx-30" src="audio/whoosh-up.wav" data-start="17.8" data-duration="0.700" data-track-index="12" data-volume="0.7"></audio>
+      <audio id="sfx-31" src="audio/slap.wav" data-start="18.15" data-duration="0.250" data-track-index="11" data-volume="0.8"></audio>
+      <audio id="sfx-32" src="audio/pop-mid.wav" data-start="18.4" data-duration="0.120" data-track-index="11" data-volume="0.7"></audio>
+      <audio id="sfx-33" src="audio/whoosh-long.wav" data-start="20.65" data-duration="1.000" data-track-index="12" data-volume="0.7"></audio>
+      <audio id="sfx-34" src="audio/slap.wav" data-start="21.0" data-duration="0.250" data-track-index="11" data-volume="0.8"></audio>
+      <audio id="sfx-35" src="audio/pop-low.wav" data-start="21.25" data-duration="0.140" data-track-index="11" data-volume="0.7"></audio>
+      <audio id="sfx-36" src="audio/whoosh-up.wav" data-start="23.5" data-duration="0.700" data-track-index="12" data-volume="0.7"></audio>
+      <audio id="sfx-37" src="audio/slap.wav" data-start="23.85" data-duration="0.250" data-track-index="11" data-volume="0.8"></audio>
+      <audio id="sfx-38" src="audio/pop-high.wav" data-start="24.1" data-duration="0.120" data-track-index="11" data-volume="0.7"></audio>
+      <audio id="sfx-39" src="audio/whoosh-long.wav" data-start="26.35" data-duration="1.000" data-track-index="12" data-volume="0.7"></audio>
+      <audio id="sfx-40" src="audio/slap.wav" data-start="26.7" data-duration="0.250" data-track-index="11" data-volume="0.8"></audio>
+      <audio id="sfx-41" src="audio/pop-mid.wav" data-start="26.95" data-duration="0.120" data-track-index="11" data-volume="0.7"></audio>
+      <audio id="sfx-42" src="audio/whoosh-up.wav" data-start="29.2" data-duration="0.700" data-track-index="12" data-volume="0.7"></audio>
+      <audio id="sfx-43" src="audio/slap.wav" data-start="29.55" data-duration="0.250" data-track-index="11" data-volume="0.8"></audio>
+      <audio id="sfx-44" src="audio/pop-low.wav" data-start="29.8" data-duration="0.140" data-track-index="11" data-volume="0.7"></audio>
+      <audio id="sfx-45" src="audio/sparkle.wav" data-start="30.2" data-duration="0.600" data-track-index="11" data-volume="0.6"></audio>
+      <audio id="sfx-46" src="audio/whoosh-down.wav" data-start="32.0" data-duration="0.600" data-track-index="12" data-volume="0.7"></audio>
+      <audio id="sfx-47" src="audio/pop-high.wav" data-start="32.5" data-duration="0.120" data-track-index="11" data-volume="0.7"></audio>
+      <audio id="sfx-48" src="audio/slap.wav" data-start="33.0" data-duration="0.250" data-track-index="11" data-volume="0.8"></audio>
+      <audio id="sfx-49" src="audio/whoosh-up.wav" data-start="34.1" data-duration="0.700" data-track-index="12" data-volume="0.7"></audio>
+      <audio id="sfx-50" src="audio/slap.wav" data-start="34.5" data-duration="0.250" data-track-index="11" data-volume="0.8"></audio>
+      <audio id="sfx-51" src="audio/pop-low.wav" data-start="35.3" data-duration="0.140" data-track-index="11" data-volume="0.7"></audio>
+      <audio id="sfx-52" src="audio/pop-mid.wav" data-start="35.5" data-duration="0.120" data-track-index="11" data-volume="0.7"></audio>
+      <audio id="sfx-53" src="audio/pop-high.wav" data-start="35.7" data-duration="0.120" data-track-index="11" data-volume="0.7"></audio>
+      <audio id="sfx-54" src="audio/whoosh-long.wav" data-start="37.6" data-duration="1.000" data-track-index="12" data-volume="0.7"></audio>
+      <audio id="sfx-55" src="audio/slap.wav" data-start="38.1" data-duration="0.250" data-track-index="11" data-volume="0.8"></audio>
+      <audio id="sfx-56" src="audio/riser.wav" data-start="38.7" data-duration="1.500" data-track-index="12" data-volume="0.5"></audio>
+      <audio id="sfx-57" src="audio/pop-high.wav" data-start="40.4" data-duration="0.120" data-track-index="11" data-volume="0.7"></audio>
+      <audio id="sfx-58" src="audio/sparkle.wav" data-start="40.7" data-duration="0.600" data-track-index="11" data-volume="0.6"></audio>
+      <audio id="sfx-59" src="audio/whoosh-up.wav" data-start="42.8" data-duration="0.700" data-track-index="12" data-volume="0.7"></audio>
+      <audio id="sfx-60" src="audio/slap.wav" data-start="43.2" data-duration="0.250" data-track-index="11" data-volume="0.8"></audio>
+      <audio id="sfx-61" src="audio/pop-mid.wav" data-start="43.55" data-duration="0.120" data-track-index="11" data-volume="0.7"></audio>
+      <audio id="sfx-62" src="audio/slap.wav" data-start="43.9" data-duration="0.250" data-track-index="11" data-volume="0.8"></audio>
+      <audio id="sfx-63" src="audio/sparkle.wav" data-start="44.5" data-duration="0.600" data-track-index="11" data-volume="0.6"></audio>
+      <audio id="sfx-64" src="audio/whoosh-down.wav" data-start="46.4" data-duration="0.600" data-track-index="12" data-volume="0.7"></audio>
+      <audio id="sfx-65" src="audio/pop-high.wav" data-start="47.65" data-duration="0.120" data-track-index="11" data-volume="0.7"></audio>
+      <audio id="sfx-66" src="audio/sparkle.wav" data-start="48.05" data-duration="0.600" data-track-index="11" data-volume="0.6"></audio>
+    </div>
+
+    <script>
+      // ---------- QR deterministici (pseudo-casuali con seme fisso) ----------
+      function qr(svgId, seed) {
+        let s = seed;
+        const rnd = () => ((s = (s * 1103515245 + 12345) % 2147483648) / 2147483648);
+        const ns = "http://www.w3.org/2000/svg";
+        const svg = document.getElementById(svgId);
+        const finder = (x, y) => (x < 7 && y < 7) || (x > 17 && y < 7) || (x < 7 && y > 17);
+        const add = (x, y, w, h, fill, cls) => {
+          const r = document.createElementNS(ns, "rect");
+          r.setAttribute("x", x); r.setAttribute("y", y); r.setAttribute("width", w); r.setAttribute("height", h);
+          r.setAttribute("fill", fill);
+          if (cls) r.setAttribute("class", cls);
+          svg.appendChild(r);
+        };
+        for (const [fx, fy] of [[0, 0], [18, 0], [0, 18]]) {
+          add(fx, fy, 7, 7, "#2B2F36", "qf"); add(fx + 1, fy + 1, 5, 5, "#ffffff", "qf"); add(fx + 2, fy + 2, 3, 3, "#2B2F36", "qf");
+        }
+        for (let y = 0; y < 25; y++) for (let x = 0; x < 25; x++) {
+          if (finder(x, y)) continue;
+          if (rnd() < 0.5) add(x, y, 1, 1, "#2B2F36", "qm2");
+        }
+      }
+      qr("qr1", 7); qr("qr2", 42); qr("qr3", 99);
+
+      const tl = gsap.timeline({ paused: true });
+      const E = { out: "power3.out", in: "power3.in", back: "back.out(2)", el: "elastic.out(1, 0.55)" };
+      function slap(sel, t, rot, from = -14) {
+        tl.fromTo(sel, { opacity: 0, scale: 1.9, rotation: rot + from, y: -30 }, { opacity: 1, scale: 1, rotation: rot, y: 0, duration: 0.5, ease: "back.out(2.4)" }, t);
+      }
+      function unroll(sel, t, rot) {
+        tl.fromTo(sel, { opacity: 1, scaleX: 0, rotation: rot }, { scaleX: 1, rotation: rot, duration: 0.5, ease: "power4.out" }, t);
+      }
+      function lines(sel, t, stagger = 0.12) {
+        tl.fromTo(sel + " .ln > span", { yPercent: 110 }, { yPercent: 0, duration: 0.6, ease: E.out, stagger }, t);
+      }
+      function mark(sel, t, d = 0.35) {
+        tl.fromTo(sel + " .mk", { scaleX: 0 }, { scaleX: 1, duration: d, ease: "power2.inOut" }, t);
+      }
+      function count(sel, t, to, d, dec = 1) {
+        const o = { v: 0 };
+        const el = document.querySelector(sel);
+        tl.fromTo(o, { v: 0 }, { v: to, duration: d, ease: "power2.out", onUpdate: () => (el.textContent = o.v.toFixed(dec).replace(".", ",")) }, t);
+      }
+      function qrBuild(id, t) {
+        tl.fromTo("#" + id + " .qf", { scale: 0, transformOrigin: "50% 50%" }, { scale: 1, duration: 0.3, ease: "back.out(2)", stagger: 0.03 }, t);
+        tl.fromTo("#" + id + " .qm2", { opacity: 0 }, { opacity: 1, duration: 0.05, stagger: { each: 0.0025, from: "random" } }, t + 0.15);
+      }
+
+      // ================= SCENA 1 · hook =================
+      tl.fromTo("#s1-apple", { y: -1300, rotation: -25 }, { y: 0, rotation: 0, duration: 0.75, ease: "bounce.out" }, 0.1);
+      tl.fromTo("#s1-blob-g", { scale: 0, rotation: -25, transformOrigin: "80% 20%" }, { scale: 1, rotation: 0, duration: 1.1, ease: E.el }, 0.5);
+      tl.fromTo("#s1-blob-o", { scale: 0, rotation: 20, transformOrigin: "10% 90%" }, { scale: 1, rotation: 0, duration: 1.1, ease: E.el }, 0.6);
+      slap("#s1-l1", 0.9, -5);
+      slap("#s1-l2", 1.3, -3, 14);
+      ["#s1-q1", "#s1-q2", "#s1-q3"].forEach((q, i) => {
+        tl.fromTo(q, { scale: 0, rotation: -40 }, { scale: 1, rotation: [-12, 10, -6][i], duration: 0.45, ease: "back.out(3)" }, 1.7 + i * 0.18);
+        tl.to(q, { y: -16, duration: 0.5, ease: "sine.inOut", yoyo: true, repeat: 1 }, 2.3 + i * 0.1);
+        tl.to(q, { scale: 0, opacity: 0, duration: 0.25, ease: E.in }, 2.9 + i * 0.05);
+      });
+      // il QR si "stampa" sulla mela
+      tl.fromTo("#s1-qr", { scale: 3, opacity: 0, rotation: -30 }, { scale: 1, opacity: 1, rotation: -6, duration: 0.4, ease: "power4.in" }, 2.9);
+      tl.to("#s1-apple", { scale: 0.96, duration: 0.08, yoyo: true, repeat: 1, ease: "power1.inOut" }, 3.3);
+      qrBuild("qr1", 2.95);
+      tl.fromTo("#s1-tag", { xPercent: -105 }, { xPercent: 0, duration: 0.6, ease: "power4.out" }, 3.6);
+      tl.to("#s1-apple", { y: -14, rotation: 2, duration: 0.8, ease: "sine.inOut", yoyo: true, repeat: 1 }, 3.6);
+      tl.to("#s1-wrap", { x: -1080, duration: 0.7, ease: "power3.inOut" }, 5.2);
+
+      // ================= SCENA 2 · il problema =================
+      tl.fromTo("#s2-wrap", { x: 1080 }, { x: 0, duration: 0.7, ease: "power3.inOut" }, 5.2);
+      unroll("#s2-tag", 5.8, -1.5);
+      tl.fromTo("#s2-n1", { opacity: 0, y: 40 }, { opacity: 1, y: 0, duration: 0.4, ease: E.out }, 6.1);
+      count("#s2-c1", 6.1, 13.3, 1.2);
+      slap("#s2-l1", 7.0, -3);
+      unroll("#s2-tag2", 8.3, 2);
+      tl.fromTo("#s2-n2", { opacity: 0, scale: 0.6, transformOrigin: "0% 50%" }, { opacity: 1, scale: 1, duration: 0.5, ease: "back.out(2)" }, 8.6);
+      count("#s2-c2", 8.6, 25.4, 1.2);
+      tl.fromTo("#s2-bar-fill", { scaleX: 0 }, { scaleX: 1, duration: 1.2, ease: "power2.out" }, 8.6);
+      tl.fromTo("#s2-truck", { x: 700 }, { x: 0, duration: 1.0, ease: E.out }, 6.4);
+      tl.to("#s2-truck", { y: -6, duration: 0.15, ease: "sine.inOut", yoyo: true, repeat: 15 }, 7.4);
+      tl.fromTo("#s2-fall1", { y: -500, opacity: 0 }, { y: 0, opacity: 1, duration: 0.7, ease: "bounce.out" }, 7.6);
+      tl.fromTo("#s2-fall2", { y: -500, opacity: 0 }, { y: 0, opacity: 1, duration: 0.7, ease: "bounce.out" }, 8.0);
+      tl.fromTo("#s2-src", { opacity: 0 }, { opacity: 1, duration: 0.4 }, 7.2);
+      tl.to("#s2-wrap", { opacity: 0, duration: 0.4, ease: "power2.in" }, 11.7);
+
+      // ================= SCENA 3 · la regola =================
+      tl.fromTo(["#s3-bg", "#s3-wrap"], { clipPath: "circle(0% at 50% 50%)" }, { clipPath: "circle(120% at 50% 50%)", duration: 0.8, ease: "power3.inOut" }, 11.4);
+      slap("#s3-box", 11.9, -2);
+      ["#s3-n1", "#s3-n2", "#s3-n3"].forEach((n, i) => {
+        tl.fromTo(n, { scale: 0 }, { scale: 1, duration: 0.45, ease: "back.out(2.5)" }, 12.4 + i * 0.15);
+      });
+      tl.fromTo(["#s3-nl1", "#s3-nl2", "#s3-nl3"], { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.4, stagger: 0.15 }, 12.6);
+      tl.fromTo("#s3-ar1", { x: 60, opacity: 0 }, { x: 0, opacity: 1, duration: 0.5, ease: E.out }, 13.1);
+      tl.fromTo("#s3-st1", { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.4 }, 13.2);
+      tl.fromTo("#s3-ar2", { x: -60, opacity: 0 }, { x: 0, opacity: 1, duration: 0.5, ease: E.out }, 13.6);
+      tl.fromTo("#s3-st2", { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.4 }, 13.7);
+      tl.to("#s3-ar1", { x: -14, duration: 0.3, ease: "sine.inOut", yoyo: true, repeat: 3 }, 14.2);
+      tl.to("#s3-ar2", { x: 14, duration: 0.3, ease: "sine.inOut", yoyo: true, repeat: 3 }, 14.2);
+      tl.fromTo("#s3-tag", { xPercent: -105 }, { xPercent: 0, duration: 0.6, ease: "power4.out" }, 14.6);
+      tl.fromTo("#s3-bolt", { scale: 0, rotation: -30 }, { scale: 1, rotation: 0, duration: 0.4, ease: "back.out(3)" }, 15.0);
+      tl.to("#s3-bolt", { scale: 1.15, duration: 0.12, yoyo: true, repeat: 3, ease: "power1.inOut" }, 15.4);
+      tl.fromTo("#s3-src", { opacity: 0 }, { opacity: 1, duration: 0.4 }, 13.0);
+
+      // ================= SCENA 4 · caso studio =================
+      tl.fromTo(["#s4-bg", "#s4-wrap"], { clipPath: "inset(0% 0% 100% 0%)" }, { clipPath: "inset(0% 0% 0% 0%)", duration: 0.7, ease: "power3.inOut" }, 16.6);
+      tl.fromTo("#s4-blob", { scale: 0, transformOrigin: "100% 0%" }, { scale: 1, duration: 1, ease: E.el }, 16.9);
+      unroll("#s4-case", 17.0, -2);
+      slap("#s4-title", 17.2, -2);
+      tl.fromTo(".tdot", { scale: 0 }, { scale: 1, duration: 0.3, ease: "back.out(3)", stagger: 0.06 }, 17.4);
+      tl.set("#s4-line-fill", { scaleX: 0 }, 0);
+      const T0 = 17.8, DT = 2.85;
+      for (let k = 1; k <= 5; k++) {
+        const t = T0 + (k - 1) * DT;
+        const st = "#st" + k, cap = "#cap" + k;
+        // ingresso tappa: da destra, come il carosello
+        tl.fromTo(st, { x: 1080 }, { x: 0, duration: 0.6, ease: "power3.out" }, t);
+        tl.fromTo(cap + " .num", { opacity: 0, scaleX: 0, transformOrigin: "0% 50%" }, { opacity: 1, scaleX: 1, duration: 0.35, ease: "power4.out" }, t + 0.2);
+        tl.fromTo(cap + " .ttl", { opacity: 0, scale: 1.8, rotation: -14 }, { opacity: 1, scale: 1, rotation: -2, duration: 0.45, ease: "back.out(2.4)" }, t + 0.35);
+        lines(cap + " .dsc", t + 0.6);
+        // tracker in alto
+        tl.to("#td" + (k - 1), { backgroundColor: "#ffffff", scale: 1.35, duration: 0.3, ease: "back.out(3)" }, t + 0.1);
+        if (k > 1) tl.to("#s4-line-fill", { scaleX: (k - 1) / 4, duration: 0.5, ease: "power2.out" }, t);
+        // uscita (non per l'ultima)
+        if (k < 5) {
+          tl.to(st, { x: -1080, duration: 0.5, ease: "power3.in" }, t + DT - 0.45);
+          tl.to(cap, { opacity: 0, x: -60, duration: 0.3, ease: E.in }, t + DT - 0.4);
+        }
+      }
+      // dettagli per tappa
+      const t1 = T0, t2 = T0 + DT, t3 = T0 + 2 * DT, t4 = T0 + 3 * DT, t5 = T0 + 4 * DT;
+      tl.fromTo("#st1-sensor", { y: 300, opacity: 0 }, { y: 0, opacity: 1, duration: 0.6, ease: "back.out(1.6)" }, t1 + 0.4);
+      tl.fromTo("#st1-sensor .wave", { opacity: 0 }, { opacity: 1, duration: 0.2, stagger: 0.15, yoyo: true, repeat: 5 }, t1 + 0.9);
+      tl.to("#st1-img", { rotation: 2, transformOrigin: "20% 90%", duration: 0.8, ease: "sine.inOut", yoyo: true, repeat: 2 }, t1 + 0.6);
+      tl.fromTo("#st2-tag", { scale: 2.4, opacity: 0, rotation: -20 }, { scale: 1, opacity: 1, rotation: -4, duration: 0.4, ease: "power4.in" }, t2 + 0.6);
+      qrBuild("qr2", t2 + 0.7);
+      tl.fromTo("#st3-frame", { scale: 1.3, opacity: 0, transformOrigin: "50% 50%" }, { scale: 1, opacity: 1, duration: 0.4, ease: E.out }, t3 + 0.5);
+      tl.fromTo("#st3-scan", { y: 0, opacity: 0 }, { y: 520, opacity: 1, duration: 0.9, ease: "sine.inOut", yoyo: true, repeat: 1 }, t3 + 0.7);
+      tl.fromTo("#st3-chip", { scale: 0, rotation: -90 }, { scale: 1, rotation: 0, duration: 0.5, ease: "back.out(2)" }, t3 + 0.4);
+      ["#st3-p1", "#st3-p2", "#st3-p3"].forEach((p, i) => slap(p, t3 + 1.0 + i * 0.25, [-3, 2, -2][i]));
+      slap("#st3-p4", t3 + 1.8, 3);
+      tl.fromTo("#st4-truck", { x: -900, opacity: 0 }, { x: 0, opacity: 1, duration: 0.9, ease: "power3.out" }, t4 + 0.2);
+      tl.to("#st4-truck", { y: -6, duration: 0.14, ease: "sine.inOut", yoyo: true, repeat: 11 }, t4 + 1.1);
+      tl.fromTo("#st4-thermo", { scale: 0, transformOrigin: "50% 100%" }, { scale: 1, duration: 0.5, ease: "back.out(2)" }, t4 + 0.5);
+      tl.fromTo("#st4-merc", { attr: { y: 360, height: 30 } }, { attr: { y: 260, height: 130 }, duration: 0.8, ease: "power2.out" }, t4 + 0.8);
+      slap("#st4-ok", t4 + 1.5, -2);
+      tl.fromTo("#st5-phone", { y: 600, rotation: 12 }, { y: 0, rotation: 0, duration: 0.7, ease: "back.out(1.4)" }, t5 + 0.2);
+      tl.fromTo("#st5-qr", { scale: 0, rotation: -20 }, { scale: 1, rotation: -6, duration: 0.4, ease: "back.out(2.5)" }, t5 + 0.5);
+      qrBuild("qr3", t5 + 0.55);
+      tl.fromTo("#st5-screen .scr", { opacity: 0, x: -30 }, { opacity: 1, x: 0, duration: 0.25, stagger: 0.2, ease: E.out }, t5 + 1.0);
+
+      // ================= SCENA 5 · la prova =================
+      tl.fromTo(["#s5-bg", "#s5-wrap"], { clipPath: "circle(0% at 50% 50%)" }, { clipPath: "circle(120% at 50% 50%)", duration: 0.8, ease: "power3.inOut" }, 32.0);
+      unroll("#s5-tag", 32.5, -1.5);
+      tl.fromTo("#s5-a", { opacity: 0, scale: 1.6, transformOrigin: "0% 50%" }, { opacity: 1, scale: 1, duration: 0.45, ease: "back.out(2)" }, 33.0);
+      tl.fromTo("#s5-strike", { scaleX: 0 }, { scaleX: 1, duration: 0.35, ease: "power3.inOut" }, 34.1);
+      tl.to("#s5-a", { opacity: 0.45, duration: 0.3 }, 34.4);
+      slap("#s5-b", 34.5, -3);
+      lines("#s5-txt", 35.0);
+      tl.fromTo(["#blk1", "#blk2", "#blk3"], { opacity: 0, y: 40 }, { opacity: 1, y: 0, duration: 0.35, stagger: 0.2, ease: E.back }, 35.3);
+      tl.fromTo(["#lnk1", "#lnk2"], { scaleX: 0, transformOrigin: "0% 50%" }, { scaleX: 1, duration: 0.25, stagger: 0.2 }, 35.6);
+      tl.fromTo("#s5-src", { opacity: 0 }, { opacity: 1, duration: 0.4 }, 35.4);
+
+      // ================= SCENA 6 · il mercato =================
+      tl.fromTo(["#s6-bg", "#s6-wrap"], { clipPath: "circle(0% at 50% 100%)" }, { clipPath: "circle(150% at 50% 100%)", duration: 0.8, ease: "power3.inOut" }, 37.6);
+      slap("#s6-box", 38.1, -2);
+      tl.fromTo("#s6-b1", { scaleY: 0 }, { scaleY: 1, duration: 0.8, ease: "power3.out" }, 38.7);
+      count("#s6-v1", 38.7, 23.8, 0.8);
+      tl.fromTo("#s6-b2", { scaleY: 0 }, { scaleY: 1, duration: 1.0, ease: "power3.out" }, 39.3);
+      count("#s6-v2", 39.3, 38.5, 1.0);
+      tl.fromTo("#s6-tag", { scale: 0, rotation: -20 }, { scale: 1, rotation: -6, duration: 0.45, ease: "back.out(3)" }, 40.4);
+      tl.fromTo("#s6-src", { opacity: 0 }, { opacity: 1, duration: 0.4 }, 39.0);
+
+      // ================= SCENA 7 · CTA =================
+      tl.fromTo(["#s7-bg", "#s7-wrap"], { clipPath: "circle(0% at 50% 50%)" }, { clipPath: "circle(120% at 50% 50%)", duration: 0.8, ease: "power3.inOut" }, 42.8);
+      slap("#s7-l1", 43.2, -4);
+      slap("#s7-l2", 43.55, 3, 14);
+      slap("#s7-l3", 43.9, -5);
+      tl.fromTo("#s7-cta", { opacity: 0, scale: 0.6 }, { opacity: 1, scale: 1, duration: 0.5, ease: "back.out(2)" }, 44.5);
+      tl.fromTo("#s7-apple", { y: 500, rotation: 30 }, { y: 0, rotation: -8, duration: 0.7, ease: "back.out(1.6)" }, 43.4);
+      tl.fromTo("#s7-branch", { y: 500, rotation: -30 }, { y: 0, rotation: 6, duration: 0.7, ease: "back.out(1.6)" }, 43.6);
+
+      // ================= CHIUSURA =================
+      tl.fromTo(["#end-bg", "#end-wrap"], { clipPath: "circle(0% at 50% 45%)" }, { clipPath: "circle(120% at 50% 45%)", duration: 0.8, ease: "power3.inOut" }, 46.4);
+      tl.fromTo("#end-c1", { scale: 0 }, { scale: 1, duration: 0.4, ease: E.back }, 46.8);
+      tl.fromTo("#end-c2", { scale: 0 }, { scale: 1, duration: 0.4, ease: E.back }, 46.88);
+      tl.fromTo("#end-c3", { scale: 0 }, { scale: 1, duration: 0.4, ease: E.back }, 46.96);
+      tl.to("#end-c1", { x: 260, y: 220, scale: 0.2, opacity: 0, duration: 0.5, ease: E.in }, 47.25);
+      tl.to("#end-c2", { x: -270, y: 140, scale: 0.2, opacity: 0, duration: 0.5, ease: E.in }, 47.25);
+      tl.to("#end-c3", { x: 20, y: -220, scale: 0.2, opacity: 0, duration: 0.5, ease: E.in }, 47.25);
+      tl.fromTo("#lg-left", { x: -6, opacity: 0 }, { x: 0, opacity: 1, duration: 0.5, ease: E.back }, 47.65);
+      tl.fromTo("#lg-right", { x: 6, opacity: 0 }, { x: 0, opacity: 1, duration: 0.5, ease: E.back }, 47.65);
+      tl.fromTo("#lg-leaf-l", { scale: 0, transformOrigin: "100% 100%" }, { scale: 1, duration: 0.45, ease: "back.out(3)" }, 48.0);
+      tl.fromTo("#lg-leaf-r", { scale: 0, transformOrigin: "0% 100%" }, { scale: 1, duration: 0.45, ease: "back.out(3)" }, 48.1);
+      lines("#end-name", 48.2);
+
+      window.__timelines["main"] = tl;
+    </script>
+  </body>
+</html>

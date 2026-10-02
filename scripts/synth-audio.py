@@ -3,7 +3,7 @@
 
 Uso:
     python scripts/synth-audio.py                 # scrive sfx/*.wav e music/foodhub-beat.wav
-    python scripts/synth-audio.py --bpm 120 --seconds 44
+    python scripts/synth-audio.py --bpm 120 --seconds 50 --music-out music/tracciabilita-beat.wav
 
 Tutto è generato da oscillatori e rumore: nessun problema di diritti d'uso.
 """
@@ -182,7 +182,7 @@ def music(bpm=120, seconds=44):
     prog = [(57, [69, 73, 76]), (54, [66, 69, 73]), (50, [62, 66, 69]), (52, [64, 68, 71])]
     arp = [0, 1, 2, 1, 2, 0, 1, 2]
     bars = int(seconds / (beat * 4)) + 1
-    end_bar = int(40 / (beat * 4))  # dal secondo 40 solo l'accordo finale
+    end_bar = int((seconds - 4) / (beat * 4))  # negli ultimi 4 secondi solo l'accordo finale
     for b in range(bars):
         t0 = b * beat * 4
         if t0 >= seconds:
@@ -220,6 +220,7 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--bpm", type=float, default=120)
     ap.add_argument("--seconds", type=float, default=44)
+    ap.add_argument("--music-out", default=os.path.join("music", "foodhub-beat.wav"))
     a = ap.parse_args()
     sfx = os.path.join(ROOT, "sfx")
     save(os.path.join(sfx, "whoosh-up.wav"), whoosh(0.7, 300, 6000, True, 1))
@@ -231,7 +232,7 @@ def main():
     save(os.path.join(sfx, "slap.wav"), slap())
     save(os.path.join(sfx, "sparkle.wav"), sparkle())
     save(os.path.join(sfx, "riser.wav"), riser())
-    save(os.path.join(ROOT, "music", "foodhub-beat.wav"), music(a.bpm, a.seconds))
+    save(os.path.join(ROOT, a.music_out), music(a.bpm, a.seconds))
 
 
 if __name__ == "__main__":

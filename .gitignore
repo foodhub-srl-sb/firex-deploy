@@ -53,3 +53,5 @@ input/*.srt
 # Audio copiato nel progetto HyperFrames (resta in locale)
 project/audio/*.wav
 project/audio/*.mp3
+project-tracciabilita/audio/*.wav
+project-tracciabilita/audio/*.mp3
