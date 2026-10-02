@@ -9,7 +9,7 @@ python scripts/media/openrouter.py models --type image --limit 15
 python scripts/media/openrouter.py models --type video --limit 15
 ```
 
-Dati verificati il 2 ottobre 2026 dagli endpoint pubblici `api/v1/images/models` e `api/v1/videos/models`.
+Dati verificati il 2 ottobre 2026 dagli endpoint pubblici `api/v1/images/models` e `api/v1/videos/models` e dalle classifiche di [Artificial Analysis](https://artificialanalysis.ai/video/leaderboard/image-to-video).
 
 ## Regola d'oro
 
@@ -31,20 +31,24 @@ Dati verificati il 2 ottobre 2026 dagli endpoint pubblici `api/v1/images/models`
 
 ## Video
 
-Per un Reel a 1080×1920 serve **1080p verticale (9:16)**. Sotto, la clip va ingrandita e perde nitidezza.
+Per un Reel a 1080×1920 serve **1080p verticale (9:16)** o più. Sotto, la clip va ingrandita e perde nitidezza.
+
+**Classifica di qualità** (Artificial Analysis, arena image-to-video, voti alla cieca, consultata il 2 ottobre 2026): 1 MiniMax H3 Max · 2 MiniMax H3 · 3 Gemini Omni Flash (non su OpenRouter) · 4 Seedance 2.0 · 5 HiDream-O1 (non su OpenRouter) · 6 Wan 3.0 · … · 11 Veo 3.1. Ricontrollala prima di scegliere: cambia ogni mese.
 
 | Bisogno | Modello consigliato | Note |
 |---|---|---|
-| **Clip di qualità, default** | `bytedance/seedance-2.5` | 4–30 s, fino a 720p, primo e ultimo fotogramma; prezzo a token video |
-| Clip in **1080p o 4K** | `bytedance/seedance-2.0` | 4–15 s, 480p–4K |
-| Realismo cinematografico, durate brevi | `google/veo-3.1` | solo 4, 6 o 8 s, 16:9 o 9:16, fino a 4K; 0,20 $/s senza audio |
-| Stessa qualità Veo, più economica | `google/veo-3.1-fast` / `google/veo-3.1-lite` | 0,10 $/s e 0,05 $/s senza audio in 1080p |
-| Fisica naturale (liquidi, frutta che cade), alta risoluzione | `minimax/hailuo-3` | 5–15 s in **2K**; 0,13 $/s |
-| Bozza economica di movimento | `minimax/hailuo-3-max` | fino a 768p; 0,08 $/s |
-| Clip lunghe in 1080p | `alibaba/wan-3.0` | 2–30 s; 0,20 $/s in 1080p |
-| Massima qualità e durata, budget alto | `openai/sora-2-pro` | 4–20 s in 1080p; 0,50 $/s; niente fotogrammi di partenza |
-| Movimento semplice su un solo piano | `kwaivgi/kling-v3.0-std` | 720p; 0,084 $/s |
-| Ingrandire una clip già fatta | `black-forest-labs/flux-video-upscale` | upscale video |
+| **Animare un'immagine, massima qualità e risoluzione** | `minimax/hailuo-3` | n. 2 in classifica, **2K**, 5–15 s, primo e ultimo fotogramma, immagini di riferimento; 0,13 $/s |
+| Stessa qualità, più economico, risoluzione minore | `minimax/hailuo-3-max` | n. 1 in classifica, ma fino a **768p**; 0,08 $/s; niente audio |
+| Clip in 1080p o 4K, riferimenti multipli (immagini, video, audio) | `bytedance/seedance-2.0` | n. 4 in classifica, 4–15 s |
+| Clip lunghe e storie, riferimenti, estensione di clip | `bytedance/seedance-2.5` | 4–30 s, fino a 720p su OpenRouter; prezzo a token video |
+| Clip lunghe in 1080p | `alibaba/wan-3.0` | n. 6 in classifica, 2–30 s; 0,20 $/s in 1080p |
+| Durate brevi fisse, filiera Google | `google/veo-3.1` (Fast, Lite) | ormai n. 11: usalo solo se serve qualcosa di specifico; 4, 6 o 8 s |
+| **Modificare una ripresa vera** (ambiente, oggetti, luce) | `black-forest-labs/flux-video-edit` | mantiene durata e audio; input fino a 15 s, uscita 720p; 0,03 $/s |
+| Modificare una ripresa: ambiente intero, angolazione, formato | `runway/aleph-2` | tiene i movimenti originali (non fa camminare chi sta fermo); ~600p; 0,28 $/s |
+| Ingrandire una clip già fatta | `black-forest-labs/flux-video-upscale` | da 1,5× a 3× |
+
+### Immagini per animare una persona reale
+Per «la stessa persona, in un'altra posa o angolazione» usa **`bytedance-seed/seedream-5-0-pro`** (n. 1 nella classifica di editing con identità preservata) con 1–3 fotogrammi della persona in `input_references`, poi anima l'immagine con un modello video.
 
 ### Cose da sapere sui video
 - **Audio:** molti modelli lo generano di default. Nei nostri montaggi la musica è nostra: metti `"generate_audio": false`, costa meno.
