@@ -1,0 +1,29 @@
+{
+  "max_usd": 1.5,
+  "note": "Inquadratura di stacco: lui che cammina in una fabbrica alimentare. Seedream 5.0 Pro (identità dai fotogrammi del 16/09) + MiniMax H3 in 2K.",
+  "jobs": [
+    {
+      "name": "cammina-still",
+      "type": "image",
+      "model": "bytedance-seed/seedream-5-0-pro",
+      "prompt": "Photorealistic vertical photo of the same man shown in the reference images, with an identical face, glasses, beard, hairline and body, wearing the same white linen shirt with rolled sleeves and grey shorts. He is walking mid-stride along a production line inside a large, modern, clean food processing factory, seen in a three-quarter view from slightly in front, camera at chest height, full body in frame with margin above the head and below the feet. Stainless steel conveyor belts carrying red apples, sorting machines, high ceiling with industrial lights, clean light grey floor, soft natural daylight mixed with cool LED light. Realistic skin, natural colors, no text, no logos, no other people.",
+      "aspect_ratio": "9:16",
+      "resolution": "2K",
+      "input_references": [
+        { "ref": "media/refs/figura-intera.jpg" },
+        { "ref": "media/refs/volto.jpg" }
+      ]
+    },
+    {
+      "name": "cammina",
+      "type": "video",
+      "model": "minimax/hailuo-3",
+      "prompt": "He walks forward naturally along the production line at a calm, steady pace, arms swinging slightly. The camera tracks smoothly alongside him at the same speed, keeping his full body in frame. The conveyor belts keep moving and the apples roll. He keeps facing the same direction and does not talk. Realistic motion, stable face and glasses, no text, no logos.",
+      "duration": 6,
+      "resolution": "2K",
+      "aspect_ratio": "9:16",
+      "generate_audio": false,
+      "frame_images": [{ "ref": "@cammina-still", "frame_type": "first_frame" }]
+    }
+  ]
+}
