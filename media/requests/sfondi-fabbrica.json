@@ -1,0 +1,22 @@
+{
+  "max_usd": 1,
+  "note": "Sfondi per la prova di compositing: la ripresa del 16/09 scontornata davanti a una fabbrica alimentare.",
+  "jobs": [
+    {
+      "name": "fabbrica",
+      "type": "image",
+      "model": "google/gemini-3-pro-image",
+      "prompt": "Vertical photograph of the interior of a modern, clean Italian fruit processing plant, shot from a tripod at human eye level (1.5 m), straight-on, as the empty background for a person who will stand in the center foreground. Stainless steel conveyor lines with red apples in the mid-ground, stacked wooden crates, soft diffuse daylight from high windows mixed with cool industrial LED light, gentle depth of field so the background is slightly soft, clean floor visible in the lower third, empty space in the center, natural colors, uninhabited, no text, no logos, no signs",
+      "aspect_ratio": "9:16",
+      "resolution": "2K"
+    },
+    {
+      "name": "selezione",
+      "type": "image",
+      "model": "google/gemini-3-pro-image",
+      "prompt": "Vertical close-up photograph of an automated apple sorting line in a modern fruit warehouse: red apples rolling on white conveyor rollers under a small optical camera module with a soft blue scanning light, shot at eye level, shallow depth of field, clean stainless steel, soft diffuse light, natural colors, uninhabited, no text, no logos, no screens with writing",
+      "aspect_ratio": "9:16",
+      "resolution": "2K"
+    }
+  ]
+}
