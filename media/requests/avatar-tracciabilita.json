@@ -1,0 +1,32 @@
+{
+  "max_usd": 1.5,
+  "note": "Prova opzione B: voce clonata dalla ripresa del 16/09 (Fish Audio) + foto animata con labiale (HeyGen Avatar IV). Contenuto da etichettare come generato con AI.",
+  "jobs": [
+    {
+      "name": "voce",
+      "type": "speech",
+      "model": "fish-audio/s2.1-pro",
+      "prompt": "Una mela oggi può raccontarti da dove viene. Basta un QR: campo, raccolta, selezione con l'intelligenza artificiale, trasporto. Nel test di Walmart con IBM, risalire all'origine di un lotto di mango è passato da sette giorni a due secondi. La tua filiera è pronta?",
+      "response_format": "mp3",
+      "input_references": [
+        {
+          "ref": "media/refs/voce-riferimento.wav",
+          "transcript": "Se pensi che l'innovazione del food abbia una sola direzione, guarda meglio."
+        }
+      ]
+    },
+    {
+      "name": "avatar",
+      "type": "video",
+      "model": "heygen/avatar-iv",
+      "prompt": "Una mela oggi può raccontarti da dove viene. Basta un QR: campo, raccolta, selezione con l'intelligenza artificiale, trasporto. Nel test di Walmart con IBM, risalire all'origine di un lotto di mango è passato da sette giorni a due secondi. La tua filiera è pronta?",
+      "resolution": "1080p",
+      "aspect_ratio": "9:16",
+      "est_seconds": 17,
+      "input_references": [
+        { "ref": "media/refs/ritratto.jpg", "kind": "image" },
+        { "ref": "@voce", "kind": "audio" }
+      ]
+    }
+  ]
+}

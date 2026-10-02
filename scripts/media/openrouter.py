@@ -24,7 +24,11 @@ Formato della richiesta (vedi media/requests/README.md):
 Ogni altra chiave del job (seed, n, provider, input_references, ...) passa così com'è
 all'API. Un riferimento "@nome" usa l'output di un job precedente della stessa richiesta,
 "@nome:last" (o ":first") il fotogramma reale di un video precedente, per concatenare le
-clip; un percorso locale viene inviato come data URL; un URL http(s) passa invariato.
+clip; un percorso locale viene inviato come data URL; un URL http(s) passa invariato. Il tipo
+(immagine, audio, video) si ricava dall'estensione o da "kind".
+
+Tipi di job: "image", "video" e "speech" (sintesi vocale, anche con clonazione della voce
+da un audio di riferimento: input_references [{"ref": "voce.wav", "transcript": "..."}]).
 """
 import argparse
 import base64
@@ -40,8 +44,9 @@ import urllib.request
 
 API = "https://openrouter.ai/api/v1"
 ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-RESERVED = {"name", "type", "note"}
+RESERVED = {"name", "type", "note", "est_seconds"}
 EXT = {"image/png": ".png", "image/jpeg": ".jpg", "image/webp": ".webp", "image/svg+xml": ".svg"}
+MEDIA_KIND = {"image": "image", "audio": "audio", "video": "video"}
 
 
 class MediaError(Exception):
@@ -84,7 +89,8 @@ _catalog = {}
 
 def catalog(kind):
     if kind not in _catalog:
-        data = http("GET", f"/{kind}s/models", auth=False)["data"]
+        path = "/models?output_modalities=speech" if kind == "speech" else f"/{kind}s/models"
+        data = http("GET", path, auth=False)["data"]
         _catalog[kind] = {m["id"]: m for m in data}
     return _catalog[kind]
 
@@ -110,6 +116,7 @@ def as_url(value, outputs, base_dir):
     if not os.path.exists(path):
         raise MediaError(f"file non trovato: {value}")
     mime = mimetypes.guess_type(path)[0] or "image/png"
+    mime = {"audio/x-wav": "audio/wav", "audio/mpeg": "audio/mpeg"}.get(mime, mime)
     with open(path, "rb") as f:
         return f"data:{mime};base64," + base64.b64encode(f.read()).decode()
 
@@ -127,15 +134,33 @@ def extract_frame(video, which):
     return out
 
 
-def resolve_images(items, outputs, base_dir, keep_frame_type):
+def media_kind(it, ref, outputs):
+    """Tipo del riferimento: dichiarato con "kind", altrimenti dall'estensione del file."""
+    if it.get("kind"):
+        return it["kind"]
+    path = outputs.get(ref[1:].partition(":")[0], "") if ref.startswith("@") else ref
+    if ref.startswith("@") and ref.partition(":")[2]:
+        return "image"  # @clip:last è un fotogramma
+    mime = mimetypes.guess_type(path.split("?")[0])[0] or ""
+    return mime.split("/")[0] if mime.split("/")[0] in MEDIA_KIND else "image"
+
+
+def resolve_images(items, outputs, base_dir, keep_frame_type, speech=False):
     out = []
     for it in items:
         if isinstance(it, str):
             it = {"ref": it}
         ref = it.get("ref") or it.get("url") or (it.get("image_url") or {}).get("url")
         if not ref:
-            raise MediaError(f"immagine senza 'ref' o 'url': {it}")
-        entry = {"type": "image_url", "image_url": {"url": as_url(ref, outputs, base_dir)}}
+            raise MediaError(f"riferimento senza 'ref' o 'url': {it}")
+        kind = media_kind(it, ref, outputs)
+        url = as_url(ref, outputs, base_dir)
+        if speech and kind == "audio":
+            out.append({"type": "input_audio", "input_audio": {"data" if url.startswith("data:") else "url": url}})
+            if it.get("transcript"):
+                out.append({"type": "text", "text": it["transcript"]})
+            continue
+        entry = {"type": f"{kind}_url", f"{kind}_url": {"url": url}}
         if keep_frame_type:
             entry["frame_type"] = it.get("frame_type", "first_frame")
         out.append(entry)
@@ -146,7 +171,11 @@ def build_payload(job, outputs, base_dir, resolve=True):
     payload = {k: v for k, v in job.items() if k not in RESERVED}
     for key, keep in (("frame_images", True), ("input_references", False)):
         if key in payload:
-            payload[key] = resolve_images(payload[key], outputs, base_dir, keep) if resolve else payload[key]
+            payload[key] = (resolve_images(payload[key], outputs, base_dir, keep, speech=job["type"] == "speech")
+                            if resolve else payload[key])
+    if job["type"] == "speech":
+        payload["input"] = payload.pop("prompt")
+        payload.setdefault("response_format", "mp3")
     return payload
 
 
@@ -154,8 +183,8 @@ def build_payload(job, outputs, base_dir, resolve=True):
 
 def validate(job):
     kind = job.get("type")
-    if kind not in ("image", "video"):
-        raise MediaError(f"job '{job.get('name')}': 'type' deve essere image o video")
+    if kind not in ("image", "video", "speech"):
+        raise MediaError(f"job '{job.get('name')}': 'type' deve essere image, video o speech")
     for k in ("name", "model", "prompt"):
         if not job.get(k):
             raise MediaError(f"job '{job.get('name')}': manca '{k}'")
@@ -167,7 +196,9 @@ def validate(job):
         recent = sorted(models.values(), key=lambda x: -x.get("created", 0))[:8]
         raise MediaError(f"modello {kind} sconosciuto: {job['model']}. Recenti: " + ", ".join(x["id"] for x in recent))
     problems = []
-    if kind == "video":
+    if kind == "speech":
+        pass  # i parametri della voce dipendono dal provider: li controlla l'API
+    elif kind == "video":
         for key, field in (("duration", "supported_durations"), ("resolution", "supported_resolutions"),
                            ("aspect_ratio", "supported_aspect_ratios")):
             allowed = m.get(field)
@@ -197,7 +228,7 @@ def validate(job):
 def estimate_video(job, m):
     """Stima in USD dai pricing_skus pubblici. None se il listino non è in secondi."""
     skus = m.get("pricing_skus") or {}
-    dur = job.get("duration") or min(m.get("supported_durations") or [5])
+    dur = job.get("duration") or job.get("est_seconds") or min(m.get("supported_durations") or [5])
     res = str(job.get("resolution", "")).lower()
     audio = job.get("generate_audio", m.get("generate_audio"))
     cands = []
@@ -248,7 +279,13 @@ def plan(request, base_dir):
                     raise MediaError(f"job '{job['name']}': {ref} deve riferirsi a un job precedente")
                 if ref and not ref.startswith(("@", "http", "data:")) and not os.path.exists(os.path.join(ROOT, ref)):
                     raise MediaError(f"job '{job['name']}': file non trovato {ref}")
-        est = estimate_video(job, m) if job["type"] == "video" else None
+        if job["type"] == "video":
+            est = estimate_video(job, m)
+        elif job["type"] == "speech":
+            price = float((m.get("pricing") or {}).get("prompt") or 0)
+            est = round(price * len(job["prompt"]) * 2, 4) if price else None  # margine x2 sul listino a carattere/token
+        else:
+            est = None
         if est is None:
             unknown = True
         else:
@@ -275,6 +312,17 @@ def run_image(job, payload, out_dir):
     if not files:
         raise MediaError(f"nessuna immagine restituita: {json.dumps(res)[:400]}")
     return files, (res.get("usage") or {}).get("cost")
+
+
+def run_speech(job, payload, out_dir):
+    data = http("POST", "/audio/speech", payload, raw=True, timeout=600)
+    if not data or data[:1] == b"{":
+        raise MediaError(f"nessun audio restituito: {data[:300]!r}")
+    ext = ".mp3" if payload.get("response_format", "mp3") == "mp3" else ".pcm"
+    path = os.path.join(out_dir, job["name"] + ext)
+    with open(path, "wb") as f:
+        f.write(data)
+    return [path], None
 
 
 def run_video(job, payload, out_dir, poll=15, max_wait=45 * 60):
@@ -340,7 +388,7 @@ def run(request_path, out_root):
         t0 = time.time()
         try:
             payload = build_payload(job, outputs, base_dir)
-            runner = run_image if job["type"] == "image" else run_video
+            runner = {"image": run_image, "video": run_video, "speech": run_speech}[job["type"]]
             files, cost = runner(job, payload, out_dir)
             outputs[job["name"]] = files[0]
             spent += float(cost or est or 0)
