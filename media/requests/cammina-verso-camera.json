@@ -1,0 +1,17 @@
+{
+  "max_usd": 1.2,
+  "note": "Camminata verso la camera con sguardo in camera: immagine di Seedream 5.0 Pro (già generata) animata con MiniMax H3 in 2K. Seedance 2.5 rifiuta le persone reali.",
+  "jobs": [
+    {
+      "name": "verso-camera",
+      "type": "video",
+      "model": "minimax/hailuo-3",
+      "prompt": "He walks confidently toward the camera at a calm, steady pace, keeping direct eye contact with the lens the whole time, with a confident, friendly expression and a slight smile. The camera dollies backward smoothly at the same speed, keeping him centered with his full body in frame. The conveyor belts on both sides keep moving and the apples roll. He does not talk and does not look away. Stable face and glasses, realistic natural motion. No text, no logos.",
+      "duration": 6,
+      "resolution": "2K",
+      "aspect_ratio": "9:16",
+      "generate_audio": false,
+      "frame_images": [{ "ref": "media/refs/generati/verso-camera-still.jpg", "frame_type": "first_frame" }]
+    }
+  ]
+}

@@ -40,7 +40,7 @@ Per un Reel a 1080×1920 serve **1080p verticale (9:16)** o più. Sotto, la clip
 | **Animare un'immagine, massima qualità e risoluzione** | `minimax/hailuo-3` | n. 2 in classifica, **2K**, 5–15 s, primo e ultimo fotogramma, immagini di riferimento; 0,13 $/s |
 | Stessa qualità, più economico, risoluzione minore | `minimax/hailuo-3-max` | n. 1 in classifica, ma fino a **768p**; 0,08 $/s; niente audio |
 | Clip in 1080p o 4K, riferimenti multipli (immagini, video, audio) | `bytedance/seedance-2.0` | n. 4 in classifica, 4–15 s |
-| Clip lunghe e storie, riferimenti, estensione di clip | `bytedance/seedance-2.5` | 4–30 s, fino a 720p su OpenRouter; prezzo a token video |
+| Clip lunghe e storie, riferimenti, estensione di clip | `bytedance/seedance-2.5` | 4–30 s, fino a 720p su OpenRouter; prezzo a token video. **Rifiuta immagini con persone reali** (vale per tutta la famiglia Seedance su BytePlus): per animare una persona vera usa MiniMax H3 |
 | Clip lunghe in 1080p | `alibaba/wan-3.0` | n. 6 in classifica, 2–30 s; 0,20 $/s in 1080p |
 | Durate brevi fisse, filiera Google | `google/veo-3.1` (Fast, Lite) | ormai n. 11: usalo solo se serve qualcosa di specifico; 4, 6 o 8 s |
 | **Modificare una ripresa vera** (ambiente, oggetti, luce) | `black-forest-labs/flux-video-edit` | mantiene durata e audio; input fino a 15 s, uscita 720p; 0,03 $/s |
