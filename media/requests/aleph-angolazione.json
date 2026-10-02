@@ -1,0 +1,17 @@
+{
+  "max_usd": 2,
+  "note": "Runway Aleph 2: nuova angolazione, interamente in una fabbrica alimentare, mentre cammina. Inquadratura di stacco senza parlato.",
+  "jobs": [
+    {
+      "name": "fabbrica-cammina",
+      "type": "video",
+      "model": "runway/aleph-2",
+      "prompt": "Re-shoot this scene from a new camera angle: a cinematic low three-quarter side tracking shot that follows the same man as he walks slowly forward along a production line inside a large modern food processing factory. The factory fills the whole frame: long stainless steel conveyor belts carrying red apples, sorting machines, stacked crates, high ceiling with industrial lights, clean epoxy floor. Nothing of the original room remains. Keep the man identical: same face, glasses, beard, white linen shirt with rolled sleeves, grey shorts. Natural walking motion, realistic industrial lighting, steady camera. No text, no logos.",
+      "aspect_ratio": "9:16",
+      "est_seconds": 5,
+      "input_references": [
+        { "url": "https://raw.githubusercontent.com/foodhub-srl-sb/media-pubblici/main/2026-10-02/ripresa-16-09-720p-da088.mp4", "kind": "video" }
+      ]
+    }
+  ]
+}
