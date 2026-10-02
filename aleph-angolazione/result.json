@@ -1,0 +1,19 @@
+{
+  "request": "media/requests/aleph-angolazione.json",
+  "id": "aleph-angolazione",
+  "generated_at": "2026-10-02T20:01:31+00:00",
+  "max_usd": 2.0,
+  "spent_usd": 0.0,
+  "jobs": [
+    {
+      "name": "fabbrica-cammina",
+      "type": "video",
+      "model": "runway/aleph-2",
+      "status": "error",
+      "error": "HTTP 400 su POST https://openrouter.ai/api/v1/videos: {\"error\":{\"message\":\"Validation of body failed: videoUri: Assets must use an approved Content-Type response header. We received \\\"application/octet-stream\\\", which is not allowed.\",\"code\":400}}"
+    }
+  ],
+  "prompts": {
+    "fabbrica-cammina": "Re-shoot this scene from a new camera angle: a cinematic low three-quarter side tracking shot that follows the same man as he walks slowly forward along a production line inside a large modern food processing factory. The factory fills the whole frame: long stainless steel conveyor belts carrying red apples, sorting machines, stacked crates, high ceiling with industrial lights, clean epoxy floor. Nothing of the original room remains. Keep the man identical: same face, glasses, beard, white linen shirt with rolled sleeves, grey shorts. Natural walking motion, realistic industrial lighting, steady camera. No text, no logos."
+  }
+}
