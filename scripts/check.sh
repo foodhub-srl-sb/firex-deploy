@@ -63,6 +63,42 @@ if [ "$STT" -eq 0 ]; then
   row FAIL whisper "no speech-to-text engine found"; MISSING=$((MISSING+1))
 fi
 
+# PDF tools (motion-graphics videos built from PDFs)
+check pdftotext 0 "pdftotext -v 2>&1"
+check pdfimages 0 "pdfimages -v 2>&1"
+
+# Python packages (requirements.txt)
+pymod() { # pymod <module> <required:1|0> <hint>
+  local ver
+  if has "$PY" && ver=$("$PY" -c "import $1; print(getattr($1, '__version__', 'ok'))" 2>/dev/null); then
+    row ok "$1" "$ver"
+  elif [ "$2" -eq 1 ]; then
+    row FAIL "$1" "missing (pip install -r requirements.txt)"; MISSING=$((MISSING+1))
+  else
+    row -- "$1" "missing ($3)"
+  fi
+}
+pymod numpy 1 ""
+pymod scipy 1 ""
+pymod PIL 1 ""
+pymod onnxruntime 0 "person cutouts with scripts/rvm-matte.py"
+if has "$PY" && prov=$("$PY" -c "import onnxruntime as o; print(', '.join(p.replace('ExecutionProvider','') for p in o.get_available_providers() if 'Azure' not in p))" 2>/dev/null); then
+  row ok "rvm-accel" "$prov"
+fi
+rvm_dir="$HOME/.cache/rvm"
+if [ -f "$rvm_dir/rvm_mobilenetv3_fp32.onnx" ]; then
+  row ok "rvm-models" "$rvm_dir"
+else
+  row -- "rvm-models" "not downloaded yet ($PY scripts/rvm-matte.py --prepare)"
+fi
+
+# OpenRouter key: only needed to generate from this machine (the GitHub Action has its own secret)
+if [ -n "${OPENROUTER_API_KEY:-}" ]; then
+  row ok "openrouter" "OPENROUTER_API_KEY set"
+else
+  row -- "openrouter" "no local key (AI generation goes through the GitHub Action)"
+fi
+
 if [ "$DOCTOR" -eq 1 ]; then
   echo; echo "HyperFrames doctor"
   if has npx; then

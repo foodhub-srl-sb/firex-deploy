@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
-# Installs the video-editing workspace toolchain on Debian/Ubuntu (apt).
+# Installs the Food Hub video studio toolchain on Debian/Ubuntu (apt):
+# Node 22+, FFmpeg, Poppler, Python packages (requirements.txt), Claude Code + HyperFrames,
+# Chrome for rendering, RobustVideoMatting models.
 # Usage: scripts/install-linux.sh [--yes]
 set -euo pipefail
 
@@ -77,21 +79,41 @@ else
   warn "Skipped Python"
 fi
 
-# --- faster-whisper ---
-say "faster-whisper (Python)"
-if has python3 && python3 -c 'import faster_whisper' >/dev/null 2>&1; then
-  ok "faster-whisper $(python3 -c 'import faster_whisper; print(faster_whisper.__version__)' 2>/dev/null || echo '?')"
-elif has python3; then
-  if confirm "Install faster-whisper with pip (user site)?"; then
-    # Newer distros mark system Python as externally managed (PEP 668).
-    python3 -m pip install --user --upgrade faster-whisper \
-      || python3 -m pip install --user --upgrade --break-system-packages faster-whisper \
-      || warn "pip install failed. Consider a venv: python3 -m venv .venv && .venv/bin/pip install faster-whisper"
+# --- Poppler (PDF tools: pdftotext, pdfimages, pdftocairo) ---
+say "Poppler (PDF tools)"
+if has pdftotext && has pdfimages && has pdftocairo; then
+  ok "$(pdftotext -v 2>&1 | head -n1)"
+elif confirm "Install poppler-utils with apt?"; then
+  apt_install poppler-utils
+else
+  warn "Skipped Poppler (needed to read PDFs for motion-graphics videos)"
+fi
+
+# --- Python packages (requirements.txt) ---
+say "Python packages (faster-whisper, numpy, scipy, pillow, onnxruntime)"
+ROOT="$(cd "$(dirname "$0")/.." && pwd)"
+pip_user() {
+  # Newer distros mark system Python as externally managed (PEP 668).
+  python3 -m pip install --user --upgrade "$@" \
+    || python3 -m pip install --user --upgrade --break-system-packages "$@"
+}
+if has python3; then
+  if python3 -c 'import faster_whisper, numpy, scipy, PIL, onnxruntime' >/dev/null 2>&1; then
+    ok "all Python packages present"
+  elif confirm "Install the Python packages from requirements.txt (user site)?"; then
+    pip_user -r "$ROOT/requirements.txt" \
+      || warn "pip install failed. Consider a venv: python3 -m venv .venv && .venv/bin/pip install -r requirements.txt"
   else
-    warn "Skipped faster-whisper"
+    warn "Skipped Python packages"
+  fi
+  if has nvidia-smi && ! python3 -c 'import onnxruntime as o; assert "CUDAExecutionProvider" in o.get_available_providers()' >/dev/null 2>&1; then
+    if confirm "NVIDIA GPU found: switch to onnxruntime-gpu for much faster person cutouts (RVM)?"; then
+      python3 -m pip uninstall -y onnxruntime >/dev/null 2>&1 || true
+      pip_user onnxruntime-gpu || warn "onnxruntime-gpu install failed, keeping the CPU version"
+    fi
   fi
 else
-  warn "python3 missing, cannot install faster-whisper"
+  warn "python3 missing, cannot install Python packages"
 fi
 
 # --- Claude Code + HyperFrames plugin ---
@@ -108,12 +130,33 @@ else
   echo "    then re-run this script to add the HyperFrames plugin."
 fi
 
-# --- HyperFrames doctor ---
-say "HyperFrames doctor"
+# --- HyperFrames: Chrome for rendering + doctor ---
+say "HyperFrames (Chrome for rendering + doctor)"
 if has npx; then
+  npx --yes hyperframes browser ensure || warn "could not prepare Chrome for rendering"
   npx --yes hyperframes doctor || warn "hyperframes doctor reported problems"
 else
-  warn "npx missing, skipping doctor"
+  warn "npx missing, skipping HyperFrames setup"
+fi
+
+# --- RobustVideoMatting models (person cutouts) ---
+say "RobustVideoMatting models (~120 MB, once)"
+if has python3 && python3 -c 'import onnxruntime' >/dev/null 2>&1; then
+  if confirm "Download the RVM models now?"; then
+    python3 "$ROOT/scripts/rvm-matte.py" --prepare || warn "model download failed (it will retry on first use)"
+  fi
+else
+  warn "onnxruntime missing, skipping RVM models"
+fi
+
+# --- OpenRouter key (optional, for AI images and video from this PC) ---
+say "OpenRouter (optional)"
+if [ -n "${OPENROUTER_API_KEY:-}" ]; then
+  ok "OPENROUTER_API_KEY is set in this shell"
+else
+  echo "  AI generation already works through the GitHub Action (repository secret)."
+  echo "  To generate directly from this PC, add to ~/.bashrc (never to a file in the repo):"
+  echo "      export OPENROUTER_API_KEY=\"sk-or-...\""
 fi
 
 # --- Summary ---
@@ -125,10 +168,13 @@ v ffmpeg   "ffmpeg -version | awk '{print \$3}'"
 v ffprobe  "ffprobe -version | awk '{print \$3}'"
 v python3  "python3 --version"
 v claude   "claude --version"
-if has python3 && python3 -c 'import faster_whisper' >/dev/null 2>&1; then
-  printf '  %-15s %s\n' faster-whisper "$(python3 -c 'import faster_whisper; print(faster_whisper.__version__)')"
-else
-  printf '  %-15s %s\n' faster-whisper MISSING
-fi
+v pdftotext "pdftotext -v 2>&1"
+for mod in faster_whisper numpy scipy PIL onnxruntime; do
+  if has python3 && ver=$(python3 -c "import $mod; print(getattr($mod, '__version__', 'ok'))" 2>/dev/null); then
+    printf '  %-15s %s\n' "$mod" "$ver"
+  else
+    printf '  %-15s %s\n' "$mod" MISSING
+  fi
+done
 echo
 echo "Done. Run scripts/check.sh anytime to re-verify."

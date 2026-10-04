@@ -1,0 +1,9 @@
+# Pacchetti Python dello studio video. Installazione:
+#   python3 -m pip install --user -r requirements.txt
+# Su PC con scheda NVIDIA, al posto di onnxruntime: onnxruntime-gpu (scontorno RVM molto più veloce).
+# Su Windows senza NVIDIA: onnxruntime-directml. Su Mac il pacchetto standard usa già Apple Silicon (CoreML).
+faster-whisper>=1.0      # trascrizione parola per parola (scripts/transcribe.py)
+numpy>=1.26              # audio, scontorni, RVM
+scipy>=1.11              # sintesi di musica ed effetti (scripts/synth-audio.py)
+pillow>=10.0             # immagini e scontorni (scripts/cutout-white.py, anteprime)
+onnxruntime>=1.18        # RobustVideoMatting (scripts/rvm-matte.py)

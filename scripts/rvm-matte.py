@@ -11,8 +11,12 @@ Uso:
     python scripts/rvm-matte.py input/ripresa.mp4 out.webm --model resnet50 --despill
     python scripts/rvm-matte.py input/ripresa.mp4 out.webm --preview frames/rvm-check.jpg
 
-Il video viene raddrizzato in automatico (rotazione dei telefoni). Requisiti: ffmpeg, numpy,
-onnxruntime (pip install onnxruntime).
+Il video viene raddrizzato in automatico (rotazione dei telefoni). Usa da sola la scheda video se
+c'è (NVIDIA con onnxruntime-gpu, Apple Silicon, DirectML su Windows), altrimenti la CPU.
+Requisiti: ffmpeg, numpy, onnxruntime (vedi requirements.txt).
+
+Per scaricare i modelli in anticipo (ad esempio durante l'installazione):
+    python scripts/rvm-matte.py --prepare
 """
 import argparse
 import json
@@ -57,8 +61,9 @@ def probe(path):
 
 def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    ap.add_argument("input")
-    ap.add_argument("out", help="webm VP9 con canale alfa")
+    ap.add_argument("input", nargs="?")
+    ap.add_argument("out", nargs="?", help="webm VP9 con canale alfa")
+    ap.add_argument("--prepare", action="store_true", help="scarica i modelli RVM ed esce")
     ap.add_argument("--model", choices=list(MODELS), default="mobilenetv3",
                     help="mobilenetv3 (veloce) o resnet50 (più preciso, più lento)")
     ap.add_argument("--downsample", type=float, default=None,
@@ -67,12 +72,21 @@ def main():
     ap.add_argument("--crf", type=int, default=28)
     ap.add_argument("--preview", help="salva un'anteprima JPG di 3 fotogrammi su sfondo verde")
     a = ap.parse_args()
+    if a.prepare:
+        for name in MODELS:
+            print(f"{name}: {model_path(name)}")
+        return
+    if not a.input or not a.out:
+        ap.error("servono il video di ingresso e il file di uscita")
 
     import onnxruntime as ort
 
     w, h, fps, n = probe(a.input)
     ds = a.downsample or (0.125 if max(w, h) >= 3000 else 0.25 if max(w, h) >= 1500 else 0.4)
-    sess = ort.InferenceSession(model_path(a.model), providers=["CPUExecutionProvider"])
+    preferred = ["CUDAExecutionProvider", "CoreMLExecutionProvider", "DmlExecutionProvider"]
+    providers = [p for p in preferred if p in ort.get_available_providers()] + ["CPUExecutionProvider"]
+    sess = ort.InferenceSession(model_path(a.model), providers=providers)
+    print(f"RVM {a.model} su {sess.get_providers()[0].replace('ExecutionProvider', '')}", flush=True)
     rec = [np.zeros([1, 1, 1, 1], np.float32)] * 4
     dsr = np.array([ds], np.float32)
 

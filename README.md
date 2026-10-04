@@ -63,6 +63,8 @@ bash scripts/install-linux.sh
 powershell -ExecutionPolicy Bypass -File scripts\install-windows.ps1
 ```
 
+Gli script installano Node.js, FFmpeg, gli strumenti PDF (Poppler), i pacchetti Python di [`requirements.txt`](requirements.txt) (trascrizione, audio, scontorni, RobustVideoMatting), il plugin HyperFrames con il suo Chrome per il render e i modelli RVM. Se trovano una scheda video adatta, propongono la versione accelerata di onnxruntime. Chiedono conferma prima di ogni passo; con `--yes` (`-Yes` su Windows) installano tutto.
+
 In alternativa, apri una sessione di Claude Code e incolla il prompt in [`prompts/00-install.md`](prompts/00-install.md): Claude installa tutto e chiede conferma prima di ogni passo.
 
 Dopo l'installazione apri un nuovo terminale (o una nuova sessione di Claude), così il sistema trova i nuovi strumenti.
