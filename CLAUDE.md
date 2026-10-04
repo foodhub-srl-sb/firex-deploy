@@ -59,6 +59,16 @@ Nel template ci sono le funzioni dello stile Food Hub: `slap` (etichetta che sba
 5. **Costruisci** in `projects/<nome>/`. Ogni effetto parte su una parola precisa della trascrizione, mai a occhio.
 6. Controllo, anteprima a sezioni brevi, render finale su richiesta.
 
+### Format «talking head Food Hub» (approvato, base per i nuovi video)
+Riferimento completo: `projects/mela-gluten-free/` (passaggi, script e comandi in `_build/README.md`).
+- **Struttura:** hook breve con un gesto e una domanda → transizione (cerchio cremisi che nasce dall'oggetto in mano) → studio → scheda dati → frasi d'effetto su nero → invito all'azione → chiusura con logo.
+- **Più take dello stesso testo:** trascrivili tutti, confronta frase per frase e monta le parti migliori; verifica ogni bordo di taglio sull'audio (Whisper colloca l'inizio delle parole 0,05-0,2 s in ritardo).
+- **Ritmo:** pause tagliate sopra 0,3 s e voce accelerata dell'8% (`atempo`, il tono non cambia).
+- **Inquadratura studio:** ritaglio ~1,8x «dalla cintura in su», volto nel terzo superiore (fuori anche il teleprompter in alto); cambio di inquadratura secco su ogni giunzione tra take.
+- **Frasi d'effetto:** al massimo 3, su nero pieno, in stampatello scritto lettera per lettera con suono di macchina da scrivere sincronizzato alla voce; ultime parole in cremisi.
+- **Etichette** nella zona del busto (y 760-1160); sigle tecniche spiegate in piccolo; loghi di partner ed eventi animati in modo che si compongano.
+- **Colore:** le riprese del telefono sono HDR (HLG, BT.2020, 10 bit): convertile in SDR dagli originali prima di tutto. Nello studio con LED verde la pelle esce troppo rossa: riportala ai valori di una ripresa all'aperto (saturazione ~0,38, R/G ~1,5, misura con `_build/skin.py`); non usare il preset `skin-soft`.
+
 ### Mettere la persona in un altro ambiente (la ripresa resta vera)
 - **Scontorno:** `python scripts/rvm-matte.py input/<file>.mp4 projects/<nome>/assets/ai/me.webm --despill` (RobustVideoMatting: raddrizza da solo i video del telefono, pulisce bordi e dominanti verdi; ~0,3 s a fotogramma in Full HD). Il ritaglio di HyperFrames (`remove-background`) è un ripiego: attacca alla persona gli oggetti vicini.
 - **Sfondo:** immagine 9:16 generata con OpenRouter (es. `google/gemini-3-pro-image`), ripresa «da treppiede ad altezza d'uomo, spazio vuoto al centro»; oppure una clip AI. Nel montaggio: `<video>` con alfa sopra lo sfondo, ombra a terra, leggero Ken Burns sullo sfondo, audio originale su una traccia separata.
@@ -127,10 +137,11 @@ Il logo va **solo in chiusura**, non come elemento di sfondo nelle altre scene.
 
 ## Sottotitoli (predefiniti)
 
-- Parola per parola, sincronizzati sulla trascrizione.
-- 2 o 3 parole alla volta, grassetto, bianco.
-- Parola chiave di ogni frase nel colore accento.
+- Sincronizzati sulla trascrizione, a gruppi brevi di parole (massimo 2 righe).
+- Stile Geopop: riquadro scuro semitrasparente, testo bianco in maiuscole e minuscole.
+- Parola chiave di ogni frase nel **cremisi del logo** (`#D3134A`).
 - Posizione verticale a circa il **65% dell'altezza** dello schermo.
+- Si nascondono quando a schermo c'è già lo stesso testo (frasi su nero, schede).
 
 ## Zoom
 
@@ -139,8 +150,8 @@ Il logo va **solo in chiusura**, non come elemento di sfondo nelle altre scene.
 
 ## Audio
 
-- La musica sta sotto la voce a volume basso e si abbassa ancora mentre si parla (ducking).
-- Effetti sonori: whoosh sugli zoom e sulle transizioni, pop sui pop-up, slap sulle etichette.
+- **La musica non ha mai volume fisso:** curva di volume (`data-automation`) che la abbassa molto sotto il parlato denso (~5% sotto i dati, quasi muta sulle frasi su nero) e la alza nei passaggi senza voce, nelle transizioni e in chiusura.
+- **Effetti sonori con parsimonia:** solo nei momenti chiave (gesto dell'hook, transizioni, un numero forte, una svolta, la chiusura), circa uno ogni 6 secondi. Non su ogni etichetta o zoom.
 - **Mai lo stesso effetto sonoro due volte di fila.**
 - Musica ed effetti originali: `python scripts/synth-audio.py --seconds N --music-out <file>` (sintesi pura, nessun diritto di terzi). Altrimenti solo file forniti dall'utente, con diritti a suo carico.
 

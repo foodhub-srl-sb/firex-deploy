@@ -22,6 +22,10 @@ projects/*/renders/
 projects/*/snapshots/
 projects/*/out/
 projects/*/*.mp4
+projects/*/assets/video/
+projects/*/.hyperframes/
+projects/*/.thumbnails/
+projects/*/.waveform-cache/
 
 # Media generati con OpenRouter: si scaricano da media-store con scripts/media/fetch.sh
 media/out/

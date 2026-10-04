@@ -1,0 +1,1181 @@
+{
+  "source": "projects\\mela-gluten-free\\audio\\voice.wav",
+  "language": "it",
+  "duration": 67.218,
+  "words": [
+    {
+      "word": "E",
+      "start": 1.07,
+      "end": 1.53,
+      "probability": 0.537
+    },
+    {
+      "word": "se",
+      "start": 1.53,
+      "end": 1.69,
+      "probability": 0.986
+    },
+    {
+      "word": "il",
+      "start": 1.69,
+      "end": 1.77,
+      "probability": 0.943
+    },
+    {
+      "word": "peccato",
+      "start": 1.77,
+      "end": 2.07,
+      "probability": 0.993
+    },
+    {
+      "word": "originale",
+      "start": 2.07,
+      "end": 2.41,
+      "probability": 0.983
+    },
+    {
+      "word": "dell",
+      "start": 2.41,
+      "end": 2.53,
+      "probability": 0.881
+    },
+    {
+      "word": "'umanità",
+      "start": 2.53,
+      "end": 3.11,
+      "probability": 0.992
+    },
+    {
+      "word": "fosse",
+      "start": 3.11,
+      "end": 3.37,
+      "probability": 0.989
+    },
+    {
+      "word": "proprio",
+      "start": 3.37,
+      "end": 3.97,
+      "probability": 0.994
+    },
+    {
+      "word": "ciò",
+      "start": 3.97,
+      "end": 4.19,
+      "probability": 0.963
+    },
+    {
+      "word": "di",
+      "start": 4.19,
+      "end": 4.27,
+      "probability": 0.991
+    },
+    {
+      "word": "cui",
+      "start": 4.27,
+      "end": 4.35,
+      "probability": 0.993
+    },
+    {
+      "word": "l",
+      "start": 4.35,
+      "end": 4.37,
+      "probability": 0.988
+    },
+    {
+      "word": "'innovazione",
+      "start": 4.37,
+      "end": 4.81,
+      "probability": 0.996
+    },
+    {
+      "word": "ha",
+      "start": 4.81,
+      "end": 4.97,
+      "probability": 0.969
+    },
+    {
+      "word": "bisogno?",
+      "start": 4.97,
+      "end": 5.57,
+      "probability": 0.996
+    },
+    {
+      "word": "Nel",
+      "start": 6.55,
+      "end": 6.69,
+      "probability": 0.97
+    },
+    {
+      "word": "gluten",
+      "start": 6.69,
+      "end": 6.97,
+      "probability": 0.945
+    },
+    {
+      "word": "-free,",
+      "start": 6.97,
+      "end": 7.21,
+      "probability": 0.751
+    },
+    {
+      "word": "una",
+      "start": 7.45,
+      "end": 7.59,
+      "probability": 0.987
+    },
+    {
+      "word": "mela",
+      "start": 7.59,
+      "end": 7.77,
+      "probability": 0.998
+    },
+    {
+      "word": "può",
+      "start": 7.77,
+      "end": 7.97,
+      "probability": 0.999
+    },
+    {
+      "word": "cambiare",
+      "start": 7.97,
+      "end": 8.29,
+      "probability": 0.999
+    },
+    {
+      "word": "il",
+      "start": 8.29,
+      "end": 8.45,
+      "probability": 0.996
+    },
+    {
+      "word": "comportamento",
+      "start": 8.45,
+      "end": 8.97,
+      "probability": 0.998
+    },
+    {
+      "word": "di",
+      "start": 8.97,
+      "end": 9.13,
+      "probability": 0.997
+    },
+    {
+      "word": "un",
+      "start": 9.13,
+      "end": 9.27,
+      "probability": 0.998
+    },
+    {
+      "word": "intero",
+      "start": 9.27,
+      "end": 9.57,
+      "probability": 0.994
+    },
+    {
+      "word": "impasto.",
+      "start": 9.57,
+      "end": 9.99,
+      "probability": 0.997
+    },
+    {
+      "word": "Alcune",
+      "start": 10.19,
+      "end": 10.39,
+      "probability": 0.983
+    },
+    {
+      "word": "fibre",
+      "start": 10.39,
+      "end": 10.63,
+      "probability": 0.915
+    },
+    {
+      "word": "di",
+      "start": 10.63,
+      "end": 10.81,
+      "probability": 0.998
+    },
+    {
+      "word": "mela",
+      "start": 10.81,
+      "end": 11.09,
+      "probability": 0.999
+    },
+    {
+      "word": "possono",
+      "start": 11.09,
+      "end": 11.47,
+      "probability": 0.987
+    },
+    {
+      "word": "legare",
+      "start": 11.47,
+      "end": 11.99,
+      "probability": 0.973
+    },
+    {
+      "word": "almeno",
+      "start": 11.99,
+      "end": 12.69,
+      "probability": 0.982
+    },
+    {
+      "word": "20",
+      "start": 12.69,
+      "end": 13.09,
+      "probability": 0.609
+    },
+    {
+      "word": "volte",
+      "start": 13.09,
+      "end": 13.55,
+      "probability": 0.999
+    },
+    {
+      "word": "il",
+      "start": 13.55,
+      "end": 13.93,
+      "probability": 0.996
+    },
+    {
+      "word": "proprio",
+      "start": 13.93,
+      "end": 14.15,
+      "probability": 0.996
+    },
+    {
+      "word": "peso",
+      "start": 14.15,
+      "end": 14.47,
+      "probability": 0.999
+    },
+    {
+      "word": "in",
+      "start": 14.47,
+      "end": 14.87,
+      "probability": 0.995
+    },
+    {
+      "word": "acqua.",
+      "start": 14.87,
+      "end": 15.43,
+      "probability": 0.998
+    },
+    {
+      "word": "Una",
+      "start": 15.51,
+      "end": 15.67,
+      "probability": 0.926
+    },
+    {
+      "word": "proprietà",
+      "start": 15.67,
+      "end": 16.37,
+      "probability": 0.998
+    },
+    {
+      "word": "enorme",
+      "start": 16.37,
+      "end": 16.85,
+      "probability": 0.996
+    },
+    {
+      "word": "che",
+      "start": 16.85,
+      "end": 17.31,
+      "probability": 0.747
+    },
+    {
+      "word": "può",
+      "start": 17.31,
+      "end": 17.47,
+      "probability": 0.999
+    },
+    {
+      "word": "migliorare",
+      "start": 17.47,
+      "end": 18.11,
+      "probability": 0.998
+    },
+    {
+      "word": "struttura,",
+      "start": 18.11,
+      "end": 18.75,
+      "probability": 0.995
+    },
+    {
+      "word": "lavorabilità,",
+      "start": 18.95,
+      "end": 19.63,
+      "probability": 0.997
+    },
+    {
+      "word": "oppure",
+      "start": 19.83,
+      "end": 20.31,
+      "probability": 0.995
+    },
+    {
+      "word": "compromettere",
+      "start": 20.31,
+      "end": 21.15,
+      "probability": 0.979
+    },
+    {
+      "word": "completamente",
+      "start": 21.15,
+      "end": 21.67,
+      "probability": 0.992
+    },
+    {
+      "word": "il",
+      "start": 21.67,
+      "end": 21.83,
+      "probability": 0.997
+    },
+    {
+      "word": "risultato",
+      "start": 21.83,
+      "end": 22.43,
+      "probability": 0.999
+    },
+    {
+      "word": "se",
+      "start": 22.43,
+      "end": 22.63,
+      "probability": 0.826
+    },
+    {
+      "word": "la",
+      "start": 22.63,
+      "end": 22.79,
+      "probability": 0.999
+    },
+    {
+      "word": "ricetta",
+      "start": 22.79,
+      "end": 23.25,
+      "probability": 0.994
+    },
+    {
+      "word": "non",
+      "start": 23.25,
+      "end": 23.53,
+      "probability": 0.999
+    },
+    {
+      "word": "viene",
+      "start": 23.53,
+      "end": 23.67,
+      "probability": 0.998
+    },
+    {
+      "word": "riequilibrata.",
+      "start": 23.67,
+      "end": 24.75,
+      "probability": 0.913
+    },
+    {
+      "word": "È",
+      "start": 24.95,
+      "end": 25.09,
+      "probability": 0.452
+    },
+    {
+      "word": "qui",
+      "start": 25.09,
+      "end": 25.31,
+      "probability": 0.994
+    },
+    {
+      "word": "che",
+      "start": 25.31,
+      "end": 25.53,
+      "probability": 0.984
+    },
+    {
+      "word": "comincia",
+      "start": 25.53,
+      "end": 25.81,
+      "probability": 0.97
+    },
+    {
+      "word": "il",
+      "start": 25.81,
+      "end": 25.95,
+      "probability": 0.999
+    },
+    {
+      "word": "vero",
+      "start": 25.95,
+      "end": 26.17,
+      "probability": 0.998
+    },
+    {
+      "word": "lavoro",
+      "start": 26.17,
+      "end": 26.45,
+      "probability": 0.999
+    },
+    {
+      "word": "di",
+      "start": 26.45,
+      "end": 26.65,
+      "probability": 0.988
+    },
+    {
+      "word": "chi",
+      "start": 26.65,
+      "end": 26.75,
+      "probability": 0.992
+    },
+    {
+      "word": "lavora",
+      "start": 26.75,
+      "end": 27.01,
+      "probability": 0.99
+    },
+    {
+      "word": "in",
+      "start": 27.01,
+      "end": 27.13,
+      "probability": 0.75
+    },
+    {
+      "word": "ricerca",
+      "start": 27.13,
+      "end": 27.45,
+      "probability": 0.772
+    },
+    {
+      "word": "e",
+      "start": 27.45,
+      "end": 27.53,
+      "probability": 0.979
+    },
+    {
+      "word": "sviluppo",
+      "start": 27.53,
+      "end": 27.93,
+      "probability": 0.998
+    },
+    {
+      "word": "dell",
+      "start": 27.93,
+      "end": 28.05,
+      "probability": 0.73
+    },
+    {
+      "word": "'industria",
+      "start": 28.05,
+      "end": 28.41,
+      "probability": 0.994
+    },
+    {
+      "word": "alimentare.",
+      "start": 28.41,
+      "end": 28.99,
+      "probability": 0.998
+    },
+    {
+      "word": "Ad",
+      "start": 28.99,
+      "end": 29.21,
+      "probability": 0.228
+    },
+    {
+      "word": "esempio,",
+      "start": 29.21,
+      "end": 29.63,
+      "probability": 0.998
+    },
+    {
+      "word": "in",
+      "start": 29.91,
+      "end": 29.99,
+      "probability": 0.941
+    },
+    {
+      "word": "uno",
+      "start": 29.99,
+      "end": 30.19,
+      "probability": 0.979
+    },
+    {
+      "word": "studio",
+      "start": 30.19,
+      "end": 30.51,
+      "probability": 0.997
+    },
+    {
+      "word": "sul",
+      "start": 30.51,
+      "end": 30.69,
+      "probability": 0.965
+    },
+    {
+      "word": "pane",
+      "start": 30.69,
+      "end": 30.99,
+      "probability": 0.993
+    },
+    {
+      "word": "senza",
+      "start": 30.99,
+      "end": 31.25,
+      "probability": 0.738
+    },
+    {
+      "word": "glutine,",
+      "start": 31.25,
+      "end": 31.89,
+      "probability": 0.961
+    },
+    {
+      "word": "una",
+      "start": 32.09,
+      "end": 32.21,
+      "probability": 0.99
+    },
+    {
+      "word": "formulazione",
+      "start": 32.21,
+      "end": 32.83,
+      "probability": 0.992
+    },
+    {
+      "word": "con",
+      "start": 32.83,
+      "end": 33.29,
+      "probability": 0.968
+    },
+    {
+      "word": "7",
+      "start": 33.29,
+      "end": 33.67,
+      "probability": 0.914
+    },
+    {
+      "word": "grammi",
+      "start": 33.67,
+      "end": 33.89,
+      "probability": 0.754
+    },
+    {
+      "word": "di",
+      "start": 33.89,
+      "end": 34.09,
+      "probability": 0.992
+    },
+    {
+      "word": "fibra",
+      "start": 34.09,
+      "end": 34.27,
+      "probability": 0.997
+    },
+    {
+      "word": "di",
+      "start": 34.27,
+      "end": 34.43,
+      "probability": 0.992
+    },
+    {
+      "word": "mela",
+      "start": 34.43,
+      "end": 34.67,
+      "probability": 0.988
+    },
+    {
+      "word": "e",
+      "start": 34.67,
+      "end": 34.81,
+      "probability": 0.458
+    },
+    {
+      "word": "4",
+      "start": 34.81,
+      "end": 35.13,
+      "probability": 0.992
+    },
+    {
+      "word": "grammi",
+      "start": 35.13,
+      "end": 35.49,
+      "probability": 0.962
+    },
+    {
+      "word": "di",
+      "start": 35.49,
+      "end": 35.89,
+      "probability": 0.998
+    },
+    {
+      "word": "HPMC",
+      "start": 35.89,
+      "end": 36.63,
+      "probability": 0.709
+    },
+    {
+      "word": "ogni",
+      "start": 36.63,
+      "end": 36.93,
+      "probability": 0.953
+    },
+    {
+      "word": "100",
+      "start": 36.93,
+      "end": 37.29,
+      "probability": 0.983
+    },
+    {
+      "word": "grammi",
+      "start": 37.29,
+      "end": 37.47,
+      "probability": 0.949
+    },
+    {
+      "word": "di",
+      "start": 37.47,
+      "end": 37.63,
+      "probability": 0.997
+    },
+    {
+      "word": "miscela",
+      "start": 37.63,
+      "end": 38.19,
+      "probability": 0.973
+    },
+    {
+      "word": "ha",
+      "start": 38.19,
+      "end": 38.43,
+      "probability": 0.779
+    },
+    {
+      "word": "raggiunto",
+      "start": 38.43,
+      "end": 38.73,
+      "probability": 0.998
+    },
+    {
+      "word": "un",
+      "start": 38.73,
+      "end": 38.89,
+      "probability": 0.921
+    },
+    {
+      "word": "volume",
+      "start": 38.89,
+      "end": 39.11,
+      "probability": 0.994
+    },
+    {
+      "word": "specifico",
+      "start": 39.11,
+      "end": 40.07,
+      "probability": 0.995
+    },
+    {
+      "word": "di",
+      "start": 40.07,
+      "end": 40.45,
+      "probability": 0.992
+    },
+    {
+      "word": "3",
+      "start": 40.45,
+      "end": 40.71,
+      "probability": 0.98
+    },
+    {
+      "word": ",97",
+      "start": 40.71,
+      "end": 41.57,
+      "probability": 0.945
+    },
+    {
+      "word": "cm3",
+      "start": 41.57,
+      "end": 42.37,
+      "probability": 0.521
+    },
+    {
+      "word": "per",
+      "start": 42.37,
+      "end": 42.63,
+      "probability": 0.632
+    },
+    {
+      "word": "grammo",
+      "start": 42.63,
+      "end": 43.23,
+      "probability": 0.964
+    },
+    {
+      "word": "e",
+      "start": 43.23,
+      "end": 43.41,
+      "probability": 0.868
+    },
+    {
+      "word": "una",
+      "start": 43.41,
+      "end": 43.55,
+      "probability": 0.981
+    },
+    {
+      "word": "durezza",
+      "start": 43.55,
+      "end": 43.99,
+      "probability": 0.991
+    },
+    {
+      "word": "della",
+      "start": 43.99,
+      "end": 44.19,
+      "probability": 0.981
+    },
+    {
+      "word": "mollica",
+      "start": 44.19,
+      "end": 44.59,
+      "probability": 0.972
+    },
+    {
+      "word": "di",
+      "start": 44.59,
+      "end": 44.77,
+      "probability": 0.993
+    },
+    {
+      "word": "appena",
+      "start": 44.77,
+      "end": 45.17,
+      "probability": 0.976
+    },
+    {
+      "word": "2",
+      "start": 45.17,
+      "end": 45.43,
+      "probability": 0.986
+    },
+    {
+      "word": ",10",
+      "start": 45.43,
+      "end": 46.05,
+      "probability": 0.974
+    },
+    {
+      "word": "N.",
+      "start": 46.05,
+      "end": 46.39,
+      "probability": 0.399
+    },
+    {
+      "word": "Tradotto.",
+      "start": 46.69,
+      "end": 47.25,
+      "probability": 0.904
+    },
+    {
+      "word": "Che",
+      "start": 47.71,
+      "end": 47.79,
+      "probability": 0.982
+    },
+    {
+      "word": "cosa",
+      "start": 47.79,
+      "end": 47.95,
+      "probability": 0.978
+    },
+    {
+      "word": "vuol",
+      "start": 47.95,
+      "end": 48.17,
+      "probability": 0.979
+    },
+    {
+      "word": "dire?",
+      "start": 48.17,
+      "end": 48.35,
+      "probability": 0.999
+    },
+    {
+      "word": "Più",
+      "start": 48.69,
+      "end": 48.91,
+      "probability": 0.988
+    },
+    {
+      "word": "fibra,",
+      "start": 48.91,
+      "end": 49.37,
+      "probability": 0.999
+    },
+    {
+      "word": "ma",
+      "start": 49.37,
+      "end": 49.55,
+      "probability": 0.997
+    },
+    {
+      "word": "con",
+      "start": 49.55,
+      "end": 49.69,
+      "probability": 0.965
+    },
+    {
+      "word": "una",
+      "start": 49.69,
+      "end": 49.85,
+      "probability": 0.987
+    },
+    {
+      "word": "mollica",
+      "start": 49.85,
+      "end": 50.15,
+      "probability": 0.997
+    },
+    {
+      "word": "sviluppata",
+      "start": 50.15,
+      "end": 50.79,
+      "probability": 0.985
+    },
+    {
+      "word": "e",
+      "start": 50.79,
+      "end": 50.99,
+      "probability": 0.94
+    },
+    {
+      "word": "morbida.",
+      "start": 50.99,
+      "end": 51.43,
+      "probability": 0.998
+    },
+    {
+      "word": "L",
+      "start": 51.63,
+      "end": 51.69,
+      "probability": 0.981
+    },
+    {
+      "word": "'innovazione",
+      "start": 51.69,
+      "end": 52.19,
+      "probability": 0.994
+    },
+    {
+      "word": "quindi",
+      "start": 52.19,
+      "end": 52.47,
+      "probability": 0.815
+    },
+    {
+      "word": "non",
+      "start": 52.47,
+      "end": 52.65,
+      "probability": 0.964
+    },
+    {
+      "word": "consiste",
+      "start": 52.65,
+      "end": 53.09,
+      "probability": 0.99
+    },
+    {
+      "word": "nell",
+      "start": 53.09,
+      "end": 53.25,
+      "probability": 0.975
+    },
+    {
+      "word": "'aggiungere",
+      "start": 53.25,
+      "end": 53.71,
+      "probability": 0.989
+    },
+    {
+      "word": "un",
+      "start": 53.71,
+      "end": 53.87,
+      "probability": 0.976
+    },
+    {
+      "word": "ingrediente.",
+      "start": 53.87,
+      "end": 54.75,
+      "probability": 0.984
+    },
+    {
+      "word": "Consiste",
+      "start": 54.99,
+      "end": 55.55,
+      "probability": 0.984
+    },
+    {
+      "word": "nel",
+      "start": 55.55,
+      "end": 55.73,
+      "probability": 0.996
+    },
+    {
+      "word": "far",
+      "start": 55.73,
+      "end": 55.99,
+      "probability": 0.974
+    },
+    {
+      "word": "funzionare",
+      "start": 55.99,
+      "end": 56.57,
+      "probability": 0.998
+    },
+    {
+      "word": "l",
+      "start": 56.57,
+      "end": 56.71,
+      "probability": 0.992
+    },
+    {
+      "word": "'intera",
+      "start": 56.71,
+      "end": 57.09,
+      "probability": 0.993
+    },
+    {
+      "word": "formulazione.",
+      "start": 57.09,
+      "end": 57.75,
+      "probability": 0.998
+    },
+    {
+      "word": "Scopri",
+      "start": 57.75,
+      "end": 58.45,
+      "probability": 0.899
+    },
+    {
+      "word": "questi",
+      "start": 58.45,
+      "end": 58.69,
+      "probability": 0.975
+    },
+    {
+      "word": "nuovi",
+      "start": 58.69,
+      "end": 59.01,
+      "probability": 0.991
+    },
+    {
+      "word": "approcci",
+      "start": 59.01,
+      "end": 59.43,
+      "probability": 0.972
+    },
+    {
+      "word": "alla",
+      "start": 59.43,
+      "end": 59.57,
+      "probability": 0.435
+    },
+    {
+      "word": "formulazione",
+      "start": 59.57,
+      "end": 60.45,
+      "probability": 0.648
+    },
+    {
+      "word": "al",
+      "start": 60.45,
+      "end": 60.79,
+      "probability": 0.843
+    },
+    {
+      "word": "festival",
+      "start": 60.79,
+      "end": 61.21,
+      "probability": 0.756
+    },
+    {
+      "word": "dell",
+      "start": 61.21,
+      "end": 61.39,
+      "probability": 0.393
+    },
+    {
+      "word": "'innovazione",
+      "start": 61.39,
+      "end": 61.89,
+      "probability": 0.972
+    },
+    {
+      "word": "ancora",
+      "start": 61.89,
+      "end": 62.13,
+      "probability": 0.134
+    },
+    {
+      "word": "alimentare.",
+      "start": 62.13,
+      "end": 62.85,
+      "probability": 0.996
+    },
+    {
+      "word": "Il",
+      "start": 62.99,
+      "end": 63.13,
+      "probability": 0.961
+    },
+    {
+      "word": "festival",
+      "start": 63.13,
+      "end": 63.49,
+      "probability": 0.981
+    },
+    {
+      "word": "sarà",
+      "start": 63.49,
+      "end": 63.81,
+      "probability": 0.991
+    },
+    {
+      "word": "online",
+      "start": 63.81,
+      "end": 64.19,
+      "probability": 0.953
+    },
+    {
+      "word": "e",
+      "start": 64.19,
+      "end": 64.43,
+      "probability": 0.916
+    },
+    {
+      "word": "gratuito",
+      "start": 64.43,
+      "end": 65.01,
+      "probability": 0.981
+    },
+    {
+      "word": "dal",
+      "start": 65.01,
+      "end": 65.23,
+      "probability": 0.901
+    },
+    {
+      "word": "9",
+      "start": 65.23,
+      "end": 65.53,
+      "probability": 0.972
+    },
+    {
+      "word": "al",
+      "start": 65.53,
+      "end": 65.71,
+      "probability": 0.988
+    },
+    {
+      "word": "12",
+      "start": 65.71,
+      "end": 66.01,
+      "probability": 0.998
+    },
+    {
+      "word": "novembre",
+      "start": 66.01,
+      "end": 66.45,
+      "probability": 0.981
+    },
+    {
+      "word": "2026.",
+      "start": 66.45,
+      "end": 67.11,
+      "probability": 0.953
+    }
+  ],
+  "segments": [
+    {
+      "start": 1.07,
+      "end": 5.57,
+      "text": "E se il peccato originale dell'umanità fosse proprio ciò di cui l'innovazione ha bisogno?"
+    },
+    {
+      "start": 6.55,
+      "end": 9.99,
+      "text": "Nel gluten-free, una mela può cambiare il comportamento di un intero impasto."
+    },
+    {
+      "start": 10.19,
+      "end": 15.43,
+      "text": "Alcune fibre di mela possono legare almeno 20 volte il proprio peso in acqua."
+    },
+    {
+      "start": 15.51,
+      "end": 19.63,
+      "text": "Una proprietà enorme che può migliorare struttura, lavorabilità,"
+    },
+    {
+      "start": 19.83,
+      "end": 24.75,
+      "text": "oppure compromettere completamente il risultato se la ricetta non viene riequilibrata."
+    },
+    {
+      "start": 24.95,
+      "end": 28.99,
+      "text": "È qui che comincia il vero lavoro di chi lavora in ricerca e sviluppo dell'industria alimentare."
+    },
+    {
+      "start": 28.99,
+      "end": 31.89,
+      "text": "Ad esempio, in uno studio sul pane senza glutine,"
+    },
+    {
+      "start": 32.09,
+      "end": 38.19,
+      "text": "una formulazione con 7 grammi di fibra di mela e 4 grammi di HPMC ogni 100 grammi di miscela"
+    },
+    {
+      "start": 38.19,
+      "end": 43.23,
+      "text": "ha raggiunto un volume specifico di 3,97 cm3 per grammo"
+    },
+    {
+      "start": 43.23,
+      "end": 46.39,
+      "text": "e una durezza della mollica di appena 2,10 N."
+    },
+    {
+      "start": 46.69,
+      "end": 48.35,
+      "text": "Tradotto. Che cosa vuol dire?"
+    },
+    {
+      "start": 48.69,
+      "end": 51.43,
+      "text": "Più fibra, ma con una mollica sviluppata e morbida."
+    },
+    {
+      "start": 51.63,
+      "end": 54.75,
+      "text": "L'innovazione quindi non consiste nell'aggiungere un ingrediente."
+    },
+    {
+      "start": 54.99,
+      "end": 57.75,
+      "text": "Consiste nel far funzionare l'intera formulazione."
+    },
+    {
+      "start": 57.75,
+      "end": 62.85,
+      "text": "Scopri questi nuovi approcci alla formulazione al festival dell'innovazione ancora alimentare."
+    },
+    {
+      "start": 62.99,
+      "end": 67.11,
+      "text": "Il festival sarà online e gratuito dal 9 al 12 novembre 2026."
+    }
+  ]
+}

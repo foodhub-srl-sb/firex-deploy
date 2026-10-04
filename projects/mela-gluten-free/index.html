@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="it">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=1080, height=1920">
+    <title>La mela nel gluten-free · Food Hub</title>
+    <link rel="stylesheet" href="assets/fonts/montserrat.css">
+    <script src="assets/vendor/gsap.min.js"></script>
+    <style>
+      /* Stile Food Hub: vedi CLAUDE.md alla radice del repository */
+      :root {
+        --cr: #d3134a;
+        --gr: #45b07a;
+        --gr-dark: #1e7f52;
+        --or: #f5a269;
+        --ye: #fde57d;
+        --ye-deep: #f7c628;
+        --wh: #ffffff;
+        --ink: #2b2f36;
+      }
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { width: 1080px; height: 1920px; overflow: hidden; background: #000; }
+      #root { position: relative; width: 100%; height: 100%; overflow: hidden; background: #000; font-family: "Montserrat", sans-serif; }
+      .scene, .layer, .bg { position: absolute; inset: 0; width: 100%; height: 100%; }
+      .scene { overflow: hidden; }
+      .abs { position: absolute; display: block; }
+      img, video.fill { display: block; }
+      video.fill { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+
+      /* ripresa: lo zoom agisce sul contenitore, non sul video temporizzato */
+      #hook-zoom, #studio-zoom { position: absolute; inset: 0; overflow: hidden; }
+      #studio-zoom { transform-origin: 50% 22%; }
+
+      /* etichette bianche inclinate */
+      .lbl {
+        position: absolute; display: block; background: var(--wh); color: var(--cr);
+        font-weight: 800; line-height: 1.08; padding: 0.06em 0.3em 0.12em;
+        white-space: nowrap; transform-origin: 0% 50%; letter-spacing: -0.01em;
+      }
+      .lbl.green { background: var(--gr-dark); color: var(--wh); }
+      .lbl.red { background: var(--cr); color: var(--wh); }
+      .ln { display: block; overflow: hidden; padding-bottom: 0.08em; margin-bottom: -0.08em; }
+      .ln > span { display: block; }
+      .kw { position: relative; display: inline-block; isolation: isolate; }
+      .mk {
+        position: absolute; display: block; left: -0.12em; right: -0.12em; bottom: 0.05em;
+        height: 0.18em; border-radius: 0.08em; transform-origin: 0% 50%; z-index: -1; background: var(--ye-deep);
+      }
+
+      /* sottotitoli stile Geopop: riquadro scuro, parola chiave nel cremisi del logo */
+      .cap {
+        position: absolute; left: 90px; width: 900px; top: 1196px; text-align: center;
+      }
+      .cap span.box {
+        display: inline; background: rgba(24, 24, 27, 0.78); color: var(--wh);
+        font-weight: 600; font-size: 46px; line-height: 1.42; padding: 0.12em 0.42em;
+        box-decoration-break: clone; -webkit-box-decoration-break: clone; border-radius: 8px;
+      }
+      .cap b { color: var(--cr); font-weight: 800; }
+
+      /* frasi su sfondo nero, scritte a macchina */
+      .tw { background: #000; }
+      .tw-text {
+        position: absolute; left: 90px; width: 840px; top: 760px; color: var(--wh);
+        font-weight: 800; font-size: 82px; line-height: 1.1; letter-spacing: 0.01em; text-transform: uppercase;
+      }
+      .tw-text .c { display: none; }
+      .tw-text .c.k { color: var(--cr); }
+      .tw-cursor { display: inline-block; width: 0.42em; height: 0.92em; margin-left: 0.05em; background: var(--cr); vertical-align: -0.08em; }
+
+      /* passaggio dall'hook allo studio */
+      #wipe { background: var(--cr); }
+
+      /* scheda dello studio */
+      .note {
+        position: absolute; display: block; width: 820px; background: var(--wh); color: var(--ink);
+        font-weight: 600; font-size: 30px; line-height: 1.25; padding: 0.35em 0.6em; border-left: 10px solid var(--gr);
+      }
+      .unit { font-size: 0.5em; font-weight: 800; margin-left: 0.15em; }
+
+      /* festival */
+      #fest-bg { background: var(--wh); }
+      .petal { position: absolute; left: 357px; top: 330px; width: 366px; height: 576px; }
+      #fest-name { left: 0; top: 960px; width: 1080px; text-align: center; color: #507055; font-weight: 800; font-size: 64px; line-height: 1.12; }
+      #fest-name .pink { color: #e5195a; }
+
+      /* chiusura */
+      #end-logo { left: 340px; top: 520px; width: 400px; height: 583px; }
+      #end-name { left: 0; top: 1170px; width: 1080px; text-align: center; color: var(--cr); font-weight: 800; font-size: 120px; letter-spacing: -0.02em; }
+    </style>
+  </head>
+  <body>
+    <!-- Safe zone 9:16: niente testo sotto y=1536 (20% inferiore) né vicino al bordo destro (x > 940). -->
+    <div data-hf-id="hf-agmv" id="root" data-composition-id="main" data-start="0" data-duration="70.8" data-width="1080" data-height="1920">
+
+      <!-- =============== RIPRESE =============== -->
+      <div data-hf-id="hf-fe9s" id="hook-zoom">
+        <video data-hf-id="hf-a3le" id="hook" class="fill clip" src="assets/video/hook.mp4" muted playsinline data-start="0" data-duration="6" data-track-index="0"></video>
+      </div>
+      <div data-hf-id="hf-vozt" id="studio-zoom">
+        <video data-hf-id="hf-ec3u" id="studio" class="fill clip" src="assets/video/studio.mp4" muted playsinline data-start="6" data-duration="61.2" data-track-index="1"></video>
+      </div>
+      <i data-hf-id="hf-qk9t" id="wipe" class="abs clip" style="left: 0; top: 0; width: 1080px; height: 1920px" data-start="5.6" data-duration="0.95" data-track-index="2"></i>
+
+      <!-- =============== ETICHETTE (zona busto: y 760-1160, x < 940) =============== -->
+      <div data-hf-id="hf-hmjr" id="l-peccato" class="lbl clip" data-layout-allow-overlap style="left: 80px; top: 230px; font-size: 104px" data-start="1.77" data-duration="1.5" data-track-index="3"><span data-layout-allow-overlap data-hf-id="hf-rq3z" style="display: block">IL PECCATO</span><span data-layout-allow-overlap data-hf-id="hf-0e5r" style="display: block; color: var(--gr-dark)">ORIGINALE</span></div>
+      <div data-hf-id="hf-8ifu" id="l-gf" class="lbl clip" style="left: 80px; top: 800px; font-size: 104px" data-start="6.69" data-duration="3.25" data-track-index="3">GLUTEN-FREE</div>
+      <div data-hf-id="hf-j4zd" id="l-x20" class="lbl clip" style="left: 80px; top: 780px; font-size: 190px" data-start="12.6" data-duration="2.9" data-track-index="3">×<span data-hf-id="hf-swc8" id="n20">20</span></div>
+      <div data-hf-id="hf-88p2" id="l-acqua" class="lbl green clip" style="left: 90px; top: 1020px; font-size: 52px" data-start="14.15" data-duration="1.35" data-track-index="4">il proprio peso in acqua</div>
+      <div data-hf-id="hf-wg48" id="l-strutt" class="lbl green clip" style="left: 80px; top: 800px; font-size: 64px" data-start="18.11" data-duration="2.6" data-track-index="3">✓ struttura</div>
+      <div data-hf-id="hf-3osx" id="l-lavor" class="lbl green clip" style="left: 120px; top: 905px; font-size: 64px" data-start="18.95" data-duration="1.76" data-track-index="4">✓ lavorabilità</div>
+      <div data-hf-id="hf-nfxn" id="l-compr" class="lbl red clip" style="left: 80px; top: 1010px; font-size: 50px" data-start="20.31" data-duration="2.3" data-track-index="5">✗ compromettere il risultato</div>
+      <div data-hf-id="hf-4kx4" id="l-rieq" class="lbl clip" data-layout-allow-overlap style="left: 80px; top: 860px; font-size: 66px" data-start="22.79" data-duration="1.96" data-track-index="3"><span data-layout-allow-overlap data-hf-id="hf-szg1" style="display: block">la ricetta va</span><span data-layout-allow-overlap data-hf-id="hf-8bzu" class="kw" style="display: inline-block">riequilibrata<i data-hf-id="hf-ses8" class="mk"></i></span></div>
+      <div data-hf-id="hf-j4en" id="l-rs" class="lbl green clip" style="left: 80px; top: 960px; font-size: 58px" data-start="27.13" data-duration="1.8" data-track-index="3">R&amp;S · Ricerca e Sviluppo</div>
+
+      <!-- scheda dello studio · fase 1: la ricetta -->
+      <div data-hf-id="hf-xhri" id="st-kick" class="lbl green clip" style="left: 80px; top: 770px; font-size: 42px" data-start="30.19" data-duration="6.6" data-track-index="3">STUDIO · PANE SENZA GLUTINE</div>
+      <div data-hf-id="hf-etld" id="st-kick2" class="lbl green clip" style="left: 80px; top: 770px; font-size: 42px" data-start="36.93" data-duration="1.4" data-track-index="4">SU 100 g DI MISCELA</div>
+      <div data-hf-id="hf-sbgr" id="st-a" class="lbl clip" style="left: 80px; top: 855px; font-size: 76px" data-start="33.29" data-duration="5.05" data-track-index="5">7 g fibra di mela</div>
+      <div data-hf-id="hf-belu" id="st-b" class="lbl clip" style="left: 110px; top: 955px; font-size: 76px" data-start="34.81" data-duration="3.53" data-track-index="6">+ 4 g HPMC</div>
+      <div data-hf-id="hf-j6h8" id="st-note" class="note clip" style="left: 110px; top: 1062px" data-start="35.89" data-duration="2.45" data-track-index="7"><b data-hf-id="hf-85tt">HPMC</b> · idrossipropilmetilcellulosa, un derivato della cellulosa che fa da addensante</div>
+      <!-- scheda dello studio · fase 2: i risultati -->
+      <div data-hf-id="hf-yi1d" id="st-t1" class="lbl green clip" style="left: 80px; top: 770px; font-size: 40px" data-start="38.89" data-duration="7.5" data-track-index="3">VOLUME SPECIFICO</div>
+      <div data-hf-id="hf-m0ce" id="st-n1" class="lbl clip" style="left: 80px; top: 815px; font-size: 108px" data-start="40.45" data-duration="5.94" data-track-index="4"><span data-hf-id="hf-xfyg" id="n397">3,97</span><span data-hf-id="hf-w35a" class="unit">cm³/g</span></div>
+      <div data-hf-id="hf-pw5z" id="st-t2" class="lbl green clip" style="left: 80px; top: 962px; font-size: 40px" data-start="43.55" data-duration="2.84" data-track-index="5">DUREZZA DELLA MOLLICA</div>
+      <div data-hf-id="hf-vxqs" id="st-n2" class="lbl clip" style="left: 80px; top: 1007px; font-size: 108px" data-start="45.17" data-duration="1.22" data-track-index="6"><span data-hf-id="hf-ow9i" id="n210">2,10</span><span data-hf-id="hf-gs92" class="unit">N · morbida</span></div>
+
+      <div data-hf-id="hf-4j5s" id="l-trad" class="lbl red clip" style="left: 80px; top: 820px; font-size: 92px" data-start="46.6" data-duration="0.81" data-track-index="3">TRADOTTO:</div>
+      <div data-hf-id="hf-virv" id="l-fibra" class="lbl green clip" style="left: 80px; top: 820px; font-size: 66px" data-start="48.69" data-duration="2.76" data-track-index="3">✓ più fibra</div>
+      <div data-hf-id="hf-togn" id="l-morb" class="lbl green clip" style="left: 120px; top: 930px; font-size: 66px" data-start="50.15" data-duration="1.3" data-track-index="4">✓ mollica morbida</div>
+      <div data-hf-id="hf-o973" id="l-intera" class="lbl clip" data-layout-allow-overlap style="left: 80px; top: 850px; font-size: 68px" data-start="56.57" data-duration="1.4" data-track-index="3"><span data-layout-allow-overlap data-hf-id="hf-s605" style="display: block; font-size: 0.6em; color: var(--ink)">far funzionare</span><span data-layout-allow-overlap data-hf-id="hf-cayp" class="kw" style="display: inline-block">l'intera formulazione<i data-hf-id="hf-i3w0" class="mk"></i></span></div>
+      <div data-hf-id="hf-z143" id="l-approcci" class="lbl green clip" data-layout-allow-overlap style="left: 80px; top: 880px; font-size: 56px" data-start="58.69" data-duration="1.8" data-track-index="3"><span data-layout-allow-overlap style="display: block">nuovi approcci</span><span data-layout-allow-overlap style="display: block">alla formulazione</span></div>
+      <div data-hf-id="hf-dw36" id="l-online" class="lbl green clip" style="left: 80px; top: 770px; font-size: 60px" data-start="63.81" data-duration="3.3" data-track-index="3">ONLINE</div>
+      <div data-hf-id="hf-43mr" id="l-gratis" class="lbl red clip" style="left: 400px; top: 770px; font-size: 60px" data-start="64.43" data-duration="2.68" data-track-index="4">GRATUITO</div>
+      <div data-hf-id="hf-pdvl" id="l-data" class="lbl clip" data-layout-allow-overlap style="left: 80px; top: 905px; font-size: 92px" data-start="65.23" data-duration="1.88" data-track-index="5"><span data-layout-allow-overlap data-hf-id="hf-p3d4" style="display: block">9–12 NOVEMBRE</span><span data-layout-allow-overlap data-hf-id="hf-phw1" style="display: block; font-size: 0.62em; color: var(--gr-dark)">2026</span></div>
+
+      <!-- =============== SOTTOTITOLI (65% dell'altezza) =============== -->
+      <div data-hf-id="hf-odp8" class="cap clip" data-start="1.07" data-duration="1.34" data-track-index="8"><span data-hf-id="hf-qp5u" class="box">E se il <b data-hf-id="hf-jqug">peccato originale</b></span></div>
+      <div data-hf-id="hf-r7dd" class="cap clip" data-start="2.41" data-duration="1.56" data-track-index="8"><span data-hf-id="hf-i0y5" class="box">dell'umanità fosse proprio</span></div>
+      <div data-hf-id="hf-zz1z" class="cap clip" data-start="3.97" data-duration="1.63" data-track-index="8"><span data-hf-id="hf-8rbq" class="box">ciò di cui l'<b data-hf-id="hf-vkjz">innovazione</b> ha bisogno?</span></div>
+      <div data-hf-id="hf-zjmb" class="cap clip" data-start="6.55" data-duration="1.22" data-track-index="8"><span data-hf-id="hf-tplr" class="box">Nel gluten-free una <b data-hf-id="hf-tm28">mela</b></span></div>
+      <div data-hf-id="hf-3mwg" class="cap clip" data-start="7.77" data-duration="2.3" data-track-index="8"><span data-hf-id="hf-qicb" class="box">può cambiare il comportamento di un intero <b data-hf-id="hf-akbc">impasto</b>.</span></div>
+      <div data-hf-id="hf-doje" class="cap clip" data-start="10.19" data-duration="1.8" data-track-index="8"><span data-hf-id="hf-wqif" class="box">Alcune <b data-hf-id="hf-av3f">fibre</b> di mela possono legare</span></div>
+      <div data-hf-id="hf-t407" class="cap clip" data-start="11.99" data-duration="3.44" data-track-index="8"><span data-hf-id="hf-y04d" class="box">almeno <b data-hf-id="hf-3e0l">20 volte</b> il proprio peso in acqua.</span></div>
+      <div data-hf-id="hf-sy5z" class="cap clip" data-start="15.51" data-duration="1.8" data-track-index="8"><span data-hf-id="hf-j7r9" class="box">Una proprietà <b data-hf-id="hf-zbht">enorme</b></span></div>
+      <div data-hf-id="hf-svt6" class="cap clip" data-start="17.31" data-duration="2.42" data-track-index="8"><span data-hf-id="hf-dsio" class="box">che può <b data-hf-id="hf-vq04">migliorare</b> struttura, lavorabilità,</span></div>
+      <div data-hf-id="hf-pf4a" class="cap clip" data-start="19.83" data-duration="1.84" data-track-index="8"><span data-hf-id="hf-uj9p" class="box">oppure <b data-hf-id="hf-5u57">compromettere</b> completamente</span></div>
+      <div data-hf-id="hf-d4zn" class="cap clip" data-start="21.67" data-duration="3.08" data-track-index="8"><span data-hf-id="hf-eq8z" class="box">il risultato se la ricetta non viene <b data-hf-id="hf-ivmh">riequilibrata</b>.</span></div>
+      <div data-hf-id="hf-ia12" class="cap clip" data-start="26.55" data-duration="2.44" data-track-index="8"><span data-hf-id="hf-v0mc" class="box">di chi lavora in <b data-hf-id="hf-a93v">ricerca e sviluppo</b> dell'industria alimentare.</span></div>
+      <div data-hf-id="hf-0pz9" class="cap clip" data-start="28.99" data-duration="2.9" data-track-index="8"><span data-hf-id="hf-phfi" class="box">Ad esempio, in uno studio sul <b data-hf-id="hf-vdis">pane senza glutine</b>,</span></div>
+      <div data-hf-id="hf-63w7" class="cap clip" data-start="32.09" data-duration="2.58" data-track-index="8"><span data-hf-id="hf-wv6q" class="box">una formulazione con 7 grammi di <b data-hf-id="hf-pnrj">fibra di mela</b></span></div>
+      <div data-hf-id="hf-x1z0" class="cap clip" data-start="34.67" data-duration="3.52" data-track-index="8"><span data-hf-id="hf-26mb" class="box">e 4 grammi di <b data-hf-id="hf-qsgl">HPMC</b> ogni 100 grammi di miscela</span></div>
+      <div data-hf-id="hf-rwm6" class="cap clip" data-start="38.19" data-duration="1.88" data-track-index="8"><span data-hf-id="hf-tytp" class="box">ha raggiunto un volume specifico</span></div>
+      <div data-hf-id="hf-zpgf" class="cap clip" data-start="40.07" data-duration="3.16" data-track-index="8"><span data-hf-id="hf-ydhp" class="box">di <b data-hf-id="hf-3io7">3,97 cm³</b> per grammo</span></div>
+      <div data-hf-id="hf-44ya" class="cap clip" data-start="43.23" data-duration="1.36" data-track-index="8"><span data-hf-id="hf-j96h" class="box">e una durezza della mollica</span></div>
+      <div data-hf-id="hf-88a9" class="cap clip" data-start="44.59" data-duration="1.8" data-track-index="8"><span data-hf-id="hf-7wrs" class="box">di appena <b data-hf-id="hf-ltzx">2,10 newton</b>.</span></div>
+      <div data-hf-id="hf-pfai" class="cap clip" data-start="46.69" data-duration="0.72" data-track-index="8"><span data-hf-id="hf-2l5s" class="box"><b data-hf-id="hf-dtiu">Tradotto.</b></span></div>
+      <div data-hf-id="hf-3f70" class="cap clip" data-start="48.69" data-duration="2.74" data-track-index="8"><span data-hf-id="hf-ls3x" class="box"><b data-hf-id="hf-j0id">Più fibra</b>, ma con una mollica sviluppata e <b data-hf-id="hf-b51v">morbida</b>.</span></div>
+      <div data-hf-id="hf-v7oe" class="cap clip" data-start="54.99" data-duration="2.76" data-track-index="8"><span data-hf-id="hf-1x0n" class="box">Consiste nel far funzionare <b data-hf-id="hf-inwi">l'intera formulazione</b>.</span></div>
+      <div data-hf-id="hf-x5b8" class="cap clip" data-start="57.75" data-duration="2.75" data-track-index="8"><span data-hf-id="hf-wf6s" class="box">Scopri questi <b data-hf-id="hf-10zp">nuovi approcci</b> alla formulazione</span></div>
+      <div data-hf-id="hf-gnho" class="cap clip" data-start="62.99" data-duration="2.02" data-track-index="8"><span data-hf-id="hf-tayf" class="box">Il festival sarà <b data-hf-id="hf-dkk4">online e gratuito</b></span></div>
+      <div data-hf-id="hf-e855" class="cap clip" data-start="65.01" data-duration="2.1" data-track-index="8"><span data-hf-id="hf-ez77" class="box">dal <b data-hf-id="hf-6idw">9 al 12 novembre</b> 2026.</span></div>
+
+      <!-- =============== FRASI SU NERO (macchina da scrivere) =============== -->
+      <section data-hf-id="hf-9p82" id="tw-a" class="scene tw clip" data-start="24.75" data-duration="1.8" data-track-index="9"><div data-hf-id="hf-4tvo" class="tw-text" data-text="È QUI CHE COMINCIA IL VERO LAVORO" data-key="VERO LAVORO"></div></section>
+      <section data-hf-id="hf-47gt" id="tw-b" class="scene tw clip" data-start="47.41" data-duration="1.19" data-track-index="9"><div data-hf-id="hf-exmb" class="tw-text" data-text="CHE COSA VUOL DIRE?" data-key="VUOL DIRE?"></div></section>
+      <section data-hf-id="hf-1j6w" id="tw-c" class="scene tw clip" data-start="51.45" data-duration="3.5" data-track-index="9"><div data-hf-id="hf-fozt" class="tw-text" data-text="L'INNOVAZIONE NON CONSISTE NELL'AGGIUNGERE UN INGREDIENTE." data-key="UN INGREDIENTE."></div></section>
+
+      <!-- =============== FESTIVAL: il logo si compone =============== -->
+      <section data-hf-id="hf-dwnn" id="fest" class="scene clip" data-start="60.5" data-duration="2.45" data-track-index="9">
+        <div data-hf-id="hf-ucvv" id="fest-bg" class="bg"></div>
+        <img data-hf-id="hf-4m1q" id="pt1" class="petal" src="assets/img/festival/p1-chiaro.png" alt="">
+        <img data-hf-id="hf-8xzq" id="pt2" class="petal" src="assets/img/festival/p2-verde.png" alt="">
+        <img data-hf-id="hf-u8f0" id="pt3" class="petal" src="assets/img/festival/p3-salvia.png" alt="">
+        <img data-hf-id="hf-cygy" id="pt4" class="petal" src="assets/img/festival/p4-scuro.png" alt="">
+        <img data-hf-id="hf-g1wt" id="pt5" class="petal" src="assets/img/festival/p5-rosa.png" alt="">
+        <div data-hf-id="hf-6wlk" id="fest-name" class="abs"><span data-hf-id="hf-smev" class="ln"><span data-hf-id="hf-bpkv">Festival dell'Innovazione</span></span><span data-hf-id="hf-oupj" class="ln"><span data-hf-id="hf-ebnw" class="pink">Agroalimentare</span></span></div>
+      </section>
+
+      <!-- =============== CHIUSURA · logo Food Hub =============== -->
+      <section data-hf-id="hf-wlcs" id="end" class="scene clip" data-start="67.2" data-duration="3.6" data-track-index="10">
+        <div data-hf-id="hf-85h3" id="end-bg" class="bg" style="background: #ffffff"></div>
+        <div data-hf-id="hf-znrh" id="end-wrap" class="layer">
+          <i data-hf-id="hf-4l4a" id="end-c1" class="abs" style="left: 140px; top: 560px; width: 260px; height: 260px; border-radius: 50%; background: #d3134a"></i>
+          <i data-hf-id="hf-auzo" id="end-c2" class="abs" style="left: 690px; top: 650px; width: 220px; height: 220px; border-radius: 50%; background: #f5a269"></i>
+          <i data-hf-id="hf-7ld4" id="end-c3" class="abs" style="left: 420px; top: 1000px; width: 200px; height: 200px; border-radius: 50%; background: #45b07a"></i>
+          <svg data-hf-id="hf-og99" id="end-logo" class="abs" viewBox="66 58 46 67">
+<path data-hf-id="hf-m8ti" id="lg-right" d="M 111.191406 101.679688 L 111.191406 101.671875 C 111.1875 90.964844 103.539062 82.050781 93.402344 80.070312 C 93.851562 80.550781 94.199219 81.125 94.414062 81.753906 C 94.53125 82.148438 94.605469 82.578125 94.625 83.058594 C 94.730469 84.527344 93.890625 87.367188 89.941406 87.8125 C 89.902344 87.816406 89.851562 87.824219 89.128906 87.828125 C 88.152344 87.835938 87.144531 87.84375 82.074219 87.847656 C 81.527344 87.847656 78.796875 88.023438 78.484375 91.425781 C 78.492188 91.917969 78.691406 94.683594 82.152344 94.90625 L 92.980469 94.90625 C 95.234375 94.945312 99.582031 96.429688 99.925781 101.792969 C 100.03125 104.046875 98.695312 108.414062 92.867188 108.789062 L 89.835938 108.792969 L 81.78125 108.777344 L 81.675781 108.777344 C 80.796875 108.777344 78.71875 109.113281 78.484375 112.21875 C 78.484375 112.234375 78.433594 113.476562 79.253906 114.390625 C 79.835938 115.039062 80.753906 115.410156 81.988281 115.496094 L 89.808594 115.539062 C 89.945312 115.539062 90.089844 115.546875 90.242188 115.5625 C 90.316406 115.570312 90.386719 115.578125 90.457031 115.585938 C 90.460938 115.585938 90.460938 115.585938 90.464844 115.585938 C 91.03125 115.667969 91.679688 115.863281 92.296875 116.207031 C 92.339844 116.230469 92.386719 116.257812 92.429688 116.285156 C 92.480469 116.316406 92.53125 116.347656 92.582031 116.382812 C 93.039062 116.683594 93.460938 117.074219 93.804688 117.578125 C 93.855469 117.652344 93.902344 117.730469 93.949219 117.808594 C 93.96875 117.839844 93.992188 117.867188 94.007812 117.902344 C 94.089844 118.046875 94.164062 118.199219 94.230469 118.363281 C 94.441406 118.871094 94.582031 119.464844 94.621094 120.152344 C 94.628906 120.246094 94.628906 120.347656 94.625 120.453125 C 94.617188 120.574219 94.613281 120.695312 94.597656 120.816406 C 94.472656 121.75 94.066406 122.601562 93.460938 123.28125 C 103.570312 121.273438 111.191406 112.367188 111.191406 101.679688 " fill="rgb(211, 19, 74)" transform="matrix(1 0 0 1 0 0)" />
+<path data-hf-id="hf-v47z" id="lg-left" d="M 93.367188 120.234375 C 93.164062 116.691406 89.796875 116.761719 89.796875 116.761719 L 82.039062 116.753906 C 77.019531 116.429688 77.328125 112.171875 77.328125 112.171875 C 77.691406 107.34375 81.875 107.589844 81.875 107.589844 L 92.785156 107.570312 C 98.917969 107.171875 98.667969 101.847656 98.667969 101.847656 C 98.308594 96.21875 92.960938 96.128906 92.960938 96.128906 L 82.113281 96.128906 C 77.203125 95.84375 77.222656 91.378906 77.222656 91.378906 C 77.636719 86.480469 82.113281 86.625 82.113281 86.625 C 82.113281 86.625 89.636719 86.617188 89.796875 86.597656 C 93.617188 86.164062 93.367188 83.125 93.367188 83.125 C 93.261719 80.230469 90.636719 79.746094 89.957031 79.671875 C 89.835938 79.664062 89.714844 79.660156 89.59375 79.660156 C 86.519531 79.6875 83.59375 80.304688 80.933594 81.40625 C 80.109375 81.722656 79.351562 82.085938 78.621094 82.46875 C 71.90625 86.242188 67.367188 93.429688 67.367188 101.679688 C 67.367188 108.140625 70.148438 113.949219 74.574219 117.976562 C 74.664062 118.054688 74.75 118.128906 74.839844 118.207031 C 74.949219 118.300781 75.058594 118.394531 75.167969 118.488281 C 78.039062 120.851562 81.519531 122.535156 85.351562 123.277344 C 86.726562 123.542969 88.140625 123.6875 89.589844 123.699219 C 89.8125 123.695312 90.03125 123.691406 90.25 123.683594 C 93.558594 123.0625 93.367188 120.234375 93.367188 120.234375 " fill="rgb(244, 161, 105)" transform="matrix(1 0 0 1 0 0)" />
+<path data-hf-id="hf-er6w" id="lg-leaf-r" d="M 91.035156 74.71875 C 91.035156 74.71875 88.640625 57.390625 107.460938 59.320312 C 107.460938 59.320312 110.261719 74.898438 91.035156 74.71875 " fill="rgb(70, 176, 123)" transform="matrix(1 0 0 1 0 0)" />
+<path data-hf-id="hf-2vnx" id="lg-leaf-l" d="M 87.710938 74.621094 C 87.710938 74.621094 75.304688 76.425781 76.558594 63.144531 C 76.558594 63.144531 87.710938 61.066406 87.710938 74.621094 " fill="rgb(70, 176, 123)" transform="matrix(1 0 0 1 0 0)" />
+          </svg>
+          <div data-hf-id="hf-t6nr" id="end-name" class="abs"><span data-hf-id="hf-ogei" class="ln"><span data-hf-id="hf-af9i">Food Hub</span></span></div>
+        </div>
+      </section>
+
+      <!-- =============== AUDIO =============== -->
+      <audio data-hf-id="hf-5xcw" id="voice" src="audio/voice.wav" data-start="0" data-duration="67.2" data-track-index="11" data-volume="1"></audio>
+      <!-- musica originale (scripts/synth-audio.py): sotto la voce, si abbassa ancora sulle frasi su nero, sale in chiusura -->
+      <audio data-hf-id="hf-xiko" id="music" src="audio/music.wav" data-start="0" data-duration="70.8" data-track-index="12" data-volume="1" data-fade-out="0.8" data-automation="{&quot;version&quot;:1,&quot;lanes&quot;:[{&quot;target&quot;:&quot;volume&quot;,&quot;points&quot;:[{&quot;t&quot;:0,&quot;v&quot;:0.5},{&quot;t&quot;:0.95,&quot;v&quot;:0.5},{&quot;t&quot;:1.2,&quot;v&quot;:0.1},{&quot;t&quot;:5.3,&quot;v&quot;:0.1},{&quot;t&quot;:5.7,&quot;v&quot;:0.42},{&quot;t&quot;:6.4,&quot;v&quot;:0.42},{&quot;t&quot;:6.8,&quot;v&quot;:0.14},{&quot;t&quot;:15.3,&quot;v&quot;:0.14},{&quot;t&quot;:15.6,&quot;v&quot;:0.1},{&quot;t&quot;:24.55,&quot;v&quot;:0.1},{&quot;t&quot;:24.75,&quot;v&quot;:0.02},{&quot;t&quot;:26.5,&quot;v&quot;:0.02},{&quot;t&quot;:26.8,&quot;v&quot;:0.17},{&quot;t&quot;:28.8,&quot;v&quot;:0.17},{&quot;t&quot;:29.2,&quot;v&quot;:0.05},{&quot;t&quot;:46.3,&quot;v&quot;:0.05},{&quot;t&quot;:46.5,&quot;v&quot;:0.2},{&quot;t&quot;:47.3,&quot;v&quot;:0.2},{&quot;t&quot;:47.41,&quot;v&quot;:0.02},{&quot;t&quot;:48.6,&quot;v&quot;:0.02},{&quot;t&quot;:48.8,&quot;v&quot;:0.15},{&quot;t&quot;:51.3,&quot;v&quot;:0.15},{&quot;t&quot;:51.45,&quot;v&quot;:0.02},{&quot;t&quot;:54.9,&quot;v&quot;:0.02},{&quot;t&quot;:55.2,&quot;v&quot;:0.11},{&quot;t&quot;:57.6,&quot;v&quot;:0.11},{&quot;t&quot;:58.0,&quot;v&quot;:0.17},{&quot;t&quot;:60.3,&quot;v&quot;:0.17},{&quot;t&quot;:60.6,&quot;v&quot;:0.32},{&quot;t&quot;:62.8,&quot;v&quot;:0.32},{&quot;t&quot;:63.1,&quot;v&quot;:0.12},{&quot;t&quot;:66.9,&quot;v&quot;:0.12},{&quot;t&quot;:67.5,&quot;v&quot;:0.6},{&quot;t&quot;:70.8,&quot;v&quot;:0.6}]}]}"></audio>
+      <audio data-hf-id="hf-v7xn" id="tw-a-snd" src="audio/type-a.wav" data-start="24.95" data-duration="1.7" data-track-index="13" data-volume="0.8"></audio>
+      <audio data-hf-id="hf-hgxq" id="tw-b-snd" src="audio/type-b.wav" data-start="47.68" data-duration="0.97" data-track-index="13" data-volume="0.8"></audio>
+      <audio data-hf-id="hf-s1ul" id="tw-c-snd" src="audio/type-c.wav" data-start="51.65" data-duration="3.15" data-track-index="13" data-volume="0.8"></audio>
+      <!-- effetti: solo nei momenti chiave, mai lo stesso due volte di fila -->
+      <audio id="sfx-01" src="audio/whoosh-up.wav" data-start="0.25" data-duration="0.7" data-track-index="14" data-volume="0.4"></audio>
+      <audio id="sfx-02" src="audio/whoosh-long.wav" data-start="5.55" data-duration="1.0" data-track-index="14" data-volume="0.5"></audio>
+      <audio id="sfx-03" src="audio/pop-high.wav" data-start="12.65" data-duration="0.12" data-track-index="14" data-volume="0.5"></audio>
+      <audio id="sfx-04" src="audio/slap.wav" data-start="20.33" data-duration="0.25" data-track-index="14" data-volume="0.5"></audio>
+      <audio id="sfx-05" src="audio/sparkle.wav" data-start="30.15" data-duration="0.6" data-track-index="14" data-volume="0.35"></audio>
+      <audio id="sfx-06" src="audio/pop-mid.wav" data-start="40.47" data-duration="0.12" data-track-index="14" data-volume="0.45"></audio>
+      <audio id="sfx-07" src="audio/slap.wav" data-start="46.62" data-duration="0.25" data-track-index="14" data-volume="0.5"></audio>
+      <audio id="sfx-08" src="audio/pop-low.wav" data-start="56.6" data-duration="0.12" data-track-index="14" data-volume="0.45"></audio>
+      <audio id="sfx-09" src="audio/sparkle.wav" data-start="61.2" data-duration="0.6" data-track-index="14" data-volume="0.4"></audio>
+      <audio id="sfx-10" src="audio/slap.wav" data-start="65.25" data-duration="0.25" data-track-index="14" data-volume="0.5"></audio>
+      <audio id="sfx-11" src="audio/whoosh-long.wav" data-start="67.05" data-duration="1.0" data-track-index="14" data-volume="0.45"></audio>
+      <audio id="sfx-12" src="audio/sparkle.wav" data-start="68.5" data-duration="0.6" data-track-index="14" data-volume="0.4"></audio>
+    </div>
+
+    <script>
+      const tl = gsap.timeline({ paused: true });
+      const E = { out: "power3.out", in: "power3.in", back: "back.out(2)", el: "elastic.out(1, 0.55)" };
+
+      // ---------- funzioni di animazione dello stile Food Hub ----------
+      function slap(sel, t, rot, from = -14) {
+        tl.fromTo(sel, { opacity: 0, scale: 1.9, rotation: rot + from, y: -30 }, { opacity: 1, scale: 1, rotation: rot, y: 0, duration: 0.5, ease: "back.out(2.4)" }, t);
+      }
+      function unroll(sel, t, rot) {
+        tl.fromTo(sel, { opacity: 1, scaleX: 0, rotation: rot }, { scaleX: 1, rotation: rot, duration: 0.5, ease: "power4.out" }, t);
+      }
+      function lines(sel, t, stagger = 0.12) {
+        tl.fromTo(sel + " .ln > span", { yPercent: 110 }, { yPercent: 0, duration: 0.6, ease: E.out, stagger }, t);
+      }
+      function mark(sel, t, d = 0.35) {
+        tl.fromTo(sel + " .mk", { scaleX: 0 }, { scaleX: 1, duration: d, ease: "power2.inOut" }, t);
+      }
+      function count(sel, t, to, d, dec = 1) {
+        const o = { v: 0 };
+        const el = document.querySelector(sel);
+        tl.fromTo(o, { v: 0 }, { v: to, duration: d, ease: "power2.out", immediateRender: false, onUpdate: () => (el.textContent = o.v.toFixed(dec).replace(".", ",")) }, t);
+      }
+      function reveal(ids, t, at = "50% 50%") {
+        tl.fromTo(ids, { clipPath: `circle(0% at ${at})` }, { clipPath: `circle(150% at ${at})`, duration: 0.8, ease: "power3.inOut" }, t);
+      }
+      // etichetta che entra da sinistra
+      function slideIn(sel, t, rot = 0) {
+        tl.fromTo(sel, { xPercent: -120, rotation: rot }, { xPercent: 0, rotation: rot, duration: 0.45, ease: "power4.out" }, t);
+      }
+      // uscita: l'etichetta cade e svanisce
+      function drop(sel, t) {
+        tl.to(sel, { y: 140, rotation: "+=10", opacity: 0, duration: 0.35, ease: E.in }, t);
+      }
+      function out(sel, t) {
+        tl.to(sel, { xPercent: -120, duration: 0.3, ease: E.in }, t);
+      }
+
+      // ================= RIPRESA: zoom e cambi di inquadratura =================
+      // studio ritagliato a 1,8x in preparazione; qui 1 = inquadratura base
+      const Z = "#studio-zoom";
+      const cut = (t, s) => tl.set(Z, { scale: s }, t);              // cambio di inquadratura secco (copre il salto)
+      const zoom = (t, s, d = 0.35) => tl.to(Z, { scale: s, duration: d, ease: "power2.out" }, t);
+      tl.fromTo("#hook-zoom", { scale: 1 }, { scale: 1.06, duration: 6, ease: "none" }, 0);
+      cut(6, 1);
+      zoom(7.55, 1.15);
+      cut(9.98, 1);
+      zoom(12.62, 1.22);
+      zoom(15.45, 1.04, 0.5);
+      cut(19.67, 1.1);
+      zoom(20.27, 1.25);
+      zoom(22.7, 1.08, 0.5);
+      cut(26.55, 1.15);
+      cut(28.99, 1);
+      cut(29.71, 1.05);
+      tl.to(Z, { scale: 1.13, duration: 16.6, ease: "none" }, 29.75);   // spinta lenta sotto la scheda dei dati
+      cut(46.49, 1.2);
+      cut(48.6, 1.28);
+      zoom(48.7, 1.1, 2.6);
+      cut(54.95, 1);
+      zoom(56.55, 1.2);
+      cut(58.06, 1);
+      tl.to(Z, { scale: 1.08, duration: 2.4, ease: "none" }, 58.1);
+      cut(62.95, 1.12);
+      zoom(65.2, 1.22);
+
+      // ================= HOOK → STUDIO =================
+      // il cerchio cremisi nasce dalla mela (in alto a destra del volto) e copre lo schermo
+      tl.fromTo("#wipe", { clipPath: "circle(0% at 81% 35%)" }, { clipPath: "circle(150% at 81% 35%)", duration: 0.38, ease: "power2.in" }, 5.6);
+      tl.fromTo("#wipe", { yPercent: 0 }, { yPercent: -100, duration: 0.4, ease: "power3.inOut" }, 6.02);
+
+      // ================= ETICHETTE =================
+      slap("#l-peccato", 1.77, -4);
+      out("#l-peccato", 2.95);
+      slap("#l-gf", 6.69, -4);
+      out("#l-gf", 9.6);
+      slap("#l-x20", 12.6, -3, 12);
+      count("#n20", 12.69, 20, 0.6, 0);
+      slideIn("#l-acqua", 14.15, 2);
+      drop("#l-x20", 15.15);
+      drop("#l-acqua", 15.15);
+      slideIn("#l-strutt", 18.11, -3);
+      slideIn("#l-lavor", 18.95, 2);
+      slap("#l-compr", 20.31, -2);
+      drop("#l-strutt", 20.4);
+      drop("#l-lavor", 20.45);
+      out("#l-compr", 22.3);
+      slap("#l-rieq", 22.79, -3);
+      mark("#l-rieq", 23.67, 0.5);
+      unroll("#l-rs", 27.13, -2);
+      out("#l-rs", 28.6);
+
+      // scheda dello studio
+      slideIn("#st-kick", 30.19, -2);
+      out("#st-kick", 36.5);
+      slideIn("#st-kick2", 36.93, -2);
+      slap("#st-a", 33.29, -3);
+      slap("#st-b", 34.81, 2, 12);
+      tl.fromTo("#st-note", { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.35, ease: E.out }, 35.89);
+      ["#st-kick2", "#st-a", "#st-b"].forEach((s, i) => out(s, 38.0 + i * 0.05));
+      tl.to("#st-note", { opacity: 0, duration: 0.25 }, 38.05);
+      slideIn("#st-t1", 38.89, -2);
+      slap("#st-n1", 40.45, -3);
+      count("#n397", 40.45, 3.97, 0.9, 2);
+      slideIn("#st-t2", 43.55, -2);
+      slap("#st-n2", 45.17, 2, 12);
+      count("#n210", 45.17, 2.1, 0.7, 2);
+      ["#st-t1", "#st-n1", "#st-t2", "#st-n2"].forEach((s, i) => out(s, 46.05 + i * 0.04));
+
+      slap("#l-trad", 46.6, -4);
+      slideIn("#l-fibra", 48.69, -3);
+      slideIn("#l-morb", 50.15, 2);
+      drop("#l-fibra", 51.1);
+      drop("#l-morb", 51.12);
+      slap("#l-intera", 56.57, -3);
+      mark("#l-intera", 56.9, 0.5);
+      unroll("#l-approcci", 58.69, -2);
+      out("#l-approcci", 60.2);
+      slap("#l-online", 63.81, -4);
+      slap("#l-gratis", 64.43, 3, 12);
+      slap("#l-data", 65.23, -2);
+
+      // ================= FRASI SU NERO: scrittura a macchina =================
+      // ogni lettera compare sul colpo di tasto dell'audio (stessi tempi di audio/type-*.wav)
+      const TW = { "tw-a": [24.95, 0.0406], "tw-b": [47.68, 0.0317], "tw-c": [51.65, 0.0482] };
+      Object.entries(TW).forEach(([id, [t0, step]]) => {
+        const box = document.getElementById(id).querySelector(".tw-text");
+        const text = box.dataset.text;
+        const k0 = text.indexOf(box.dataset.key);
+        [...text].forEach((ch, i) => {
+          const s = document.createElement("span");
+          s.className = "c" + (i >= k0 ? " k" : "");
+          s.textContent = ch;
+          box.appendChild(s);
+          tl.set(s, { display: "inline" }, t0 + i * step);
+        });
+        const cur = document.createElement("span");
+        cur.className = "tw-cursor";
+        box.appendChild(cur);
+      });
+
+      // ================= FESTIVAL: i petali arrivano e si incastrano =================
+      const F = 60.5;
+      tl.fromTo("#fest-bg", { clipPath: "circle(0% at 50% 35%)" }, { clipPath: "circle(130% at 50% 35%)", duration: 0.45, ease: "power3.inOut" }, F);
+      [
+        ["#pt1", -420, 60, -25],
+        ["#pt2", -160, -520, 18],
+        ["#pt3", 260, -480, -14],
+        ["#pt4", 120, 560, 22],
+        ["#pt5", 460, 80, 30],
+      ].forEach(([s, x, y, r], i) =>
+        tl.fromTo(s, { x, y, rotation: r, scale: 0.6, opacity: 0 }, { x: 0, y: 0, rotation: 0, scale: 1, opacity: 1, duration: 0.55, ease: "back.out(1.6)" }, F + 0.15 + i * 0.15)
+      );
+      tl.fromTo(".petal", { scale: 1 }, { scale: 1.04, duration: 0.18, yoyo: true, repeat: 1, ease: "power2.out" }, F + 1.3);
+      lines("#fest-name", F + 1.05, 0.14);
+
+      // ================= CHIUSURA =================
+      const T = 67.2;
+      reveal(["#end-bg", "#end-wrap"], T, "50% 45%");
+      ["#end-c1", "#end-c2", "#end-c3"].forEach((c, i) => tl.fromTo(c, { scale: 0 }, { scale: 1, duration: 0.4, ease: E.back }, T + 0.4 + i * 0.08));
+      tl.to("#end-c1", { x: 260, y: 220, scale: 0.2, opacity: 0, duration: 0.5, ease: E.in }, T + 0.85);
+      tl.to("#end-c2", { x: -270, y: 140, scale: 0.2, opacity: 0, duration: 0.5, ease: E.in }, T + 0.85);
+      tl.to("#end-c3", { x: 20, y: -220, scale: 0.2, opacity: 0, duration: 0.5, ease: E.in }, T + 0.85);
+      tl.fromTo("#lg-left", { x: -6, opacity: 0 }, { x: 0, opacity: 1, duration: 0.5, ease: E.back }, T + 1.25);
+      tl.fromTo("#lg-right", { x: 6, opacity: 0 }, { x: 0, opacity: 1, duration: 0.5, ease: E.back }, T + 1.25);
+      tl.fromTo("#lg-leaf-l", { scale: 0, transformOrigin: "100% 100%" }, { scale: 1, duration: 0.45, ease: "back.out(3)" }, T + 1.6);
+      tl.fromTo("#lg-leaf-r", { scale: 0, transformOrigin: "0% 100%" }, { scale: 1, duration: 0.45, ease: "back.out(3)" }, T + 1.7);
+      lines("#end-name", T + 1.8);
+
+      window.__timelines = window.__timelines || {};
+      window.__timelines["main"] = tl;
+    </script>
+  </body>
+</html>
