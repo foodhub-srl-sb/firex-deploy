@@ -19,6 +19,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import subprocess
 import sys
 from pathlib import Path
 
@@ -62,6 +63,16 @@ def write_srt(segments: list[dict], path: Path) -> None:
     path.write_text("\n".join(lines), encoding="utf-8")
 
 
+def decode_audio(path: Path):
+    """16 kHz mono float32 via ffmpeg (avoids PyAV API changes breaking faster-whisper)."""
+    import numpy as np
+
+    cmd = ["ffmpeg", "-v", "error", "-nostdin", "-i", str(path), "-vn",
+           "-ac", "1", "-ar", "16000", "-f", "s16le", "-"]
+    pcm = subprocess.run(cmd, capture_output=True, check=True).stdout
+    return np.frombuffer(pcm, np.int16).astype(np.float32) / 32768.0
+
+
 def load_model(name: str, device: str):
     from faster_whisper import WhisperModel
 
@@ -99,8 +110,13 @@ def main(argv: list[str] | None = None) -> int:
 
     print(f"Transcribing {src} (model={args.model}, device={device}, compute={ctype})...",
           file=sys.stderr)
+    try:
+        audio = decode_audio(src)
+    except (OSError, subprocess.CalledProcessError) as exc:
+        print(f"ffmpeg could not decode {src}: {exc}", file=sys.stderr)
+        return 1
     seg_iter, info = model.transcribe(
-        str(src),
+        audio,
         language=args.language,
         initial_prompt=build_prompt(args.names),
         word_timestamps=True,
