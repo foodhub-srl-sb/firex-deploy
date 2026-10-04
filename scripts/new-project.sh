@@ -24,20 +24,23 @@ if [ -e "$dest" ]; then
   exit 1
 fi
 
+# Su Windows Python si chiama "python" (python3 non esiste).
+PY=python3; command -v python3 >/dev/null 2>&1 || PY=python
+
 cp -R templates/hyperframes-9x16 "$dest"
 mkdir -p "$dest/assets/ai"
-end=$(python3 -c "print(round($secs - 3.6, 2))")
-python3 - "$dest/index.html" "$secs" "$end" "$title" <<'PY'
+end=$("$PY" -c "print(round($secs - 3.6, 2))")
+"$PY" - "$dest/index.html" "$secs" "$end" "$title" <<'PY'
 import sys
 path, secs, end, title = sys.argv[1:]
-s = open(path).read()
+s = open(path, encoding="utf-8").read()
 s = s.replace("{{DURATION}}", secs).replace("{{END}}", end).replace("{{S1}}", end).replace("{{TITLE}}", title)
-open(path, "w").write(s)
+open(path, "w", encoding="utf-8", newline="").write(s)
 PY
 sed -i.bak "s/{{NAME}}/$name/" "$dest/package.json" && rm -f "$dest/package.json.bak"
 printf '{\n  "id": "%s",\n  "name": "%s",\n  "createdAt": "%s"\n}\n' "$name" "$title" "$(date -u +%FT%TZ)" > "$dest/meta.json"
 
-python3 scripts/synth-audio.py --seconds "$secs" --music-out "$dest/audio/music.wav" >/dev/null
+"$PY" scripts/synth-audio.py --seconds "$secs" --music-out "$dest/audio/music.wav" >/dev/null
 cp sfx/*.wav "$dest/audio/"
 echo "Creato $dest ($secs s). Prossimi passi:"
 echo "  cd $dest && npx hyperframes snapshot --frames 6"

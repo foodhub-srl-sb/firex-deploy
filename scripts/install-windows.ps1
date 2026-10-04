@@ -84,6 +84,17 @@ if (Has python) {
     if ($LASTEXITCODE -ne 0) { Warn 'pip install failed' }
   } else { Warn 'Skipped Python packages' }
 
+  # Smart App Control blocks freshly downloaded native modules (DLL load failed)
+  $sac = (Get-ItemProperty 'HKLM:\SYSTEM\CurrentControlSet\Control\CI\Policy' -ErrorAction SilentlyContinue).VerifiedAndReputablePolicyState
+  if ($sac -eq 1) {
+    python -c "import av, scipy.signal" *> $null
+    if ($LASTEXITCODE -ne 0) {
+      Warn 'Smart App Control is blocking Python packages (av, scipy): faster-whisper and synth-audio will fail.'
+      Write-Host '      Turn it off in Windows Security > App & browser control > Smart App Control settings > Off,'
+      Write-Host '      then re-run this script. On many Windows 11 builds it cannot be turned back on without a reinstall.'
+    }
+  }
+
   # Faster person cutouts (RVM) on the graphics card
   python -c "import onnxruntime as o; import sys; sys.exit(0 if ({'CUDAExecutionProvider','DmlExecutionProvider'} & set(o.get_available_providers())) else 1)" *> $null
   if ($LASTEXITCODE -ne 0) {

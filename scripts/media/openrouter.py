@@ -358,7 +358,7 @@ def run_video(job, payload, out_dir, poll=15, max_wait=45 * 60):
 
 
 def run(request_path, out_root):
-    with open(request_path) as f:
+    with open(request_path, encoding="utf-8") as f:
         request = json.load(f)
     base_dir = os.path.dirname(os.path.abspath(request_path))
     req_id = request.get("id") or os.path.splitext(os.path.basename(request_path))[0]
@@ -417,7 +417,7 @@ def run(request_path, out_root):
         "jobs": results,
         "prompts": {j["name"]: j["prompt"] for j in request["jobs"]},
     }
-    with open(os.path.join(out_dir, "result.json"), "w") as f:
+    with open(os.path.join(out_dir, "result.json"), "w", encoding="utf-8") as f:
         json.dump(manifest, f, indent=2, ensure_ascii=False)
     return manifest, ok
 
@@ -444,7 +444,7 @@ def cmd_models(a):
 def cmd_check(a):
     ok = True
     for path in a.requests:
-        with open(path) as f:
+        with open(path, encoding="utf-8") as f:
             request = json.load(f)
         try:
             lines, total, unknown = plan(request, os.path.dirname(os.path.abspath(path)))
@@ -480,7 +480,7 @@ def cmd_run(a):
         print(f"= {manifest['id']}: spesi {manifest['spent_usd']} $ su {manifest['max_usd']} $")
     step = os.environ.get("GITHUB_STEP_SUMMARY")
     if step:
-        with open(step, "a") as f:
+        with open(step, "a", encoding="utf-8") as f:
             f.write("### Media generati con OpenRouter\n\n| job | stato | modello | costo $ |\n|---|---|---|---|\n")
             f.write("\n".join(summary) + "\n")
     sys.exit(0 if all_ok else 1)

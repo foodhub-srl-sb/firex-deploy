@@ -31,9 +31,10 @@ git archive origin/media-store "$id" | tar -x -C "$dest" --strip-components=1
 echo "Scaricato in $dest:"
 ls -la "$dest"
 if [ -f "$dest/result.json" ]; then
-  python3 -c "
+  PY=python3; command -v python3 >/dev/null 2>&1 || PY=python
+  "$PY" -c "
 import json,sys
-m=json.load(open('$dest/result.json'))
+m=json.load(open('$dest/result.json', encoding='utf-8'))
 print(f\"spesi {m['spent_usd']} \$ su {m['max_usd']} \$\")
 for j in m['jobs']: print(f\"  {j['name']:<24} {j['status']:<8} {j.get('cost_usd') or ''} {j.get('error') or j.get('reason') or ''}\")
 "

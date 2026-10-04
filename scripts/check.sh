@@ -22,7 +22,8 @@ row() { printf '  %-4s %-15s %s\n' "$1" "$2" "$3"; }
 # check <name> <required:1|0> <version command>
 check() {
   local name=$1 req=$2 cmd=$3 out
-  if has "$name" && out=$(eval "$cmd" 2>/dev/null | head -n1) && [ -n "$out" ]; then
+  # Some tools (e.g. xpdf's pdftotext -v) print their version but exit non-zero: trust the output.
+  if has "$name" && out=$(eval "$cmd" 2>/dev/null | head -n1 || true) && [ -n "$out" ]; then
     row ok "$name" "$out"
   elif [ "$req" -eq 1 ]; then
     row FAIL "$name" "missing (required)"; MISSING=$((MISSING+1))

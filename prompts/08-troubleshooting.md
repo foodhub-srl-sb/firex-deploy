@@ -64,6 +64,8 @@ Ho lanciato npx hyperframes doctor e ho ottenuto questo errore: [incolla l'error
 I ran npx hyperframes doctor and got this error: [paste the error]. Fix it.
 ```
 
+**Windows, «Un criterio di controllo dell'applicazione ha bloccato il file»** (`DLL load failed` importando `av`, `scipy` o `faster_whisper`): è Smart App Control, che blocca i pacchetti Python appena scaricati. Per disattivarlo: Sicurezza di Windows → Controllo app e browser → Impostazioni di Smart App Control → Disattivato. Su molte versioni di Windows 11 non si può riattivare senza reinstallare il sistema: decidilo tu.
+
 ### 6. Una modifica ha rotto qualcosa
 
 Chiedi a Claude di salvare una versione prima di ogni giro (v1, v2...), così puoi sempre tornare indietro.
