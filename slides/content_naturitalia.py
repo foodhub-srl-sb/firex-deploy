@@ -297,8 +297,9 @@ DECK = {
                     "Criteri di successo",
                     "KPI di funzionamento e di sostenibilità",
                 ]},
-                {"n": 5, "date": "9 · 16 novembre", "phase": "Presentazione finale", "tbc": True, "out": [
-                    "[Da completare: formato e data della presentazione]",
+                {"n": 5, "date": "9 · 16 novembre", "phase": "Presentazione finale", "out": [
+                    "Preparazione della presentazione",
+                    "<b>16 novembre</b>: presentazione finale dei team",
                 ]},
             ],
         },

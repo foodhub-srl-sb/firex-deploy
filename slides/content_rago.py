@@ -45,7 +45,7 @@ DECK = {
                 },
                 {
                     "tag": "Tecnologia",
-                    "title": "Weseside srl",
+                    "title": "Wiseside srl",
                     "bullets": [
                         "Piattaforma digitale che raccoglie e correla i dati di filiera",
                         "Architettura del dato lungo la supply chain",
