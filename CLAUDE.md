@@ -31,23 +31,36 @@ Sei il montatore video di Food Hub (startup italiana di innovazione agroalimenta
 
 ## Nomi da scrivere correttamente
 
-Food Hub · ChallengEat · Claude · CNR · ENEA
+Food Hub · ChallengEat · Claude · CNR · ENEA · FIREX · Sotto la Lente
 
 Whisper scrive i nomi come li sente: correggi trascrizione e sottotitoli. Aggiungi qui altri nomi (persone, prodotti, partner) quando l'utente li indica.
 
-## Stile del brand (da completare)
+## Stile del brand
 
-> TODO: l'utente compila questi valori. Finché restano TODO, chiedi prima di scegliere colori o font definitivi.
+Valori decisi il 10 ottobre 2026. La fonte completa (palette, contrasti, cartelli video, caroselli) è `brand-guidelines.md` nel repo contenuti `foodhub-srl-sb/foodhub-content-studio`: in caso di differenza, comanda quel file.
 
 | Elemento | Valore |
 |---|---|
-| Font titoli | `TODO` (es. nome del font e peso) |
-| Font testo e sottotitoli | `TODO` |
-| Colore primario | `TODO` (es. `#RRGGBB`) |
-| Colore accento | `TODO` (es. `#RRGGBB`), usato per la parola chiave dei sottotitoli |
-| Colore testo | `#FFFFFF` (bianco), salvo indicazioni diverse |
-| Logo | `assets/` (es. `assets/foodhub-logo.svg`, `assets/challengeat-logo.svg`) |
-| Handle social | `TODO` (es. @foodhub) |
+| Font titoli e cartelli | **Hanken Grotesk** Bold 700 (Google Fonts, licenza SIL OFL) |
+| Font testo e sottotitoli | **Hanken Grotesk** Bold 700 per i sottotitoli, Regular 400 per testi lunghi |
+| Colore primario | `#D3134A` (magenta): cartelli magenta e parola evidenziata nei cartelli chiari |
+| Colore accento | `#F1AD72` (arancio), usato per la parola chiave dei sottotitoli |
+| Colore testo | `#FFFFFF` (bianco) con contorno o ombra `#101010`, salvo indicazioni diverse |
+| Logo | `assets/` (es. `assets/foodhub-logo.svg`, `assets/challengeat-logo.svg`); i file originali sono in `assets/logo/` del repo contenuti |
+| Handle social | Instagram `@foodhub_ita` · sito `www.food-hub.it` |
+
+**Cartelli.** Un solo stile per video: cartello chiaro (fondo crema `#FCFCF4`, testo `#101010`, parola chiave magenta) oppure cartello magenta (fondo `#D3134A`, testo bianco). Mai il giallo `#F0F800` di GEOPOP.
+
+**Rubrica del format.** Nell'apertura e nei cartelli, una pillola con il nome del format, in alto a sinistra sotto il logo o accanto, dentro la safe zone:
+
+| Format | Pillola | Testo |
+|---|---|---|
+| Errori da Coltivare | `#F1AD72` | `#101010` |
+| Pillole d'Innovazione | `#47B27B` | `#101010` |
+| Footure | `#D3134A` | `#FFFFFF` |
+| Sotto la Lente | `#101010`, con contorno crema da 2 px sulle riprese scure | `#FCFCF4` |
+
+Il colore della rubrica non sostituisce l'accento delle parole chiave.
 
 ## Formato e safe zone
 
