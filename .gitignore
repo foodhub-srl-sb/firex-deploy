@@ -43,8 +43,12 @@ sfx/*.m4a
 sfx/*.aac
 sfx/*.mp4
 sfx/*.mov
-refs/*.mp4
-refs/*.mov
+refs/**/*.mp4
+refs/**/*.mov
+refs/**/*.info.json
+refs/**/*.words.json
+refs/**/*.srt
+refs/**/frames/
 
 # Trascrizioni (facoltative, restano in locale)
 input/*.words.json
