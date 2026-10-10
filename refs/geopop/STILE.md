@@ -2,7 +2,7 @@
 
 Analisi di 11 video verticali di GEOPOP (TikTok @geopop, settembre-ottobre 2026), scelti tra i più visti, quelli su cibo e innovazione e tre contenuti sponsorizzati (#adv). Per ogni video: trascrizione parola per parola, rilevamento dei tagli, fotogrammi.
 
-Obiettivo: capire la **grammatica** del formato e adattarla a Food Hub. **Simile, non una copia**: colori, logo, set e conduttori di GEOPOP restano loro.
+Obiettivo: capire la **grammatica** del formato e adattarla a Food Hub. Per scrivere i copioni, il metodo operativo è in [`copioni/LINEE-GUIDA.md`](../../copioni/LINEE-GUIDA.md). **Simile, non una copia**: colori, logo, set e conduttori di GEOPOP restano loro.
 
 I video scaricati restano in locale (`refs/geopop/*.mp4`, esclusi da git). Si rigenerano con i comandi in fondo.
 
@@ -74,6 +74,7 @@ Il colore accento compare **solo** nei cartelli delle parole chiave. Il resto de
 | **Quiz "Che cos'è?"** | Microscopio sul tappo di sughero | 45 s | Ingrediente innovativo al microscopio o in macro, rivelato alla fine |
 | **Commento a una notizia, con lo smartphone** | 4 ottobre festa nazionale | 2 min | Una notizia del settore (regolamento UE, bando, dato di mercato) spiegata in 90 secondi |
 | **Metafora con oggetti** | Riscaldamento globale e cicchetto (#adv) | 2 min | Un dato complesso spiegato con oggetti da cucina |
+| **Approfondimento per addetti ai lavori** (Food Hub) | Nessuno: GEOPOP parla al grande pubblico | 3-3:30 | Un tema verticale in 9 blocchi, dal meccanismo al nodo normativo. Esempio: [`copioni/01-chimosina.md`](../../copioni/01-chimosina.md) |
 
 **Il cibo funziona per GEOPOP**: proteine in polvere (1,5 mln), polpa di pomodoro (785 mila), caglio (410 mila su YouTube). È lo spazio naturale di Food Hub, con in più l'accesso diretto a startup, aziende e ricerca.
 
@@ -115,6 +116,8 @@ Per Food Hub è un servizio dell'Area 1 (posizionamento e visibilità) da propor
 | Punch-in 1.2x ogni 5 secondi al massimo | Quasi assenti | Usarli poco; il ritmo lo danno spezzoni e jump cut |
 
 ## 8. Scaletta tipo (2 minuti)
+
+Per il pubblico generalista. Per gli addetti ai lavori la struttura è più lunga (9 blocchi, 3-3:30): vedi [`copioni/LINEE-GUIDA.md`](../../copioni/LINEE-GUIDA.md), sezione 2.
 
 | Tempo | Che cosa succede | A schermo |
 |---|---|---|

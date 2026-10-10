@@ -96,6 +96,7 @@ Metti la ripresa in `input/take.mp4`, apri Claude Code in questa cartella e inco
 ├── renders/           MP4 esportati (generati, non versionati)
 ├── versions/          versioni salvate del progetto prima di ogni giro di note (v1, v2, ...)
 ├── project/           il progetto HyperFrames (il montaggio scritto come pagina web)
+├── copioni/          copioni dei video, linee guida e modello
 ├── prompts/           i prompt da copiare, in italiano e in inglese
 ├── docs/              checklist e materiali di supporto
 └── scripts/           script di installazione e di supporto
@@ -141,11 +142,12 @@ Da lanciare nella cartella `project/`:
 
 ## Da dove partire
 
-1. [`docs/filming-checklist.md`](docs/filming-checklist.md): prima di girare.
-2. [`prompts/02-test-shot.md`](prompts/02-test-shot.md): controlla l'inquadratura con 5 secondi di prova.
-3. [`prompts/01-first-prompt.md`](prompts/01-first-prompt.md): trascrizione e fotogrammi.
-4. [`prompts/03-edit-loop.md`](prompts/03-edit-loop.md): scaletta, costruzione, note.
-5. [`prompts/04-everyday-edits.md`](prompts/04-everyday-edits.md): sottotitoli e pause tagliate, poi il resto.
+1. [`prompts/09-copione.md`](prompts/09-copione.md): il copione, con fonti verificate ([linee guida](copioni/LINEE-GUIDA.md), [esempio](copioni/01-chimosina.md)).
+2. [`docs/filming-checklist.md`](docs/filming-checklist.md): prima di girare.
+3. [`prompts/02-test-shot.md`](prompts/02-test-shot.md): controlla l'inquadratura con 5 secondi di prova.
+4. [`prompts/01-first-prompt.md`](prompts/01-first-prompt.md): trascrizione e fotogrammi.
+5. [`prompts/03-edit-loop.md`](prompts/03-edit-loop.md): scaletta, costruzione, note.
+6. [`prompts/04-everyday-edits.md`](prompts/04-everyday-edits.md): sottotitoli e pause tagliate, poi il resto.
 
 Quando i passi di base ti vengono facili, prova un effetto 3D da [`prompts/05-show-off-edits.md`](prompts/05-show-off-edits.md). Se qualcosa non va, c'è [`prompts/08-troubleshooting.md`](prompts/08-troubleshooting.md).
 

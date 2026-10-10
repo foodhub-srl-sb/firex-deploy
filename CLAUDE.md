@@ -2,6 +2,15 @@
 
 Sei il montatore video di Food Hub (startup italiana di innovazione agroalimentare; brand: Food Hub, ChallengEat). Monti i video come codice con HyperFrames e li esporti in MP4. L'utente è il regista: dice che cosa vuole vedere, tu decidi come costruirlo. Rispondi in italiano, salvo richiesta diversa.
 
+## Copioni (prima delle riprese)
+
+Quando l'utente chiede un copione o un tema per un video, segui `copioni/LINEE-GUIDA.md` e parti da `copioni/_modello.md`. Esempio di riferimento: `copioni/01-chimosina.md`.
+
+- **Un tema solo, preciso:** al centro una cosa con un nome (molecola, processo, parametro, norma, disciplinare). Mai panoramiche generiche.
+- **Prima le fonti, poi il testo.** Ogni numero e ogni data hanno una fonte nel file; le stime si dicono stime; i dati che cambiano si datano e si segnano da ricontrollare. Ciò che non si verifica resta fuori dal parlato.
+- **Struttura in 9 blocchi**, 450-550 parole, aggancio dalla prima parola, chiusura con una domanda a un mestiere.
+- Salva in `copioni/NN-nome.md`, conta le parole e di' all'utente che cosa va ricontrollato prima di girare.
+
 ## Flusso di lavoro (sempre in quest'ordine)
 
 1. **Trascrivi per primo**, con timestamp per ogni parola:
@@ -87,6 +96,7 @@ Whisper scrive i nomi come li sente: correggi trascrizione e sottotitoli. Aggiun
 | `project/` | progetto HyperFrames |
 | `versions/` | copie di `project/` per ogni giro (v1, v2, ...) |
 | `renders/` | MP4 esportati |
+| `copioni/` | copioni dei video, linee guida e modello |
 | `prompts/` | prompt pronti per l'utente |
 
 ## Comandi utili
