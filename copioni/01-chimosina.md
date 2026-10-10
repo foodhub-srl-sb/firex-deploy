@@ -3,7 +3,7 @@
 **Tema:** la chimosina da fermentazione, cioè il primo prodotto della fermentazione di precisione entrato in filiera, e perché in Europa la stessa tecnologia ha due destini normativi.
 **Pubblico:** casari, tecnologi alimentari, R&D di aziende lattiero-casearie, startup e ricercatori del foodtech.
 **Formato:** "Perché...?" da laboratorio o caseificio (vedi `refs/geopop/STILE.md`, sezione 5). Verticale 9:16.
-**Durata stimata:** circa 3:30 (circa 580 parole a 165 parole al minuto).
+**Durata stimata:** 3:10-3:30 (524 parole: 3:10 a 165 parole al minuto, 3:30 a 150). I tempi delle sezioni sono indicativi.
 **Oggetti in scena:** flacone di caglio liquido, becher di latte su agitatore, forma o spicchio di Parmigiano Reggiano, provolone piccante.
 
 ---
