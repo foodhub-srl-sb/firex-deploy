@@ -49,3 +49,7 @@ refs/*.mov
 # Trascrizioni (facoltative, restano in locale)
 input/*.words.json
 input/*.srt
+
+# Slide PowerPoint: file intermedi generati
+slides/pptx/build/
+slides/__pycache__/
