@@ -17,6 +17,7 @@ sys.path.insert(0, str(HERE))
 import illustrations as ill  # noqa: E402
 import content_naturitalia  # noqa: E402
 import content_rago  # noqa: E402
+import content_benvenuto  # noqa: E402
 
 LOGO = "data:image/png;base64," + base64.b64encode((HERE / "foodhub-logo.png").read_bytes()).decode()
 
@@ -82,7 +83,8 @@ def render(s, deck):
                 f'<div class="route"><div class="route-who" style="background:{r["color"]}">{r["who"]}</div>'
                 f'<div class="route-arrow"></div><p class="route-what">{r["what"]}</p></div>'
             )
-        return f'{title(s["title"])}<div class="content-row"><div class="routes">{rows}</div><div class="illus illus-sm">{ill.get(s["illus"])}</div></div>'
+        note = f'<p class="band">{s["note"]}</p>' if s.get("note") else ""
+        return f'{title(s["title"])}<div class="content-row"><div class="routes">{rows}</div><div class="illus illus-sm">{ill.get(s["illus"])}</div></div>{note}'
     if k == "flow":
         nodes = ""
         for i, nd in enumerate(s["nodes"]):
@@ -106,7 +108,7 @@ def render(s, deck):
         return f'{title(s["title"])}<div class="steps">{steps}</div>{note}'
     if k == "statement":
         return f"""
-<p class="eyebrow eyebrow-light">La sfida</p>
+<p class="eyebrow eyebrow-light">{s.get("eyebrow", "La sfida")}</p>
 <h1 class="statement">{s["question"]}</h1>
 {ul(s["bullets"], "dots light")}"""
     if k == "objectives":
@@ -131,6 +133,15 @@ def render(s, deck):
                 f'<p class="week-date">{w["date"]}</p><h3>{w["phase"]}</h3>{ul(w["out"], "dots tiny")}</div>'
             )
         return f'{title(s["title"])}<div class="timeline"><div class="timeline-line"></div>{weeks}</div>'
+    if k == "calendar":
+        weeks = ""
+        for w in s["weeks"]:
+            weeks += (
+                f'<div class="cal-week"><p class="cal-num">Settimana {w["n"]}</p><h3>{w["phase"]}</h3>'
+                f'<div class="cal-day cal-tue"><span>Martedì</span><b>{w["tue"]}</b><em>{s["tue_label"]}</em></div>'
+                f'<div class="cal-day cal-fri"><span>Venerdì</span><b>{w["fri"]}</b><em>{s["fri_label"]}</em></div></div>'
+            )
+        return f'{title(s["title"])}<div class="cal">{weeks}</div><p class="band">{s["note"]}</p>'
     if k == "criteria":
         pct = {"Alta": 100, "Media-Alta": 75, "Media": 50}
         rows = ""
@@ -208,3 +219,4 @@ def build(deck, out):
 if __name__ == "__main__":
     build(content_naturitalia.DECK, "naturitalia.html")
     build(content_rago.DECK, "rago.html")
+    build(content_benvenuto.DECK, "benvenuto.html")

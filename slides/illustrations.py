@@ -162,6 +162,48 @@ ILLUS["thermogaps"] = svg(
     "Termometro e una linea con rilevazioni mancanti",
 )
 
+
+def person(x, y, color):
+    return (
+        f'<circle cx="{x}" cy="{y}" r="36" fill="{DARK}"/>'
+        f'<path d="M{x-70} {y+170} C {x-70} {y+70}, {x+70} {y+70}, {x+70} {y+170} Z" fill="{color}"/>'
+    )
+
+
+ILLUS["team"] = svg(
+    f'<path d="M140 190 Q280 90 420 190" fill="none" stroke="{DARK}" stroke-width="6" stroke-dasharray="4 16" stroke-linecap="round" opacity="0.5"/>'
+    + person(140, 250, O) + person(420, 250, G) + person(280, 215, M)
+    + leaf(280, 110, 70, -50, G) + leaf(280, 110, 56, -130, GD),
+    "Tre persone collegate tra loro, un gruppo di lavoro",
+)
+
+ILLUS["puzzle"] = svg(
+    f'<rect x="100" y="100" width="170" height="170" rx="26" fill="{M}"/>'
+    f'<rect x="290" y="100" width="170" height="170" rx="26" fill="{O}"/>'
+    f'<rect x="100" y="290" width="170" height="170" rx="26" fill="{G}"/>'
+    f'<rect x="290" y="290" width="170" height="170" rx="26" fill="#7CC79A"/>'
+    f'<circle cx="280" cy="185" r="30" fill="{M}"/><circle cx="375" cy="280" r="30" fill="{O}"/>'
+    f'<circle cx="185" cy="280" r="30" fill="{G}"/><circle cx="280" cy="375" r="30" fill="#7CC79A"/>'
+    f'<circle cx="280" cy="280" r="26" fill="{CREAM}"/>',
+    "Quattro pezzi di puzzle che si incastrano",
+)
+
+ILLUS["devices"] = svg(
+    f'<rect x="80" y="160" width="310" height="200" rx="16" fill="{DARK}"/>'
+    f'<rect x="96" y="176" width="278" height="168" rx="8" fill="{CREAM}"/>'
+    f'<rect x="96" y="176" width="278" height="34" rx="8" fill="{M}"/>'
+    f'<rect x="112" y="226" width="110" height="52" rx="8" fill="{O}"/>'
+    f'<rect x="236" y="226" width="124" height="52" rx="8" fill="{G}"/>'
+    f'<rect x="112" y="290" width="248" height="38" rx="8" fill="{PEACH}"/>'
+    f'<path d="M50 360 H420 L400 384 H70 Z" fill="#C9B8AE"/>'
+    f'<rect x="370" y="240" width="118" height="210" rx="24" fill="{DARK}"/>'
+    f'<rect x="381" y="262" width="96" height="166" rx="10" fill="{CREAM}"/>'
+    f'<rect x="381" y="262" width="96" height="28" rx="10" fill="{M}"/>'
+    f'<circle cx="429" cy="352" r="30" fill="{G}"/>'
+    f'<path d="M414 352 L425 363 L445 340" fill="none" stroke="#FFFFFF" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>',
+    "Computer e telefono con la stessa pagina aperta",
+)
+
 SECTION_DECO = (
     f'<svg viewBox="0 0 900 900" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">'
     f'<circle cx="450" cy="450" r="400" fill="{O}" fill-opacity="0.95"/>'
