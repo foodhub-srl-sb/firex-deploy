@@ -90,7 +90,7 @@ DECK = {
                     "title": "Mentoring privato, 30 minuti",
                     "bullets": [
                         "Il vostro gruppo con il mentor dell'azienda",
-                        "Alle 16:00, 16:30, 17:00 o 17:30, secondo il gruppo",
+                        "Dalle 16:00 alle 18:30, un turno da 30 minuti per gruppo",
                         "Domande mirate sulla vostra sfida",
                         "Gruppo, orario e mentor vi vengono comunicati",
                     ],
