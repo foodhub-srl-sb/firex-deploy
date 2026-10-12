@@ -80,7 +80,7 @@ DECK = {
                     "title": "Sessione condivisa, 1 ora e mezza",
                     "bullets": [
                         "Dalle 17:00 alle 18:30, tutti insieme",
-                        "Con i partner tecnici e i mentor",
+                        "Solo con i partner tecnici: MV Consulting e Wiseside",
                         "Confronto tra gruppi e tra sfide diverse",
                         "Problemi comuni, domande, aggiornamenti",
                     ],
@@ -89,7 +89,7 @@ DECK = {
                     "tag": "Venerdì",
                     "title": "Mentoring privato, 30 minuti",
                     "bullets": [
-                        "Il vostro gruppo con il mentor dell'azienda",
+                        "Il vostro gruppo con il mentor aziendale di riferimento",
                         "Dalle 16:00 alle 18:30, un turno da 30 minuti per gruppo",
                         "Domande mirate sulla vostra sfida",
                         "Gruppo, orario e mentor vi vengono comunicati",
@@ -101,9 +101,9 @@ DECK = {
         {
             "type": "calendar",
             "title": "Le date, settimana per settimana",
-            "tue_label": "Sessione condivisa",
+            "tue_label": "Condivisa, con i partner tecnici",
             "tue_time": "17:00-18:30",
-            "fri_label": "Mentoring privato",
+            "fri_label": "Privata, con il mentor aziendale",
             "fri_time": "16:00-18:30",
             "weeks": [
                 {"n": 1, "phase": "Gap analysis", "tue": "13 ottobre", "fri": "16 ottobre"},
@@ -160,7 +160,7 @@ DECK = {
                 {"who": "Wiseside", "color": G, "what": "Struttura del dato, interoperabilità e strumenti digitali"},
             ],
             "illus": "routing",
-            "note": "Nelle sessioni condivise potete portare anche dubbi che riguardano tutti i gruppi.",
+            "note": "Il martedì le domande vanno ai partner tecnici, il venerdì al mentor aziendale: preparatele di conseguenza.",
         },
         {"type": "section", "num": "04", "title": "La piattaforma"},
         {
