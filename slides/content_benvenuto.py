@@ -28,7 +28,7 @@ DECK = {
                         "Tracciabilità e interoperabilità nella filiera del kiwi",
                         "Il viaggio di prodotto e confezione, dal campo allo scaffale",
                         "Un linguaggio comune per i dati di filiera",
-                        "Mentor: Greta Gubellini e Andrea",
+                        "Mentor: Greta Gubellini e Andrea Severi",
                     ],
                 },
                 {

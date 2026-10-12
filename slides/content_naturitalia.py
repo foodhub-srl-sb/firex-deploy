@@ -15,6 +15,7 @@ DECK = {
             "mentor_label": "Mentor aziendali",
             "mentors": [
                 "<b>Greta Gubellini</b>, Sviluppo Prodotto",
+                "<b>Andrea Severi</b>",
                 "<b>Claudio Cecchini</b>, Responsabile Qualità Consorzio Frutteto",
             ],
             "illus": "kiwi",
@@ -29,6 +30,7 @@ DECK = {
                 "<b>Kiwi</b>: 70% a marchio Jingold, circa 21.000 t nel 2025",
                 "<b>Certificazioni</b>: GlobalG.A.P. e IFS Broker",
                 "<b>Greta Gubellini</b> raccoglie le domande dei team e le gira ai referenti tecnici",
+                "<b>Andrea Severi</b> affianca i team come mentor aziendale",
                 "<b>Claudio Cecchini</b> risponde sul magazzino di lavorazione del kiwi",
             ],
             "illus": "crate",
@@ -332,7 +334,7 @@ DECK = {
         {
             "type": "closing",
             "title": "Buon lavoro, team!",
-            "subtitle": "Domande al mentor: Greta Gubellini",
+            "subtitle": "Domande ai mentor: Greta Gubellini e Andrea Severi",
             "meta": "Naturitalia · ChallengEat 8 · Food Hub · Edizione 2026",
         },
     ],
