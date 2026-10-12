@@ -356,3 +356,5 @@ body.overview .slide { display: flex; position: relative; left: auto; top: auto;
 .cal-tue b { color: #FFFFFF; }
 .cal-fri { background: var(--peach); color: var(--dark); }
 .cal-fri span { color: var(--magenta-dark); }
+
+.cal-day em.cal-time { font-weight: 700; font-size: 26px; }

@@ -257,26 +257,28 @@ const SECTIONS = [
     else if (k === "calendar") {
       const slide = pres.addSlide({ masterName: "CONTENUTO", sectionTitle });
       slide.addText(s.title, { placeholder: "title" });
-      const n = s.weeks.length, gap = 0.22, cw = (CW - gap * (n - 1)) / n, cy = 1.75, ch = 4.05;
+      const n = s.weeks.length, gap = 0.22, cw = (CW - gap * (n - 1)) / n, cy = 1.75, ch = 4.25;
       s.weeks.forEach((w, i) => {
         const x = L + i * (cw + gap);
         card(slide, x, cy, cw, ch, "Settimana " + w.n);
         slide.addText("SETTIMANA " + w.n, { x: x + 0.18, y: cy + 0.15, w: cw - 0.36, h: 0.3, fontSize: 12, bold: true, color: C.accent1, charSpacing: 1, margin: 0, isTextBox: true });
         slide.addText(w.phase, { x: x + 0.18, y: cy + 0.48, w: cw - 0.36, h: 0.45, fontSize: 16, bold: true, color: C.text1, margin: 0, valign: "top", isTextBox: true });
-        slide.addShape(pres.ShapeType.roundRect, { x: x + 0.15, y: cy + 1.05, w: cw - 0.3, h: 1.3, rectRadius: 0.1, fill: { color: C.accent1 }, line: { color: C.accent1, width: 0 }, objectName: "Martedì " + w.n });
+        slide.addShape(pres.ShapeType.roundRect, { x: x + 0.15, y: cy + 1.05, w: cw - 0.3, h: 1.45, rectRadius: 0.1, fill: { color: C.accent1 }, line: { color: C.accent1, width: 0 }, objectName: "Martedì " + w.n });
         slide.addText([
           { text: "Martedì", options: { fontSize: 12, bold: true, color: C.accent4, breakLine: true } },
           { text: w.tue, options: { fontSize: 18, bold: true, color: C.background1, breakLine: true } },
+          { text: s.tue_time, options: { fontSize: 14, bold: true, color: C.background1, breakLine: true } },
           { text: s.tue_label, options: { fontSize: 12, color: C.background1 } },
-        ], { x: x + 0.28, y: cy + 1.05, w: cw - 0.56, h: 1.3, valign: "middle", margin: 0, isTextBox: true, objectName: "Testo martedì " + w.n });
-        slide.addShape(pres.ShapeType.roundRect, { x: x + 0.15, y: cy + 2.5, w: cw - 0.3, h: 1.3, rectRadius: 0.1, fill: { color: C.accent4 }, line: { color: C.accent4, width: 0 }, objectName: "Venerdì " + w.n });
+        ], { x: x + 0.28, y: cy + 1.05, w: cw - 0.56, h: 1.45, valign: "middle", margin: 0, isTextBox: true, objectName: "Testo martedì " + w.n });
+        slide.addShape(pres.ShapeType.roundRect, { x: x + 0.15, y: cy + 2.65, w: cw - 0.3, h: 1.45, rectRadius: 0.1, fill: { color: C.accent4 }, line: { color: C.accent4, width: 0 }, objectName: "Venerdì " + w.n });
         slide.addText([
           { text: "Venerdì", options: { fontSize: 12, bold: true, color: C.accent5, breakLine: true } },
           { text: w.fri, options: { fontSize: 18, bold: true, color: C.text1, breakLine: true } },
+          { text: s.fri_time, options: { fontSize: 14, bold: true, color: C.text1, breakLine: true } },
           { text: s.fri_label, options: { fontSize: 12, color: C.text1 } },
-        ], { x: x + 0.28, y: cy + 2.5, w: cw - 0.56, h: 1.3, valign: "middle", margin: 0, isTextBox: true, objectName: "Testo venerdì " + w.n });
+        ], { x: x + 0.28, y: cy + 2.65, w: cw - 0.56, h: 1.45, valign: "middle", margin: 0, isTextBox: true, objectName: "Testo venerdì " + w.n });
       });
-      band(slide, s.note, 6.0);
+      band(slide, s.note, 6.15);
     }
 
     else if (k === "steps") {

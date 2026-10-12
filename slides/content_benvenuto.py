@@ -101,8 +101,10 @@ DECK = {
         {
             "type": "calendar",
             "title": "Le date, settimana per settimana",
-            "tue_label": "Sessione condivisa 17:00",
+            "tue_label": "Sessione condivisa",
+            "tue_time": "17:00-18:30",
             "fri_label": "Mentoring privato",
+            "fri_time": "16:00-18:30",
             "weeks": [
                 {"n": 1, "phase": "Gap analysis", "tue": "13 ottobre", "fri": "16 ottobre"},
                 {"n": 2, "phase": "Benchmark", "tue": "20 ottobre", "fri": "23 ottobre"},
