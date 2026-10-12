@@ -107,7 +107,7 @@ DECK = {
             "fri_time": "16:00-18:30",
             "weeks": [
                 {"n": 1, "phase": "Gap analysis", "tue": "13 ottobre", "fri": "16 ottobre"},
-                {"n": 2, "phase": "Benchmark", "tue": "20 ottobre", "fri": "23 ottobre"},
+                {"n": 2, "phase": "Benchmark", "tue": "20 ottobre", "fri": "22 ottobre", "fri_day": "Giovedì"},
                 {"n": 3, "phase": "Modello", "tue": "27 ottobre", "fri": "30 ottobre"},
                 {"n": 4, "phase": "Pilota e KPI", "tue": "3 novembre", "fri": "6 novembre"},
                 {"n": 5, "phase": "Presentazione", "tue": "10 novembre", "fri": "13 novembre"},

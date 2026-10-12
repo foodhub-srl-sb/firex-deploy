@@ -272,7 +272,7 @@ const SECTIONS = [
         ], { x: x + 0.28, y: cy + 1.05, w: cw - 0.56, h: 1.45, valign: "middle", margin: 0, isTextBox: true, objectName: "Testo martedì " + w.n });
         slide.addShape(pres.ShapeType.roundRect, { x: x + 0.15, y: cy + 2.65, w: cw - 0.3, h: 1.45, rectRadius: 0.1, fill: { color: C.accent4 }, line: { color: C.accent4, width: 0 }, objectName: "Venerdì " + w.n });
         slide.addText([
-          { text: "Venerdì", options: { fontSize: 12, bold: true, color: C.accent5, breakLine: true } },
+          { text: w.fri_day || "Venerdì", options: { fontSize: 12, bold: true, color: C.accent5, breakLine: true } },
           { text: w.fri, options: { fontSize: 18, bold: true, color: C.text1, breakLine: true } },
           { text: s.fri_time, options: { fontSize: 14, bold: true, color: C.text1, breakLine: true } },
           { text: s.fri_label, options: { fontSize: 12, color: C.text1 } },

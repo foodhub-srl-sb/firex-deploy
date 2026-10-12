@@ -139,7 +139,7 @@ def render(s, deck):
             weeks += (
                 f'<div class="cal-week"><p class="cal-num">Settimana {w["n"]}</p><h3>{w["phase"]}</h3>'
                 f'<div class="cal-day cal-tue"><span>Martedì</span><b>{w["tue"]}</b><em class="cal-time">{s["tue_time"]}</em><em>{s["tue_label"]}</em></div>'
-                f'<div class="cal-day cal-fri"><span>Venerdì</span><b>{w["fri"]}</b><em class="cal-time">{s["fri_time"]}</em><em>{s["fri_label"]}</em></div></div>'
+                f'<div class="cal-day cal-fri"><span>{w.get("fri_day", "Venerdì")}</span><b>{w["fri"]}</b><em class="cal-time">{s["fri_time"]}</em><em>{s["fri_label"]}</em></div></div>'
             )
         return f'{title(s["title"])}<div class="cal">{weeks}</div><p class="band">{s["note"]}</p>'
     if k == "criteria":
