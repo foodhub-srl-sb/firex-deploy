@@ -77,9 +77,9 @@ DECK = {
             "cards": [
                 {
                     "tag": "Martedì",
-                    "title": "Sessione condivisa, 1 ora",
+                    "title": "Sessione condivisa, 1 ora e mezza",
                     "bullets": [
-                        "Dalle 17:30 alle 18:30, tutti insieme",
+                        "Dalle 17:00 alle 18:30, tutti insieme",
                         "Con i partner tecnici e i mentor",
                         "Confronto tra gruppi e tra sfide diverse",
                         "Problemi comuni, domande, aggiornamenti",
@@ -101,7 +101,7 @@ DECK = {
         {
             "type": "calendar",
             "title": "Le date, settimana per settimana",
-            "tue_label": "Sessione condivisa 17:30",
+            "tue_label": "Sessione condivisa 17:00",
             "fri_label": "Mentoring privato",
             "weeks": [
                 {"n": 1, "phase": "Gap analysis", "tue": "13 ottobre", "fri": "16 ottobre"},
