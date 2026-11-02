@@ -1,18 +1,21 @@
-"""Genera i due video del calendario dal modello unico.
+"""Genera i video del calendario (una cartella per pagina) dal modello unico.
 
     python src/build.py   (da project/)
 
-Pagina 1 -> calendario-1/index.html   (render: cd calendario-1 && npm run render)
-Pagina 2 -> calendario-2/index.html   (render: cd calendario-2 && npm run render)
-Ogni cartella e' un progetto HyperFrames autonomo che condivide project/assets.
+Per ogni giornata in src/giornate.js e ogni pagina crea calendario-<giornata>-<pagina>/,
+un progetto HyperFrames autonomo che condivide project/assets.
+Render: cd calendario-10nov-1 && npm run render -- -o ../../renders/calendario-10nov-1.mp4
 """
 import json
+import os
 import pathlib
 import re
+import shutil
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 SRC = ROOT / "src"
 DURATION = 15
+PAGES = [("9nov", 1), ("9nov", 2), ("10nov", 1), ("10nov", 2)]
 
 shapes = json.loads((SRC / "shapes.json").read_text())
 strip_ns = lambda s: s.strip().replace(' xmlns="http://www.w3.org/2000/svg"', "")
@@ -35,21 +38,22 @@ common = {
     "{{BANNER}}": shapes["banner"]["d"],
     "{{FEST_MARK}}": fest,
     "{{FH_LOGO}}": strip_ns((ROOT / "assets" / "foodhub-logo.svg").read_text()),
+    "{{DATA}}": (SRC / "giornate.js").read_text(),
 }
-import os, shutil
-for page in (1, 2):
-    d = ROOT / f"calendario-{page}"
+
+for day, page in PAGES:
+    name = f"calendario-{day}-{page}"
+    d = ROOT / name
     d.mkdir(exist_ok=True)
     for f in ("package.json", "hyperframes.json"):
         shutil.copy(ROOT / f, d / f)
-    (d / "meta.json").write_text(json.dumps({"id": f"calendario-{page}", "name": f"Calendario 9 novembre - pagina {page}"}, indent=2))
+    (d / "meta.json").write_text(json.dumps({"id": name, "name": f"Calendario {day} - pagina {page}"}, indent=2) + "\n")
     link = d / "assets"
     if not link.exists():
         os.symlink("../assets", link)
-    out = d / "index.html"
     html = base
-    for k, v in {**common, "{{PAGE}}": str(page)}.items():
+    for k, v in {**common, "{{DAY}}": day, "{{PAGE}}": str(page)}.items():
         html = html.replace(k, v)
-    assert "{{" not in html, out
-    out.write_text(html)
-    print("scritto", out)
+    assert not re.search(r"{{[A-Z_]+}}", html), name
+    (d / "index.html").write_text(html)
+    print("scritto", d / "index.html")
