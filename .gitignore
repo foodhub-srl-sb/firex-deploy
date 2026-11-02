@@ -49,3 +49,6 @@ refs/*.mov
 # Trascrizioni (facoltative, restano in locale)
 input/*.words.json
 input/*.srt
+
+# Effetti sonori copiati nel progetto
+project/assets/sfx/*.wav
