@@ -15,7 +15,7 @@ import shutil
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 SRC = ROOT / "src"
 DURATION = 15
-PAGES = [("9nov", 1), ("9nov", 2), ("10nov", 1), ("10nov", 2)]
+PAGES = [("9nov", 1), ("9nov", 2), ("10nov", 1), ("10nov", 2), ("11nov", 1), ("11nov", 2)]
 
 shapes = json.loads((SRC / "shapes.json").read_text())
 strip_ns = lambda s: s.strip().replace(' xmlns="http://www.w3.org/2000/svg"', "")

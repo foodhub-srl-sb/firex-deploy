@@ -95,4 +95,63 @@ const GIORNATE = {
       },
     },
   },
+
+  "11nov": {
+    style: "c",
+    date: "11 NOVEMBRE",
+    giornata: [["3", 61], ["ª", 92.2], ["G", 118.5], ["I", 150.5], ["O", 174.5], ["R", 207.5], ["N", 239.5], ["A", 273.5], ["T", 301.5], ["A", 331.5]],
+    dx: -45.5, // colonna spostata a sinistra rispetto al 9 e 10 novembre
+    dash: {
+      1: { start: -7.25, period: 25.45, len: 12.5, end: 81.6 },
+      2: { start: -5.35, period: 24.75, len: 12.3, end: 81.1 },
+    },
+    fhBlob: { left: 6.43, top: -38.8, w: 827.8, h: 158.2 },
+    fhLogo: { left: 17.3, top: 0.5, size: 100.5 },
+    cta: {
+      top: 1202.03,
+      lblLeft: 139.9,
+      band: "M821.37 1266.63L0.37 1266.63L0.37 1197.63L880.62 1197.63C883.31 1197.63 885.50 1199.81 885.50 1202.50C885.50 1237.92 856.78 1266.63 821.37 1266.63",
+    },
+    pages: {
+      1: {
+        rows: [
+          { y: 264.2, dot: 13.8, k: "green", tm: "9:00-9:30", co: "SESSIONE DI APERTURA" },
+          { y: 349.4, dot: -1.9, off: 46.1, tm: "9:30-10:15", co: "ZESPRI INNOVATION", sp: "Marco Mastroleo", t: ["“Zespri DSS: l'innovazione e i modelli alla portata di tutti”"] },
+          { y: 475.7, dot: 13.8, off: 46, tm: "10:15-11:00", co: "HERBSTREITH & FOX", sp: "Luca Bianucci; Marco C. Roffia", t: ["“Valorizzazione di derivati della mela: fibre ed estratti per nuove", "applicazioni alimentari”"] },
+          { y: 640.8, off: 46, k: "fh", tm: "11:00-11:30", co: "FOOD HUB", sp: "Francesco De Carolis", t: ["“Food Hub: AI x Food Industry”"] },
+          { y: 773.7, dot: 16.8, off: 45.8, tm: "11:45-12:15", co: "KLÜBER LUBRICATION", sp: "Andrea Marotta", t: ["“Lubrificanti food grade: una leva per sicurezza, efficienza e affidabilità", "degli impianti”"] },
+          { y: 936.9, dot: 16.5, off: 46, tm: "12:15-13:00", co: "KAMUT ENTERPRISES OF EUROPE", sp: "Emanuela Simonetti", t: ["“40 anni di tutela e valorizzazione di un antico cereale dalla terra alla tavola”"] },
+          { y: 1064.3, dot: 13.2, k: "green", tm: "13:00-14:00", co: "PAUSA PRANZO", lunch: true },
+          { y: 1148.5, dot: 13.9, off: 46.3, tm: "14:00-14:30", co: "TRUSTY", sp: "Alessandro Chelli", t: ["“Il tuo brand è sulla confezione? Allora la Dichiarazione di Conformità", "PPWR la firmi tu”"] },
+        ],
+        at: [1.5, 2.1, 2.7, 3.4, 5.7, 6.3, 6.9, 7.5],
+        // Set C: fogli che si girano, scintillio su Food Hub, goccia sul pranzo
+        cues: (AT) => [
+          [0.0, "riser-1", 0.2],
+          [AT[0], "flip-1", 0.22], [AT[1], "flip-2", 0.22], [AT[2], "flip-3", 0.22],
+          [AT[3] + 0.2, "shimmer-1", 0.2],
+          [AT[4], "flip-1", 0.22], [AT[5], "flip-2", 0.22],
+          [AT[6], "drop-1", 0.22],
+          [AT[7], "flip-3", 0.22],
+        ],
+      },
+      2: {
+        cta: 4.5,
+        rows: [
+          { y: 264.2, dot: 13.9, off: 46.2, tm: "14:45-15:30", co: "MV CONSULTING", sp: "Marco Valerio Francone", t: ["“Strumenti di Intelligenza Artificiale applicati alla Qualità Aziendale”"] },
+          { y: 390.4, dot: 14.2, off: 46, tm: "15:30-16:00", co: "UNIPD", sp: "Piergiorgio Stevanato", t: ["“Zucchero biologico italiano: innovazione dal seme alla filiera”"] },
+          { y: 516.3, dot: 13.2, off: 45.8, tm: "15:30-16:00", co: "UNISS", sp: "Grazia Maria Scarpa", t: ["“Il settore delle piante officinali: qualità della filiera e valorizzazione", "del prodotto”"] },
+          { y: 689.8, dot: 12.7, off: 46, tm: "16:00-16:30", co: "UNICT", sp: "Chiara Pisana", t: ["“Packaging attivo con proteine del siero per il controllo di Listeria nel", "Canestrato Siciliano”"] },
+          { y: 855.3, dot: 13.2, off: 46, tm: "16:30-17:00", co: "Progetto HAMTRACE", sp: "Leonardo Piccinetti", t: ["“Presentazione del progetto HAMTRACE”"] },
+        ],
+        at: [1.5, 2.1, 2.3, 3.05, 3.65], // UNIPD e UNISS quasi insieme: sono parallele
+        cues: (AT, CTA) => [
+          [0.0, "riser-1", 0.2],
+          [AT[0], "flip-1", 0.22], [AT[1], "flip-2", 0.22], [AT[2], "flip-3", 0.18],
+          [AT[3], "flip-1", 0.22], [AT[4], "flip-2", 0.22],
+          [CTA, "riser-1", 0.2], [CTA + 0.95, "ding-1", 0.2],
+        ],
+      },
+    },
+  },
 };

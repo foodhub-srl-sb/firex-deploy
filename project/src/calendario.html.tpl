@@ -47,16 +47,20 @@
       .p2 .dash { left: -2.63px; width: 136px;
         background: linear-gradient(90deg, var(--green-dark) 0 6px, transparent 6px 18.37px),
                     repeating-linear-gradient(90deg, var(--green-dark) 0 12.379px, transparent 12.379px 24.758px) 18.37px 0 / 117.6px 2px no-repeat; }
-      .dot { position: absolute; left: 137px; top: 14px; width: 30px; height: 30px; border-radius: 50%; background: var(--green-soft); }
+      .dot { position: absolute; left: calc(137px + var(--dx, 0px)); top: 14px; width: 30px; height: 30px; border-radius: 50%; background: var(--green-soft); }
       .dot i { position: absolute; left: 7.5px; top: 7.5px; width: 15px; height: 15px; border-radius: 50%; background: var(--green-dark); }
-      .head { position: absolute; left: 182px; top: 0.5px; height: 50px; font-size: 39.4px; line-height: 50px; white-space: nowrap; }
+      .head { position: absolute; left: calc(182px + var(--dx, 0px)); top: 0.5px; height: 50px; font-size: 39.4px; line-height: 50px; white-space: nowrap; }
       .sb .head { overflow: hidden; padding-right: 4px; }
       .head .tm, .head .co { display: inline-block; font-weight: 500; }
       .head .sep { font-weight: 200; display: inline-block; }
       .head .sp { font-weight: 300; display: inline-block; }
-      .ttl { position: absolute; left: 182px; font-size: 32.8px; line-height: 39.5px; font-weight: 300; white-space: nowrap; color: #2a2a2a; }
+      .ttl { position: absolute; left: calc(182px + var(--dx, 0px)); font-size: 32.8px; line-height: 39.5px; font-weight: 300; white-space: nowrap; color: #2a2a2a; }
       .ttl .w, .ttl .ln { display: inline-block; }
       .row.green .head { color: var(--green-dark); }
+      .dash.free { left: 0; background: none; }
+      .dash .seg { position: absolute; top: 0; height: 2px; background: var(--green-dark); }
+      .sc .ttl .lnw { display: inline-block; overflow: hidden; vertical-align: top; }
+      .sc #cta { overflow: hidden; }
 
       /* Food Hub */
       .row.fh .blob { position: absolute; left: 55px; top: -51px; width: 840px; height: 175px; overflow: visible; }
@@ -67,7 +71,7 @@
       /* ---------- Fascia finale (pagina 2) ---------- */
       #cta { position: absolute; left: 0; top: 1197.13px; width: 1081px; height: 70px; z-index: 7; }
       #cta svg { position: absolute; left: 0; top: 0; width: 943px; height: 70px; overflow: visible; }
-      #cta .lbl { position: absolute; left: 183px; top: 3.4px; color: #fff; font-size: 42.7px; line-height: 56px; white-space: nowrap; }
+      #cta .lbl { position: absolute; left: var(--lbl, 183px); top: 3.4px; color: #fff; font-size: 42.7px; line-height: 56px; white-space: nowrap; }
       #cta .lbl b { font-weight: 500; display: inline-block; }
       #cta .lbl span { font-weight: 300; display: inline-block; }
     </style>
@@ -136,20 +140,48 @@
         el.className = `row p${PAGE} ${r.k || ""}`;
         el.id = "r" + i;
         el.style.top = r.y + "px";
-        let html = r.k === "fh" ? BLOB + `<div class="logo">${FOODHUB_LOGO}</div>` : `<div class="dash"></div><div class="dot" style="top:${r.dot ?? 14}px"><i></i></div>`;
+        if (G.dx) el.style.setProperty("--dx", G.dx + "px");
+        let html;
+        if (r.k === "fh") {
+          // Box del blob e del logo: predefiniti del 9 novembre, sovrascrivibili per giornata
+          const b = Object.assign({ left: 55, top: -51, w: 840, h: 175 }, G.fhBlob || {});
+          const l = Object.assign({ left: 70, top: 7.75, size: 96.91 }, G.fhLogo || {});
+          html = BLOB.replace('class="blob"', `class="blob" style="left:${b.left}px;top:${b.top}px;width:${b.w}px;height:${b.h}px"`) +
+            `<div class="logo" style="left:${l.left}px;top:${l.top}px;width:${l.size}px;height:${l.size}px">${FOODHUB_LOGO}</div>`;
+        } else if (G.dash) {
+          // Tratteggio a segmenti separati: inizio, passo, lunghezza, fine (pt)
+          const d = G.dash[PAGE];
+          let segs = "";
+          for (let x = d.start; x < d.end; x += d.period) {
+            const a = Math.max(0, x), z = Math.min(d.end, x + d.len);
+            if (z > a) segs += `<i class="seg" style="left:${a.toFixed(2)}px;width:${(z - a).toFixed(2)}px"></i>`;
+          }
+          html = `<div class="dash free" style="width:${d.end}px">${segs}</div><div class="dot" style="top:${r.dot ?? 14}px"><i></i></div>`;
+        } else {
+          html = `<div class="dash"></div><div class="dot" style="top:${r.dot ?? 14}px"><i></i></div>`;
+        }
         if (r.sp) {
           html += `<div class="head"><span class="tm">${r.tm}</span> <span class="co">${r.co}</span><span class="sep">&nbsp;|&nbsp;</span><span class="sp">${r.sp}</span></div>`;
         } else {
           html += `<div class="head"><span class="tm">${r.tm}</span><span class="sep">&nbsp;|&nbsp;</span><span class="co">${r.co}</span></div>`;
         }
         if (r.t) {
-          const lines = STYLE === "b" ? r.t.map((l) => `<span class="ln">${l}</span>`) : r.t.map(words);
+          const lines = STYLE === "b" ? r.t.map((l) => `<span class="ln">${l}</span>`)
+            : STYLE === "c" ? r.t.map((l) => `<span class="lnw"><span class="ln">${l}</span></span>`)
+            : r.t.map(words);
           html += `<div class="ttl" style="top:${r.off + 1.5}px">${lines.join("<br>")}</div>`;
         }
         el.innerHTML = html;
         vp.appendChild(el);
       });
       if (PAGE !== 2) document.getElementById("cta").remove();
+      else if (G.cta) {
+        const c = document.getElementById("cta");
+        c.style.top = G.cta.top + "px";
+        c.style.setProperty("--lbl", G.cta.lblLeft + "px");
+        if (G.cta.band) document.getElementById("ctaBand").setAttribute("d", G.cta.band);
+        if (G.cta.vbY) c.querySelector("svg").setAttribute("viewBox", `0 ${G.cta.vbY} 943 70`);
+      }
 
       // ------------------------------------------------------------------
       // Effetti sonori: mai lo stesso due volte di fila
@@ -159,6 +191,7 @@
         "tick-1": 0.05, "tick-2": 0.05, "tick-3": 0.05, "impact-1": 0.6,
         "pluck-1": 0.6, "pluck-2": 0.6, "pluck-3": 0.6, "pluck-4": 0.6, "pluck-5": 0.6, "pluck-6": 0.6,
         "swish-1": 0.45, "swish-2": 0.55, "bloop-1": 0.35, "chime-1": 1.3,
+        "flip-1": 0.14, "flip-2": 0.14, "flip-3": 0.14, "shimmer-1": 1.0, "drop-1": 0.3, "riser-1": 0.7, "ding-1": 2.0,
       };
       const sfxBox = document.getElementById("sfx");
       P.cues(AT, CTA_AT).forEach(([t, name, vol], i) => {
@@ -229,6 +262,52 @@
           tl.fromTo("#ctaMid", { opacity: 0 }, { opacity: 1, duration: 0.3 }, CTA_AT + 0.5);
           tl.fromTo("#ctaFree", { opacity: 0, scale: 2.2 }, { opacity: 1, scale: 1, duration: 0.4, ease: "back.out(2.2)" }, CTA_AT + 0.75);
           tl.to("#ctaFree", { scale: 1.08, duration: 0.5, ease: "sine.inOut", yoyo: true, repeat: 3 }, CTA_AT + 1.4);
+        }
+      } else if (STYLE === "c") {
+        // ===== Stile C (11 novembre): tendina, macchina da scrivere, righe che si ribaltano =====
+        tl.fromTo("#waveDark", { scaleY: 0, transformOrigin: "50% 0%" }, { scaleY: 1, duration: 0.7, ease: "back.out(1.4)" }, 0);
+        tl.fromTo("#waveLight", { scaleY: 0, transformOrigin: "50% 0%" }, { scaleY: 1, duration: 0.8, ease: "back.out(1.4)" }, 0.12);
+        tl.fromTo("#title .ch", { opacity: 0 }, { opacity: 1, duration: 0.01, stagger: 0.055 }, 0.45);
+        tl.fromTo("#giornata .gc", { opacity: 0, x: 22 }, { opacity: 1, x: 0, duration: 0.35, ease: "power2.out", stagger: { each: 0.035, from: "end" } }, 0.8);
+        tl.fromTo("#festMark path", { opacity: 0, scale: 0.4 }, { opacity: 1, scale: 1, duration: 0.4, ease: "back.out(2)", stagger: { each: 0.05, from: "center" } }, 0.5);
+        tl.fromTo("#festTxt", { opacity: 0, x: -18 }, { opacity: 1, x: 0, duration: 0.45, ease: "power2.out" }, 0.75);
+        tl.fromTo("#festEd", { opacity: 0 }, { opacity: 1, duration: 0.4 }, 0.95);
+
+        const flipIn = (sel, t) =>
+          tl.fromTo(sel, { rotationX: -90, opacity: 0, transformOrigin: "50% 0%", transformPerspective: 600 }, { rotationX: 0, opacity: 1, duration: 0.45, ease: "power3.out" }, t);
+        const wipeIn = (id, t) =>
+          tl.fromTo(id + " .ttl .ln", { xPercent: -101 }, { xPercent: 0, duration: 0.45, ease: "power3.out", stagger: 0.1 }, t);
+
+        ROWS.forEach((r, i) => {
+          const t = AT[i];
+          const id = "#r" + i;
+          tl.set(id, { opacity: 1 }, t);
+
+          if (r.k === "fh") {
+            // Food Hub: il blob si gonfia dal logo, il logo cade e rimbalza, poi il blob "respira"
+            tl.fromTo(id + " .blob", { scale: 0, transformOrigin: "4% 50%" }, { scale: 1, duration: 0.55, ease: "back.out(1.3)" }, t);
+            tl.fromTo(id + " .bl", { opacity: 0 }, { opacity: 1, duration: 0.3 }, t + 0.15);
+            tl.fromTo(id + " .logo", { y: -90, opacity: 0 }, { y: 0, opacity: 1, duration: 0.7, ease: "bounce.out" }, t + 0.25);
+            flipIn(id + " .head", t + 0.4);
+            wipeIn(id, t + 0.6);
+            tl.to(id + " .blob", { scale: 1.035, duration: 0.45, ease: "sine.inOut", yoyo: true, repeat: 3 }, t + 1.1);
+            return;
+          }
+          tl.fromTo(id + " .dot", { scale: 0, rotation: 180 }, { scale: 1, rotation: 0, duration: 0.4, ease: "back.out(2)" }, t);
+          tl.fromTo(id + " .dot i", { scale: 0 }, { scale: 1, duration: 0.25, ease: "power2.out" }, t + 0.15);
+          tl.fromTo(id + " .dash .seg", { opacity: 0, scaleX: 0 }, { opacity: 1, scaleX: 1, duration: 0.12, stagger: { each: 0.05, from: "end" } }, t + 0.05);
+          flipIn(id + " .head", t + 0.08);
+          if (r.t) wipeIn(id, t + 0.25);
+          if (r.lunch) tl.to(id + " .dot", { rotation: 360, duration: 0.6, ease: "power2.inOut" }, t + 0.45);
+        });
+
+        if (PAGE === 2) {
+          tl.fromTo("#ctaBand", { y: 75 }, { y: 0, duration: 0.5, ease: "power4.out" }, CTA_AT);
+          tl.fromTo("#ctaDate", { y: 60 }, { y: 0, duration: 0.45, ease: "power4.out" }, CTA_AT + 0.2);
+          tl.fromTo("#ctaMid", { y: 60 }, { y: 0, duration: 0.45, ease: "power4.out" }, CTA_AT + 0.3);
+          tl.fromTo("#ctaFree", { y: 60 }, { y: 0, duration: 0.45, ease: "power4.out" }, CTA_AT + 0.4);
+          tl.to("#ctaFree", { opacity: 0.25, duration: 0.12, yoyo: true, repeat: 3, ease: "none" }, CTA_AT + 0.95);
+          tl.to("#ctaFree", { scale: 1.08, duration: 0.45, ease: "sine.inOut", yoyo: true, repeat: 3 }, CTA_AT + 1.5);
         }
       } else {
         // ===== Stile B (10 novembre): onde laterali, testi che salgono da una maschera =====
