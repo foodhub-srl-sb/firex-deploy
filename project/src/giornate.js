@@ -175,7 +175,7 @@ const GIORNATE = {
           { y: 264.2, dot: 12.8, k: "green", tm: "9:00-9:30", co: "SESSIONE DI APERTURA" },
           { y: 349.4, dot: 12.1, off: 46.1, tm: "9:30-10:15", co: "WISESIDE; GRUPPO MARTINI", sp: "Pinuccia Zarino; Cristina Moretti", t: ["“Quante filiere ci sono dentro una filiera?”"] },
           { y: 475.7, dot: 11.8, off: 46, tm: "10:15-11:00", co: "AQUAPONIC DESIGN", sp: "Francesco Lombardo", t: ["“ROBOPONIC: tecnologia e competenze per coltivare il futuro”"] },
-          { y: 601.6, dot: 11.9, off: 46.1, tm: "11:15-11:45", co: "MIREA-COSVITEC", sp: "Fracesca Luisa Fedele", t: ["“Il valore nascosto degli scarti: Dalla ricerca all’industria”"] },
+          { y: 601.6, dot: 11.9, off: 46.1, tm: "11:15-11:45", co: "MAREA-COSVITEC", sp: "Francesca Luisa Fedele", t: ["“Il valore nascosto degli scarti: Dalla ricerca all’industria”"] },
           { y: 727.9, dot: 10.6, off: 46, tm: "11:45-12:30", co: "HIDEEA", sp: "Laura Magni; Giacomo Paolini", t: ["“Compliance PPWR: il futuro del packaging tra MOCA e certificazioni food”"] },
           { y: 853.9, dot: 11.6, off: 46.2, tm: "12:30-13:00", co: "UNIPV", sp: "Alma Balestrazzi", t: ["“Orphan legumes, sicurezza alimentare e clima: la strategia del progetto PROSPER”"] },
           { y: 980.1, dot: 15.3, k: "green", tm: "13:00-14:00", co: "PAUSA PRANZO", lunch: true },
@@ -197,7 +197,7 @@ const GIORNATE = {
         rows: [
           { y: 264.2, dot: 14, off: 46.3, tm: "15:15-15:45", co: "SFRIDOO", sp: "Mario Lazzaroni; Roberta Scassa", t: ["“Da scarto a sottoprodotto: normativa, valore e compliance per", "l’economia circolare”"] },
           { y: 429.8, dot: 10.9, off: 46, tm: "15:45-16:30", co: "UNIMI", sp: "Elisa De Marchi", t: ["“FRAME - Food Resilience through Architecturally Modelled", "Environments”"] },
-          { y: 595.4, dot: 14.3, off: 46, tm: "16:30-17:00", co: "UNITO- DISAFA", sp: "Silvia Celletti", t: ["“Bioplastiche in agricoltura: innovazione sostenibile per il suolo e le", "filiere agroalimentari”"] },
+          { y: 595.4, dot: 14.3, off: 46, tm: "16:30-17:00", co: "UNITO-DISAFA", sp: "Silvia Celletti", t: ["“Bioplastiche in agricoltura: innovazione sostenibile per il suolo e le", "filiere agroalimentari”"] },
           { y: 769.9, dot: 12.7, off: 46, tm: "16:30-17:00", co: "UNIVE", sp: "Giulia Bertazzoli", t: ["“Biorisorse microbiche, un potenziale per il settore agro-alimentare”"] },
           { y: 894.9, dot: 12.7, off: 49.1, tm: "17:00-17:30", co: "UNIMI", sp: "Barbara Scaglia", t: ["“Valorizzazione degli scarti di prima gamma: il caso di ZUcca e PORro", "(progetto ZUPOR)”"] },
         ],
