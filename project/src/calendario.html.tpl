@@ -61,6 +61,7 @@
       .dash .seg { position: absolute; top: 0; height: 2px; background: var(--green-dark); }
       .sc .ttl .lnw { display: inline-block; overflow: hidden; vertical-align: top; }
       .sc #cta { overflow: hidden; }
+      .ring { position: absolute; left: calc(137px + var(--dx, 0px)); width: 30px; height: 30px; border-radius: 50%; border: 2px solid var(--green-dark); opacity: 0; }
 
       /* Food Hub */
       .row.fh .blob { position: absolute; left: 55px; top: -51px; width: 840px; height: 175px; overflow: visible; }
@@ -140,7 +141,8 @@
         el.className = `row p${PAGE} ${r.k || ""}`;
         el.id = "r" + i;
         el.style.top = r.y + "px";
-        if (G.dx) el.style.setProperty("--dx", G.dx + "px");
+        const DX = P.dx ?? G.dx;
+        if (DX) el.style.setProperty("--dx", DX + "px");
         let html;
         if (r.k === "fh") {
           // Box del blob e del logo: predefiniti del 9 novembre, sovrascrivibili per giornata
@@ -157,6 +159,7 @@
             if (z > a) segs += `<i class="seg" style="left:${a.toFixed(2)}px;width:${(z - a).toFixed(2)}px"></i>`;
           }
           html = `<div class="dash free" style="width:${d.end}px">${segs}</div><div class="dot" style="top:${r.dot ?? 14}px"><i></i></div>`;
+          if (STYLE === "d") html += `<div class="ring" style="top:${r.dot ?? 14}px"></div>`;
         } else {
           html = `<div class="dash"></div><div class="dot" style="top:${r.dot ?? 14}px"><i></i></div>`;
         }
@@ -191,6 +194,7 @@
         "tick-1": 0.05, "tick-2": 0.05, "tick-3": 0.05, "impact-1": 0.6,
         "pluck-1": 0.6, "pluck-2": 0.6, "pluck-3": 0.6, "pluck-4": 0.6, "pluck-5": 0.6, "pluck-6": 0.6,
         "swish-1": 0.45, "swish-2": 0.55, "bloop-1": 0.35, "chime-1": 1.3,
+        "kal-1": 0.9, "kal-2": 0.9, "kal-3": 0.9, "kal-4": 0.9, "air-1": 0.8, "bubble-1": 0.25, "swell-1": 0.9, "bell-2": 1.8,
         "flip-1": 0.14, "flip-2": 0.14, "flip-3": 0.14, "shimmer-1": 1.0, "drop-1": 0.3, "riser-1": 0.7, "ding-1": 2.0,
       };
       const sfxBox = document.getElementById("sfx");
@@ -262,6 +266,41 @@
           tl.fromTo("#ctaMid", { opacity: 0 }, { opacity: 1, duration: 0.3 }, CTA_AT + 0.5);
           tl.fromTo("#ctaFree", { opacity: 0, scale: 2.2 }, { opacity: 1, scale: 1, duration: 0.4, ease: "back.out(2.2)" }, CTA_AT + 0.75);
           tl.to("#ctaFree", { scale: 1.08, duration: 0.5, ease: "sine.inOut", yoyo: true, repeat: 3 }, CTA_AT + 1.4);
+        }
+      } else if (STYLE === "d") {
+        // ===== Stile D (12 novembre): onde dall'angolo, lettere a scoppio, righe da destra con onda sul puntino =====
+        tl.fromTo("#waveDark", { scale: 0, transformOrigin: "100% 0%" }, { scale: 1, duration: 0.85, ease: "power3.out" }, 0);
+        tl.fromTo("#waveLight", { scale: 0, transformOrigin: "0% 0%" }, { scale: 1, duration: 0.9, ease: "power3.out" }, 0.1);
+        tl.fromTo("#title .ch", { scale: 0, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.4, ease: "back.out(2.6)", stagger: { each: 0.04, from: "center" } }, 0.45);
+        document.querySelectorAll("#giornata .gc").forEach((el, i, all) => {
+          const mid = (all.length - 1) / 2;
+          tl.fromTo(el, { x: (i - mid) * 9, opacity: 0 }, { x: 0, opacity: 1, duration: 0.6, ease: "power3.out" }, 0.75);
+        });
+        tl.fromTo("#festMark", { rotation: -25, opacity: 0, transformOrigin: "50% 100%" }, { rotation: 0, opacity: 1, duration: 0.6, ease: "back.out(1.8)" }, 0.55);
+        tl.fromTo("#festTxt, #festEd", { opacity: 0 }, { opacity: 1, duration: 0.5, stagger: 0.15 }, 0.85);
+
+        const ripple = (id, t) =>
+          tl.fromTo(id + " .ring", { scale: 1, opacity: 0.7 }, { scale: 2.3, opacity: 0, duration: 0.7, ease: "power2.out" }, t);
+
+        ROWS.forEach((r, i) => {
+          const t = AT[i];
+          const id = "#r" + i;
+          tl.set(id, { opacity: 1 }, t);
+          tl.fromTo(id + " .dot", { scale: 0 }, { scale: 1, duration: 0.35, ease: "back.out(2.2)" }, t);
+          ripple(id, t + 0.15);
+          tl.fromTo(id + " .dash .seg", { scaleX: 0, transformOrigin: "0% 50%" }, { scaleX: 1, duration: 0.2, ease: "power2.out", stagger: 0.07 }, t);
+          tl.fromTo(id + " .head .tm, " + id + " .head .sep, " + id + " .head .co" + (r.sp ? ", " + id + " .head .sp" : ""),
+            { x: 90, opacity: 0 }, { x: 0, opacity: 1, duration: 0.45, ease: "power4.out", stagger: 0.05 }, t + 0.05);
+          if (r.t) tl.fromTo(id + " .ttl", { y: 14, opacity: 0 }, { y: 0, opacity: 1, duration: 0.4, ease: "power2.out" }, t + 0.25);
+          if (r.lunch) ripple(id, t + 0.6);
+        });
+
+        if (PAGE === 2) {
+          tl.fromTo("#ctaBand", { scaleY: 0, transformOrigin: "50% 50%" }, { scaleY: 1, duration: 0.45, ease: "back.out(1.6)" }, CTA_AT);
+          tl.fromTo("#ctaDate", { x: -40, opacity: 0 }, { x: 0, opacity: 1, duration: 0.4, ease: "power3.out" }, CTA_AT + 0.25);
+          tl.fromTo("#ctaMid", { opacity: 0 }, { opacity: 1, duration: 0.35 }, CTA_AT + 0.45);
+          tl.fromTo("#ctaFree", { scale: 0, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.45, ease: "back.out(2.4)" }, CTA_AT + 0.7);
+          tl.to("#ctaFree", { rotation: 3, duration: 0.15, ease: "sine.inOut", yoyo: true, repeat: 5 }, CTA_AT + 1.3);
         }
       } else if (STYLE === "c") {
         // ===== Stile C (11 novembre): tendina, macchina da scrivere, righe che si ribaltano =====

@@ -154,4 +154,62 @@ const GIORNATE = {
       },
     },
   },
+
+  "12nov": {
+    style: "d",
+    date: "12 NOVEMBRE",
+    giornata: [["4", 61], ["ª", 92.5], ["G", 142], ["I", 174], ["O", 198], ["R", 231], ["N", 263.1], ["A", 297], ["T", 325.1], ["A", 355.2]],
+    dash: {
+      1: { start: 12.7, period: 25.5, len: 12.5, end: 50.6 },
+      2: { start: -11.9, period: 24.9, len: 12.4, end: 50.2 },
+    },
+    cta: {
+      top: 1197.13,
+      lblLeft: 89.0,
+      band: "M759.17 1266.63L0.37 1266.63L0.37 1197.63L818.42 1197.63C821.11 1197.63 823.30 1199.81 823.30 1202.50C823.30 1237.92 794.58 1266.63 759.17 1266.63",
+    },
+    pages: {
+      1: {
+        dx: -76.5,
+        rows: [
+          { y: 264.2, dot: 12.8, k: "green", tm: "9:00-9:30", co: "SESSIONE DI APERTURA" },
+          { y: 349.4, dot: 12.1, off: 46.1, tm: "9:30-10:15", co: "WISESIDE; GRUPPO MARTINI", sp: "Pinuccia Zarino; Cristina Moretti", t: ["“Quante filiere ci sono dentro una filiera?”"] },
+          { y: 475.7, dot: 11.8, off: 46, tm: "10:15-11:00", co: "AQUAPONIC DESIGN", sp: "Francesco Lombardo", t: ["“ROBOPONIC: tecnologia e competenze per coltivare il futuro”"] },
+          { y: 601.6, dot: 11.9, off: 46.1, tm: "11:15-11:45", co: "MIREA-COSVITEC", sp: "Fracesca Luisa Fedele", t: ["“Il valore nascosto degli scarti: Dalla ricerca all’industria”"] },
+          { y: 727.9, dot: 10.6, off: 46, tm: "11:45-12:30", co: "HIDEEA", sp: "Laura Magni; Giacomo Paolini", t: ["“Compliance PPWR: il futuro del packaging tra MOCA e certificazioni food”"] },
+          { y: 853.9, dot: 11.6, off: 46.2, tm: "12:30-13:00", co: "UNIPV", sp: "Alma Balestrazzi", t: ["“Orphan legumes, sicurezza alimentare e clima: la strategia del progetto PROSPER”"] },
+          { y: 980.1, dot: 15.3, k: "green", tm: "13:00-14:00", co: "PAUSA PRANZO", lunch: true },
+          { y: 1066.5, dot: 12, off: 46, tm: "14:00-14:45", co: "FRESH4CAST", sp: "Michele Dall’Olio", t: ["“Previsione, pianificazione e S&amp;OP: il nuovo motore decisionale per il food”"] },
+          { y: 1192.7, dot: 12.7, off: 46, tm: "14:45-15:15", co: "UNITO", sp: "Amedeo Reyneri", t: ["“Agricoltura rigenerativa e produzione di cereali senza residui di fitosanitari”"] },
+        ],
+        at: [1.45, 2.0, 2.55, 3.1, 3.65, 4.2, 4.8, 5.35, 5.9],
+        // Set D: kalimba alternata, soffio d'aria iniziale, bollicina sul pranzo
+        cues: (AT) => [
+          [0.0, "air-1", 0.22],
+          [AT[0], "kal-1", 0.2], [AT[1], "kal-2", 0.2], [AT[2], "kal-3", 0.2], [AT[3], "kal-4", 0.2], [AT[4], "kal-2", 0.2], [AT[5], "kal-3", 0.2],
+          [AT[6], "bubble-1", 0.22],
+          [AT[7], "kal-1", 0.2], [AT[8], "kal-4", 0.2],
+        ],
+      },
+      2: {
+        dx: -77.5,
+        cta: 4.2,
+        rows: [
+          { y: 264.2, dot: 14, off: 46.3, tm: "15:15-15:45", co: "SFRIDOO", sp: "Mario Lazzaroni; Roberta Scassa", t: ["“Da scarto a sottoprodotto: normativa, valore e compliance per", "l’economia circolare”"] },
+          { y: 429.8, dot: 10.9, off: 46, tm: "15:45-16:30", co: "UNIMI", sp: "Elisa De Marchi", t: ["“FRAME - Food Resilience through Architecturally Modelled", "Environments”"] },
+          { y: 595.4, dot: 14.3, off: 46, tm: "16:30-17:00", co: "UNITO- DISAFA", sp: "Silvia Celletti", t: ["“Bioplastiche in agricoltura: innovazione sostenibile per il suolo e le", "filiere agroalimentari”"] },
+          { y: 769.9, dot: 12.7, off: 46, tm: "16:30-17:00", co: "UNIVE", sp: "Giulia Bertazzoli", t: ["“Biorisorse microbiche, un potenziale per il settore agro-alimentare”"] },
+          { y: 894.9, dot: 12.7, off: 49.1, tm: "17:00-17:30", co: "UNIMI", sp: "Barbara Scaglia", t: ["“Valorizzazione degli scarti di prima gamma: il caso di ZUcca e PORro", "(progetto ZUPOR)”"] },
+        ],
+        at: [1.45, 2.0, 2.55, 2.75, 3.4], // UNITO-DISAFA e UNIVE quasi insieme: sono parallele
+        cues: (AT, CTA) => [
+          [0.0, "air-1", 0.22],
+          [AT[0], "kal-1", 0.2], [AT[1], "kal-2", 0.2],
+          [AT[2], "kal-3", 0.2], [AT[3], "kal-4", 0.16],
+          [AT[4], "kal-2", 0.2],
+          [CTA, "swell-1", 0.22], [CTA + 0.7, "bell-2", 0.2],
+        ],
+      },
+    },
+  },
 };
